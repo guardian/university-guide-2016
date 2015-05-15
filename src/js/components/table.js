@@ -21,8 +21,15 @@ export default class Table {
     }
 
     renderData(rows) {
+        function formatValue(val) {
+            if (typeof val === 'number' && !Number.isInteger(val)) {
+                return val.toFixed(1);
+            } else{
+                return val;
+            }
+        }
         var html = rows.map(function(row) {
-            return '<tr>' + row.map(cell => `<td>${cell}</td>`).join('') + '</tr>';
+            return '<tr>' + row.map(cellVal => '<td>' + formatValue(cellVal) + '</td>').join('') + '</tr>';
         }).join('');
         this.el.querySelector('tbody').innerHTML = html;
     }

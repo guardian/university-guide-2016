@@ -1,7 +1,7 @@
 #ug15 {
 	max-width: 1300px;
-	padding: 0 20px;
 	box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
 }
 
 .fonts__egyptian { @include fs-headline(3); }
