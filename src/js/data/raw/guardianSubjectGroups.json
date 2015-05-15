@@ -1,0 +1,214 @@
+[
+  {
+    "gsgId":"S010",
+    "guardianSubjectGroup":"Medicine"
+  },
+  {
+    "gsgId":"S020",
+    "guardianSubjectGroup":"Dentistry"
+  },
+  {
+    "gsgId":"S030",
+    "guardianSubjectGroup":"Veterinary Science"
+  },
+  {
+    "gsgId":"S040",
+    "guardianSubjectGroup":"Anatomy & Physiology"
+  },
+  {
+    "gsgId":"S050",
+    "guardianSubjectGroup":"Nursing & Midwifery"
+  },
+  {
+    "gsgId":"S060",
+    "guardianSubjectGroup":"Social Work"
+  },
+  {
+    "gsgId":"S070",
+    "guardianSubjectGroup":"Health Professions"
+  },
+  {
+    "gsgId":"S080",
+    "guardianSubjectGroup":"Psychology"
+  },
+  {
+    "gsgId":"S090",
+    "guardianSubjectGroup":"Pharmacy & Pharmacology"
+  },
+  {
+    "gsgId":"S100",
+    "guardianSubjectGroup":"Biosciences"
+  },
+  {
+    "gsgId":"S110",
+    "guardianSubjectGroup":"Chemistry"
+  },
+  {
+    "gsgId":"S120",
+    "guardianSubjectGroup":"Forensic Science & Archaeology"
+  },
+  {
+    "gsgId":"S130",
+    "guardianSubjectGroup":"Physics"
+  },
+  {
+    "gsgId":"S140",
+    "guardianSubjectGroup":"Earth & Marine Sciences"
+  },
+  {
+    "gsgId":"S150",
+    "guardianSubjectGroup":"Agriculture, Forestry & Food"
+  },
+  {
+    "gsgId":"S160",
+    "guardianSubjectGroup":"Engineering: General"
+  },
+  {
+    "gsgId":"S170",
+    "guardianSubjectGroup":"Engineering: Chemical"
+  },
+  {
+    "gsgId":"S180",
+    "guardianSubjectGroup":"Engineering: Materials & Mineral"
+  },
+  {
+    "gsgId":"S190",
+    "guardianSubjectGroup":"Engineering: Mechanical"
+  },
+  {
+    "gsgId":"S200",
+    "guardianSubjectGroup":"Engineering: Civil"
+  },
+  {
+    "gsgId":"S210",
+    "guardianSubjectGroup":"Engineering: Electronic & Electrical"
+  },
+  {
+    "gsgId":"S220",
+    "guardianSubjectGroup":"Computer Science & Information Systems"
+  },
+  {
+    "gsgId":"S230",
+    "guardianSubjectGroup":"Mathematics"
+  },
+  {
+    "gsgId":"S240",
+    "guardianSubjectGroup":"Business, Management & Marketing"
+  },
+  {
+    "gsgId":"S250",
+    "guardianSubjectGroup":"Accounting & Finance"
+  },
+  {
+    "gsgId":"S260",
+    "guardianSubjectGroup":"Hospitality, Event Management & Tourism"
+  },
+  {
+    "gsgId":"S270",
+    "guardianSubjectGroup":"Geography & Environmental Studies"
+  },
+  {
+    "gsgId":"S280",
+    "guardianSubjectGroup":"Social Policy & Administration"
+  },
+  {
+    "gsgId":"S290",
+    "guardianSubjectGroup":"Education"
+  },
+  {
+    "gsgId":"S300",
+    "guardianSubjectGroup":"Law"
+  },
+  {
+    "gsgId":"S310",
+    "guardianSubjectGroup":"Sociology"
+  },
+  {
+    "gsgId":"S320",
+    "guardianSubjectGroup":"Anthropology"
+  },
+  {
+    "gsgId":"S330",
+    "guardianSubjectGroup":"American Studies"
+  },
+  {
+    "gsgId":"S340",
+    "guardianSubjectGroup":"History"
+  },
+  {
+    "gsgId":"S345",
+    "guardianSubjectGroup":"History of Art"
+  },
+  {
+    "gsgId":"S350",
+    "guardianSubjectGroup":"Politics"
+  },
+  {
+    "gsgId":"S360",
+    "guardianSubjectGroup":"Economics"
+  },
+  {
+    "gsgId":"S370",
+    "guardianSubjectGroup":"Modern Languages & Linguistics"
+  },
+  {
+    "gsgId":"S380",
+    "guardianSubjectGroup":"English & Creative Writing"
+  },
+  {
+    "gsgId":"S390",
+    "guardianSubjectGroup":"Media & Film Studies"
+  },
+  {
+    "gsgId":"S395",
+    "guardianSubjectGroup":"Journalism, Publishing & Public Relations"
+  },
+  {
+    "gsgId":"S400",
+    "guardianSubjectGroup":"Art"
+  },
+  {
+    "gsgId":"S410",
+    "guardianSubjectGroup":"Design & Crafts"
+  },
+  {
+    "gsgId":"S415",
+    "guardianSubjectGroup":"Fashion & Textiles"
+  },
+  {
+    "gsgId":"S420",
+    "guardianSubjectGroup":"Drama & Dance"
+  },
+  {
+    "gsgId":"S430",
+    "guardianSubjectGroup":"Film Production & Photography"
+  },
+  {
+    "gsgId":"S440",
+    "guardianSubjectGroup":"Music"
+  },
+  {
+    "gsgId":"S450",
+    "guardianSubjectGroup":"Architecture"
+  },
+  {
+    "gsgId":"S460",
+    "guardianSubjectGroup":"Classics & Ancient History"
+  },
+  {
+    "gsgId":"S470",
+    "guardianSubjectGroup":"Philosophy"
+  },
+  {
+    "gsgId":"S480",
+    "guardianSubjectGroup":"Religious studies and theology"
+  },
+  {
+    "gsgId":"S490",
+    "guardianSubjectGroup":"Sports science"
+  },
+  {
+    "gsgId":"S500",
+    "guardianSubjectGroup":"Building and town and country planning"
+  }
+]
