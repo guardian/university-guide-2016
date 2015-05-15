@@ -4,7 +4,7 @@ import sys, json
 
 details = {u['institutionId']: u for u in json.load(open('data/institutionDetails.json'))}
 
-delete_keys = sys.argv[1:]
+keys = sys.argv[1:]
 
 def modify(obj):
     obj['guardianHeiTitle'] = details[obj['institutionId']]['guardianHeiTitle']
