@@ -23,7 +23,7 @@
   "license": "ISC",
   "jspm": {
     "directories": {
-      "packages": "src/js/jspm_packages"
+      "packages": "jspm_packages"
     },
     "configFile": "src/js/config.js",
     "dependencies": {
