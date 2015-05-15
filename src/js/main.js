@@ -11,7 +11,7 @@ function init(el, context, config, mediator) {
                 "Spend per student/10", "Average entry tariff", "Value added score/10", "Career after 6 months"];
 
     var tableComponent = new Table({
-        el: el.querySelector('#ug2015 .ug2015__table-container'),
+        el: el.querySelector('#ug15 .ug15__table-container'),
         headers: headers
     })
 

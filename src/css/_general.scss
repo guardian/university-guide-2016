@@ -1,25 +1,7 @@
-#ug2015 {
+#ug15 {
 	max-width: 1300px;
 	padding: 0 20px;
 	box-sizing: border-box;
-}
-.interactive-es6-headline {
-	@include fs-headline(5);
-}
-
-.test-msg {
-	color: #005689;
-	@include fs-textSans(3);
-}
-
-.fonts {
-	list-style-type: none;
-	margin: 0;
-	padding: 0;
-	margin-top: 24px;
-	li {
-		margin-bottom: 6px;
-	}
 }
 
 .fonts__egyptian { @include fs-headline(3); }
