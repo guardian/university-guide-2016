@@ -1,0 +1,22 @@
+.ug2015__table-container {
+    table {
+        border-collapse: collapse;
+        @include fs-textSans(2);
+    }
+    thead th {
+        background-color: #f9f9f7;
+        color: #333;
+    }
+    tbody {
+        color: #676767;
+    }
+    tbody td {
+        text-align: right;
+    }
+    tbody tr:nth-child(odd) {
+        background-color: #efefef;
+    }
+    tbody tr:nth-child(even) {
+        background-color: #f9f9f7;
+    }
+}
