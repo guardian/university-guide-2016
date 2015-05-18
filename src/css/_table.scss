@@ -53,7 +53,7 @@
     }
 
     .subject-link {
-        @include fs-textSans(3);
+        @include fs-textSans(2);
         margin-left: 10px;
         & a {
             color: #005689;
