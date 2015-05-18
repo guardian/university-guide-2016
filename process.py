@@ -7,6 +7,7 @@ institutionDetails = {i['institutionId']: i for i in json.load(open('data/instit
 institutionLinks = {i['name'].strip(): i['url'] for i in csv.DictReader(open('data/institutionLinks.csv'))}
 institutionalRankings = {i['institutionId']: i for i in json.load(open('data/institutionalRankings.json'))}
 subjectNames = {s['gsgId']: s['guardianSubjectGroup'] for s in json.load(open('data/guardianSubjectGroups.json'))}
+subjectLinks = {s['name'].lower(): s['url'] for s in csv.DictReader(open('data/subjectLinks.csv'))}
 
 # munge together all the data we have on institutions
 institutions = {}
@@ -26,7 +27,9 @@ for id, institution in institutionDetails.iteritems():
 subjects = defaultdict(lambda: {'name': '', 'institutions': []})
 for institution in json.load(open('data/rankingsList.json')) + json.load(open('data/unrankedProviderList.json')):
     institution['guardianHeiTitle'] = institutions[institution['institutionId']]['guardianHeiTitle']
-    subjects[institution['gsgId']]['name'] = subjectNames[institution['gsgId']]
+    name = subjectNames[institution['gsgId']]
+    subjects[institution['gsgId']]['name'] = name
+    subjects[institution['gsgId']]['link'] = subjectLinks[name.lower()]
     subjects[institution['gsgId']]['institutions'].append(institution)
 
 ################ GENERATE JSON ################
@@ -83,7 +86,7 @@ for gsgId, subject in subjects.iteritems():
 
     institutions_out = [pick(institution, subject_fields) for institution in sorted(subject['institutions'], cmp=subject_sort)]
     with open('src/assets/subjects/%s.json' % gsgId, 'w') as f:
-        json.dump(institutions_out, f)
+        json.dump({'institutions': institutions_out, 'link': subject['link']}, f)
 
 # Subject names
 

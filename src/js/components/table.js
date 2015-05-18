@@ -43,6 +43,7 @@ export default class Table {
             <table>
                 <caption>
                     <label>Subject <select></select></label>
+                    <span class="subject-link"></span>
                 </caption>
                 <thead><tr></tr></thead>
                 <tbody></tbody>
@@ -58,6 +59,11 @@ export default class Table {
         this.el.querySelector('tbody').innerHTML = html;
     }
 
+    renderSubjectLink(id) {
+        var el = this.el.querySelector('.subject-link');
+        el.innerHTML = id ? `<a href="${subjectCache[id].link}">Find out more about studying ${subjectNames[id].toLowerCase()}</a>` : '';
+    }
+
     show(id) {
         if (subjectNames[id]) {
             this.showSubject(id);
@@ -69,14 +75,15 @@ export default class Table {
 
     showSubject(id) {
         if (subjectCache[id]) {
-            this.renderData(subjectHeaders, subjectCache[id]);
+            this.renderData(subjectHeaders, subjectCache[id].institutions);
+            this.renderSubjectLink(id);
         } else {
             reqwest({
                 url: config.assetPath + '/assets/subjects/' + id + '.json',
                 type: 'json',
                 success: data => {
-                    this.renderData(subjectHeaders, data);
                     subjectCache[id] = data;
+                    this.showSubject(id);
                 }
             });
         }
@@ -84,6 +91,7 @@ export default class Table {
 
     showInstitutions() {
         this.renderData(institutionHeaders, institutionalRankings);
+        this.renderSubjectLink();
     }
 
     set(id) {

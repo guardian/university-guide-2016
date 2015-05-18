@@ -51,4 +51,16 @@
         height: 17px;
         display: inline-block;
     }
+
+    .subject-link {
+        @include fs-textSans(3);
+        margin-left: 10px;
+        & a {
+            color: #005689;
+            text-decoration: none;
+            &::after {
+                content: " \00BB";
+            }
+        }
+    }
 }
