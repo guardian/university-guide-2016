@@ -79,7 +79,7 @@ export default class Table {
             this.renderSubjectLink(id);
         } else {
             reqwest({
-                url: config.assetPath + '/assets/subjects/' + id + '.json',
+                url: config.assetPath + '/assets/subjects/overall/' + id + '.json',
                 type: 'json',
                 success: data => {
                     subjectCache[id] = data;
