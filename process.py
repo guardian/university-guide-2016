@@ -21,15 +21,6 @@ for id, institution in institutionDetails.iteritems():
 
     institution['link'] = institutionLinks.get(institution['guardianHeiTitle'], '')
 
-    # round any floats
-    for field, value in institution.iteritems():
-        try:
-            f = float(value or '')
-            if int(f) != f:
-                institution[field] = '%.1f' % float(value or '')
-        except ValueError:
-            pass
-
     institutions[id] = institution
 
 subjects = defaultdict(lambda: {'name': '', 'institutions': []})
@@ -41,7 +32,17 @@ for institution in json.load(open('data/rankingsList.json')) + json.load(open('d
 ################ GENERATE JSON ################
 
 def pick(row, fields):
-    return [row[field] if field in row else '' for field in fields]
+    # round any floats
+    def approx(field):
+        try:
+            f = float(field or '')
+            if int(f) != f:
+                return '%.1f' % f
+        except ValueError:
+            pass
+        return field
+
+    return [approx(row[field]) if field in row else '' for field in fields]
 
 common_fields = ('guardianHeiTitle', 'guardianScore',
     'percentSatisfiedWithAssessment', 'percentSatisfiedWithTeaching', 'studentStaffRatio',

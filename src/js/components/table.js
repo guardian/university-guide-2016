@@ -18,17 +18,8 @@ export default class Table {
         this.el.querySelector('thead tr').innerHTML = headers.map(h => `<th data-h="${h}">${h}</th>`).join('');
 
         rows = this.preprocessData(rows)
-        function formatValue(val) {
-            if (typeof val === 'number' && !Number.isInteger(val)) {
-                return val.toFixed(1);
-            } else{
-                return val;
-            }
-        }
         var html = rows.map(function(row) {
-            return '<tr>' + row.map((cellVal, i) => {
-                return `<td data-h="${headers[i]}">${formatValue(cellVal)}</td>`;
-            }).join('') + '</tr>';
+            return '<tr>' + row.map((cellVal, i) => `<td data-h="${headers[i]}">${cellVal}</td>`).join('') + '</tr>';
         }).join('');
         this.el.querySelector('tbody').innerHTML = html;
     }
