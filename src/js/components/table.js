@@ -3,6 +3,7 @@ export default class Table {
         this.el = opts.el
         this.headers = opts.headers
         this.caption = opts.caption
+        this.preprocessData = opts.preprocessData || ( d => d )
         this.opts = opts
         this.renderTable()
         this.renderCaption(this.caption)
@@ -21,6 +22,7 @@ export default class Table {
     }
 
     renderData(rows) {
+        rows = this.preprocessData(rows)
         function formatValue(val) {
             if (typeof val === 'number' && !Number.isInteger(val)) {
                 return val.toFixed(1);
