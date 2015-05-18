@@ -26,3 +26,7 @@
 .fonts__text-egyptian { @include fs-bodyCopy(2); }
 .fonts__sans { @include f-headlineSans; }
 .fonts__text-sans { @include fs-textSans(4); }
+
+.ug16__section {
+    clear: both;
+}

@@ -11,7 +11,7 @@ module.exports = function(grunt) {
         watch: {
             js: {
                 files: ['src/js/**/*'],
-                tasks: ['shell:interactive'],
+                tasks: ['shell:interactive', 'template:bootjs'],
             },
             css: {
                 files: ['src/css/**/*'],

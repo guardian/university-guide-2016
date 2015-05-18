@@ -5,6 +5,7 @@ import CourseSearch from './components/coursesearch'
 import Subjects from './components/subjects'
 import institutionalRankings from './data/institutionalRankings.json!json'
 import subjectNames from './data/subjectNames.json!json'
+import { set as setConfig } from './lib/cfg'
 
 const institutionHeaders = ['Rank 2016', 'Rank 2015', 'Institution', 'Guardian score/100', 'Satisfied with course',
     'Satisfied with teaching', /*'Satisfied with feedback',*/ 'Student to staff ratio', 'Spend per student/10',
@@ -26,8 +27,9 @@ function preprocessData(data) {
     }
 }
 
-function init(el, context, config, mediator) {
+function init(el, config) {
     el.innerHTML = mainHTML;
+    setConfig(config);
 
     var courseSearchComponent = new CourseSearch({
         el: el.querySelector('#ug16__search-container')
