@@ -63,4 +63,21 @@
             }
         }
     }
+
+    table td,
+    table th {
+        display: none;
+
+        &[data-h="Rank 2016"],
+        &[data-h="Rank 2015"],
+        &[data-h="Institution"],
+        &[data-h="Guardian score/100"] {
+            display: table-cell;
+        }
+
+        @include mq(tablet) {
+            display: table-cell;
+        }
+    }
+
 }
