@@ -67,6 +67,7 @@ function init(el, context, config, mediator) {
     function showTable() {
         var id = window.location.hash.substring(1);
         if (subjectNames[id]) {
+            subjectsComponent.choose(id);
             showSubject(id);
         } else {
             showInstitutions();

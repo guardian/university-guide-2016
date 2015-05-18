@@ -19,7 +19,7 @@ export default class Subjects {
     }
 
     choose(id) {
-        this.el.selectedIndex = this.el.options.findIndex(o => o.value === id);
+        this.el.selectedIndex = Array.from(this.el.options).findIndex(o => o.value === id);
         this.change(id);
     }
 }
