@@ -1,6 +1,7 @@
 import reqwest from 'reqwest'
 import mainHTML from './text/main.html!text'
 import Table from './components/table'
+import CourseSearch from './components/coursesearch'
 import data from './data/institutionalRankings.json!json';
 
 function preprocessData(data) {
@@ -15,7 +16,7 @@ function init(el, context, config, mediator) {
     el.innerHTML = mainHTML
 
     var tableComponent = new Table({
-        el: el.querySelector('#ug15 .ug15__table-container'),
+        el: el.querySelector('#ug16 .ug16__table-container'),
         preprocessData: preprocessData,
         caption: 'All universities',
         headers: ['Rank 2016', 'Rank 2015', 'Institution', 'Guardian score/100', 'Satisfied with course',
@@ -24,6 +25,10 @@ function init(el, context, config, mediator) {
                 'Link']
     })
     tableComponent.renderData(data);
+
+    var courseSearchComponent = new CourseSearch({
+        el: el.querySelector('#ug16__search-container')
+    });
 }
 
 (window.define || System.amdDefine)(function() { return {init: init}; });

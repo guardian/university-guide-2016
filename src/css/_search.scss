@@ -1,0 +1,41 @@
+.ug16-search {
+    background-color: #efefef;
+    border-top: 2px solid #21c6dd;
+    padding: 12px 0;
+    position: relative;
+
+    label {
+        padding: 0 10px;
+    }
+    select {
+        border: 1px solid #9B9B9B;
+        background: #fff;
+        padding: 3px 5px;
+        cursor: pointer;
+    }
+    select, input {
+        height: 30px;
+        box-sizing: border-box;
+        padding: 3px 5px;
+    }
+    button {
+        border: none;
+        border-radius: 4px;
+        color: #ffffff;
+        background-color: #005987;
+        padding: 0 20px;
+        height: 36px;
+        position: absolute;
+        right: 20px;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        cursor: pointer;
+        &:hover {
+            background-color: lighten(#005987, 5%);
+        }
+    }
+    &, button {
+        @include fs-textSans(4);
+    }
+}
