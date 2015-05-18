@@ -15,6 +15,7 @@ System.config({
 
 System.config({
   "map": {
+    "fat/bean": "github:fat/bean@1.0.14",
     "guardian/iframe-messenger": "github:guardian/iframe-messenger@master",
     "json": "github:systemjs/plugin-json@0.1.0",
     "olado/doT": "github:olado/doT@1.0.1/doT.min",

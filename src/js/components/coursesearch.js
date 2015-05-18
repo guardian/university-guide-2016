@@ -3,8 +3,10 @@ import reqwest from 'reqwest'
 import { config } from '../lib/cfg'
 import doT from 'olado/doT'
 import instIdToName from '../data/instIdToName.json!json'
+import subjectNames from '../data/subjectNames.json!json'
+import bean from 'fat/bean'
 
-var searchResultHTML = `
+var searchResultTmplFn = doT.template(`
 <div class="ug16-search-result">
     <h2>{{= it.institution }} <span>({{= it.courses.length }} courses)</span></h2>
     <ul>
@@ -14,9 +16,8 @@ var searchResultHTML = `
         </li>
         {{~}}
     </ul>
-</div>`
+</div>`);
 
-var searchResultTmplFn = doT.template(searchResultHTML);
 export default class CourseSearch {
     constructor(opts) {
         this.el = opts.el
@@ -25,7 +26,7 @@ export default class CourseSearch {
         this.searchResultsEl = el.querySelector('.ug16-search-results')
         this.subjectEl = el.querySelector('#ug16-search__subject')
         this.courseEl = el.querySelector('#ug16-search__course')
-        this.providerEl = el.querySelector('#ug16-search__provder')
+        this.institutionEl = el.querySelector('#ug16-search__provder')
         this.regionEl = el.querySelector('#ug16-search__region')
 
         this.subjectsComponent = new Subjects({
@@ -37,10 +38,19 @@ export default class CourseSearch {
     }
 
     bindEventHandlers() {
-        this.el.querySelector('form').addEventListener('submit', function(event) {
+
+        bean.on(this.el.querySelector('form'), 'submit', function(event) {
             event.preventDefault();
             this.search();
         }.bind(this));
+
+        bean.on(this.searchResultsEl, 'click', '.ug16-search-results__close-btn', function(event) {
+            this.clearSearch();
+        }.bind(this))
+    }
+
+    clearSearch() {
+        this.searchResultsEl.innerHTML = '';
     }
 
     search() {
@@ -60,9 +70,7 @@ export default class CourseSearch {
                 type: 'json',
                 crossOrigin: true,
                 success: function(resp) {
-                    console.log('parsing')
                     this.courseData = resp;
-                    console.log('parsed')
                     this.search()
                 }.bind(this)
             });
@@ -79,14 +87,27 @@ export default class CourseSearch {
                 byProvider[c[4]].push(c);
             });
 
-            var results = Object.keys(byProvider).map(function(instId) {
+            var instIds = Object.keys(byProvider);
+            var results = instIds.map(function(instId) {
                 return searchResultTmplFn({
                     institution: instIdToName[instId],
                     courses: byProvider[instId]
                 });
             }).join('')
+            var statsHTML = `
+                <div class="ug16-search-results__stats">
+                    Search results: <strong>${filtered.length}</strong> courses across <strong>${instIds.length}</strong> institutions
+                    <button class="ug16-search-results__close-btn">
+                        <svg viewBox="0 0 33.2 33.2">
+                            <g>
+                                <polygon points="2.1,0 0,2.1 14.8,18.4 31.4,32.9 33.2,31.1 18.4,14.8 "></polygon>
+                                <polygon points="0,31.1 2.1,33.2 18.4,18.4 33.2,2.1 31.1,0 14.8,14.8 "></polygon>
+                            </g>
+                        </svg>
+                    </button>
+                </div>`
 
-            this.searchResultsEl.innerHTML = results
+            this.searchResultsEl.innerHTML = statsHTML + results
          }
     }
 
@@ -111,8 +132,8 @@ export default class CourseSearch {
                 <label for='ug16-search__course'>Course</label>
                 <input type="text" id="ug16-search__course"/>
 
-                <label for='ug16-search__provider'>Provider</label>
-                <input type="text" id="ug16-search__provder" />
+                <label for='ug16-search__institution'>Institution</label>
+                <input type="text" id="ug16-search__institution" />
 
                 <label for='ug16-search__region'>Region</label>
                 <select id="ug16-search__region">
