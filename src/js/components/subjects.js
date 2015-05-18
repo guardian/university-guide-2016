@@ -13,7 +13,7 @@ export default class Subjects {
 
     get subjectOptions() {
         return '<option value="all">All subjects</option>' +
-            Object.keys(names).map(id => {
+            Object.keys(names).sort((a, b) => names[a] > names[b] ? 1 : -1).map(id => {
                 return `<option value="${id}">${names[id]}</option>`
             }).join('');
     }
