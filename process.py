@@ -1,15 +1,14 @@
 #!/usr/bin/python
-# Substitutions institutionId for guardianHeiTitle and outputs array of arrays
 import sys, json, csv
 from copy import copy
+from collections import defaultdict
 
-institutions = []
-
+# munge together all the data we have on institutions
 institutionDetails = {i['institutionId']: i for i in json.load(open('data/institutionDetails.json'))}
 institutionLinks = {i['name'].strip(): i['url'] for i in csv.DictReader(open('data/institutionLinks.csv'))}
 institutionalRankings = {i['institutionId']: i for i in json.load(open('data/institutionalRankings.json'))}
 
-# munge together all the data we have on institutions
+institutions = {}
 for id, institution in institutionDetails.iteritems():
     institution = copy(institution)
 
@@ -30,16 +29,27 @@ for id, institution in institutionDetails.iteritems():
         except ValueError:
             pass
 
-    institutions.append(institution)
+    institutions[id] = institution
+
+subjects = defaultdict(list)
+for institution in json.load(open('data/rankingsList.json')) + json.load(open('data/unrankedProviderList.json')):
+    institution['guardianHeiTitle'] = institutions[institution['institutionId']]['guardianHeiTitle']
+    subjects[institution['gsgId']].append(institution)
+
+################ GENERATE JSON ################
 
 def pick(row, fields):
     return [row[field] if field in row else '' for field in fields]
 
-rankings_fields = ('rank2016', 'rank2015', 'guardianHeiTitle', 'guardianScore',
+common_fields = ('guardianHeiTitle', 'guardianScore',
     'percentSatisfiedWithAssessment', 'percentSatisfiedWithTeaching', 'studentStaffRatio',
     'expenditurePerStudent', 'averageEntryTariff', 'valueAdded', 'careerProspects', 'link')
 
-def rankings_sort(a, b):
+# Institution ranking
+
+institutions_fields = ('rank2016', 'rank2015') + common_fields
+
+def institutions_sort(a, b):
     if not a.get('rank2016'):
         return 1
     elif not b.get('rank2016'):
@@ -47,7 +57,25 @@ def rankings_sort(a, b):
     else:
         return int(a['rank2016']) - int(b['rank2016'])
 
-rankings = [pick(institution, rankings_fields) for institution in sorted(institutions, cmp=rankings_sort)]
+institutions_out = [pick(institution, institutions_fields) for institution in sorted(institutions.values(), cmp=institutions_sort)]
 
 with open('src/js/data/institutionalRankings.json', 'w') as f:
-    json.dump(rankings, f)
+    json.dump(institutions_out, f)
+
+# Subject ranking
+
+subject_fields = ('rank',) + common_fields
+
+def subject_sort(a, b):
+    if not a.get('rank'):
+        return 1
+    elif not b.get('rank'):
+        return -1
+    else:
+        return int(a['rank']) - int(b['rank'])
+
+for gsgId, institutions in subjects.iteritems():
+
+    institutions_out = [pick(institution, subject_fields) for institution in sorted(institutions, cmp=subject_sort)]
+    with open('src/js/data/subjects/%s.json' % gsgId, 'w') as f:
+        json.dump(institutions_out, f)
