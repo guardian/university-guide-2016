@@ -3,11 +3,12 @@ import sys, json, csv
 from copy import copy
 from collections import defaultdict
 
-# munge together all the data we have on institutions
 institutionDetails = {i['institutionId']: i for i in json.load(open('data/institutionDetails.json'))}
 institutionLinks = {i['name'].strip(): i['url'] for i in csv.DictReader(open('data/institutionLinks.csv'))}
 institutionalRankings = {i['institutionId']: i for i in json.load(open('data/institutionalRankings.json'))}
+subjectNames = {s['gsgId']: s['guardianSubjectGroup'] for s in json.load(open('data/guardianSubjectGroups.json'))}
 
+# munge together all the data we have on institutions
 institutions = {}
 for id, institution in institutionDetails.iteritems():
     institution = copy(institution)
@@ -31,10 +32,11 @@ for id, institution in institutionDetails.iteritems():
 
     institutions[id] = institution
 
-subjects = defaultdict(list)
+subjects = defaultdict(lambda: {'name': '', 'institutions': []})
 for institution in json.load(open('data/rankingsList.json')) + json.load(open('data/unrankedProviderList.json')):
     institution['guardianHeiTitle'] = institutions[institution['institutionId']]['guardianHeiTitle']
-    subjects[institution['gsgId']].append(institution)
+    subjects[institution['gsgId']]['name'] = subjectNames[institution['gsgId']]
+    subjects[institution['gsgId']]['institutions'].append(institution)
 
 ################ GENERATE JSON ################
 
@@ -74,8 +76,13 @@ def subject_sort(a, b):
     else:
         return int(a['rank']) - int(b['rank'])
 
-for gsgId, institutions in subjects.iteritems():
+for gsgId, subject in subjects.iteritems():
 
-    institutions_out = [pick(institution, subject_fields) for institution in sorted(institutions, cmp=subject_sort)]
-    with open('src/js/data/subjects/%s.json' % gsgId, 'w') as f:
+    institutions_out = [pick(institution, subject_fields) for institution in sorted(subject['institutions'], cmp=subject_sort)]
+    with open('src/assets/data/subjects/%s.json' % gsgId, 'w') as f:
         json.dump(institutions_out, f)
+
+# Subject names
+
+with open('src/js/data/subjectNames.json', 'w') as f:
+    json.dump(subjectNames, f)

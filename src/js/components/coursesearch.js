@@ -1,13 +1,13 @@
-import subjects from '../data/subjects.json!json'
+import Subjects from './subjects'
 
 export default class CourseSearch {
     constructor(opts) {
         this.el = opts.el
         this.el.innerHTML = this.HTML
-    }
-
-    get subjectOptions() {
-        return subjects.map(s => `<option value="${s[0]}">${s[1]}</option>`).join('')
+        this.subjectsComponent = new Subjects({
+            el: this.el.querySelector('#ug16-search__subject'),
+            change: a => a
+        })
     }
 
     get regions() {
@@ -25,10 +25,7 @@ export default class CourseSearch {
         <div class="ug16-search">
 
             <label for='ug16-search__subject'>Subject</label>
-            <select id="ug16-search__subject">
-                <option value="all">All subjects</option>
-                ${this.subjectOptions}
-            </select>
+            <select id="ug16-search__subject"></select>
 
             <label for='ug16-search__course'>Course</label>
             <input type="text" id="ug16-search__course" />

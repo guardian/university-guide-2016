@@ -36,8 +36,8 @@
     tbody tr:nth-child(even) {
         background-color: #f9f9f7;
     }
-    table th:nth-child(3),
-    table td:nth-child(3) {
+    table th[data-h="Institution"],
+    table td[data-h="Institution"] {
         text-align: left;
         width: 20%;
     }

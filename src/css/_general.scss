@@ -2,6 +2,24 @@
 	max-width: 1300px;
 	box-sizing: border-box;
     -webkit-font-smoothing: antialiased;
+
+    select {
+        border: 1px solid #9B9B9B;
+        background: #fff;
+        padding: 3px 5px;
+        cursor: pointer;
+        height: 30px;
+        box-sizing: border-box;
+        padding: 3px 5px;
+    }
+    .ug16__subject {
+        display: inline-block;
+        margin-bottom: 10px;
+    }
+
+    .ug16__subject__select {
+        margin-left: 10px;
+    }
 }
 
 .fonts__egyptian { @include fs-headline(3); }
