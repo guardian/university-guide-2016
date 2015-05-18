@@ -34,8 +34,10 @@ for institution in json.load(open('data/rankingsList.json')) + json.load(open('d
 def pick(row, fields):
     # round any floats
     def approx(field):
+        if not field:
+            field = '-'
         try:
-            f = float(field or '')
+            f = float(field)
             if int(f) != f:
                 return '%.1f' % f
         except ValueError:
@@ -80,7 +82,7 @@ def subject_sort(a, b):
 for gsgId, subject in subjects.iteritems():
 
     institutions_out = [pick(institution, subject_fields) for institution in sorted(subject['institutions'], cmp=subject_sort)]
-    with open('src/assets/data/subjects/%s.json' % gsgId, 'w') as f:
+    with open('src/assets/subjects/%s.json' % gsgId, 'w') as f:
         json.dump(institutions_out, f)
 
 # Subject names

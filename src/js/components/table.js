@@ -67,16 +67,12 @@ export default class Table {
         this.callback(id);
     }
 
-    set(id) {
-        this.subjectsComponent.choose(id);
-    }
-
     showSubject(id) {
         if (subjectCache[id]) {
             this.renderData(subjectHeaders, subjectCache[id]);
         } else {
             reqwest({
-                url: config.assetPath + '/assets/data/subjects/' + id + '.json',
+                url: config.assetPath + '/assets/subjects/' + id + '.json',
                 type: 'json',
                 success: data => {
                     this.renderData(subjectHeaders, data);
@@ -88,5 +84,9 @@ export default class Table {
 
     showInstitutions() {
         this.renderData(institutionHeaders, institutionalRankings);
+    }
+
+    set(id) {
+        this.subjectsComponent.choose(id);
     }
 }
