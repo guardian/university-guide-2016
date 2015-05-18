@@ -27,6 +27,8 @@ for id, institution in institutionDetails.iteritems():
 subjects = defaultdict(lambda: {'name': '', 'institutions': []})
 for institution in json.load(open('data/rankingsList.json')) + json.load(open('data/unrankedProviderList.json')):
     institution['guardianHeiTitle'] = institutions[institution['institutionId']]['guardianHeiTitle']
+    institution['link'] = institutionLinks.get(institution['guardianHeiTitle'], '')
+
     name = subjectNames[institution['gsgId']]
     subjects[institution['gsgId']]['name'] = name
     subjects[institution['gsgId']]['link'] = subjectLinks[name.lower()]
