@@ -13,6 +13,8 @@ const institutionHeaders = ['Rank 2016', 'Rank 2015', 'Institution', 'Guardian s
 const subjectHeaders = institutionHeaders.slice();
 subjectHeaders.splice(1, 1);
 
+var subjectCache = {};
+
 function preprocessData(data) {
     if (data.length) {
         var i = data[0].length-1;
@@ -48,11 +50,18 @@ function init(el, context, config, mediator) {
 
     function showSubject(id) {
         tableComponent.renderCaption(subjectNames[id]);
-        reqwest({
-            url: 'assets/data/subjects/' + id + '.json',
-            type: 'json',
-            success: tableComponent.renderData.bind(tableComponent, subjectHeaders)
-        });
+        if (subjectCache[id]) {
+            tableComponent.renderData(subjectHeaders, subjectCache[id]);
+        } else {
+            reqwest({
+                url: 'assets/data/subjects/' + id + '.json',
+                type: 'json',
+                success: data => {
+                    tableComponent.renderData(subjectHeaders, data);
+                    subjectCache[id] = data;
+                }
+            });
+        }
     }
 
     function showTable() {
