@@ -131,12 +131,14 @@ export default class CourseSearch {
 
             for (let [subjId, byInstitution] of entries(bySubject)) {
                 resultsHTML += `<h2 class="ug16-search-results__subject">${subjectNames[subjId]}</h2>`
+                resultsHTML += '<div class="ug16-search-results-group">'
                 for (let [instId, course] of entries(byInstitution)) {
                     resultsHTML += searchResultTmplFn({
                         institution: instIdToName[instId],
                         courses: course
                     });
                 }
+                resultsHTML += '</div>'
             }
 
             this.searchResultsEl.innerHTML = resultsHTML
