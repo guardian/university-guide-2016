@@ -20,6 +20,9 @@ for id, institution in institutionDetails.iteritems():
     if id in institutionalRankings:
         institution.update(institutionalRankings[id])
 
+        if institution.get('rank2015', '').isdigit():
+            institution['rank2015'] = '(' + institution['rank2015'] + ')'
+
     institution['link'] = institutionLinks.get(institution['guardianHeiTitle'], '')
 
     institutions[id] = institution
@@ -85,9 +88,8 @@ def subject_sort(a, b):
         return int(a['rank']) - int(b['rank'])
 
 for gsgId, subject in subjects.iteritems():
-
     institutions_out = [pick(institution, subject_fields) for institution in sorted(subject['institutions'], cmp=subject_sort)]
-    with open('src/assets/subjects/%s.json' % gsgId, 'w') as f:
+    with open('src/assets/subjects/overall/%s.json' % gsgId, 'w') as f:
         json.dump({'institutions': institutions_out, 'link': subject['link']}, f)
 
 # Subject names
