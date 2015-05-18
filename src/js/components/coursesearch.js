@@ -5,10 +5,12 @@ import doT from 'olado/doT'
 import instIdToName from '../data/instIdToName.json!json'
 import subjectNames from '../data/subjectNames.json!json'
 import bean from 'fat/bean'
+import groupBy from 'lodash/collection/groupBy'
+import uniq from 'lodash/array/uniq'
 
 var searchResultTmplFn = doT.template(`
 <div class="ug16-search-result">
-    <h2>{{= it.institution }} <span>({{= it.courses.length }} courses)</span></h2>
+    <h2>{{= it.institution }} <span>{{= it.courses.length }} course{{? it.courses.length > 1 }}s{{?}}</span></h2>
     <ul>
         {{~it.courses.slice(0,5) :course:index}}
         <li title="{{= course[2] }}">
@@ -16,7 +18,24 @@ var searchResultTmplFn = doT.template(`
         </li>
         {{~}}
     </ul>
+    {{?it.courses.length > 5}}
+    <button class="ug16-search-result__untruncate">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path d="M15 5h2l.5 9.5 9.5.5v2l-9.5.5L17 27h-2l-.5-9.5L5 17v-2l9.5-.5L15 5z"/></svg>
+        Show more courses
+    </button>
+    <ul style="display:none;">
+        {{~it.courses.slice(5) :course:index}}
+        <li title="{{= course[2] }}">
+            <a href="{{= course[1] }}" target="_blank">{{= course[2] }}</a>
+        </li>
+        {{~}}
+    </ul>
+    {{?}}
 </div>`);
+
+function entries(obj) {
+    return Object.keys(obj).map(k => [k, obj[k]])
+}
 
 export default class CourseSearch {
     constructor(opts) {
@@ -47,6 +66,12 @@ export default class CourseSearch {
         bean.on(this.searchResultsEl, 'click', '.ug16-search-results__close-btn', function(event) {
             this.clearSearch();
         }.bind(this))
+
+        bean.on(this.searchResultsEl, 'click', '.ug16-search-result .ug16-search-result__untruncate', function(event) {
+            console.log('untruncate', event);
+            event.target.nextElementSibling.style.display = 'block';
+            event.target.parentNode.removeChild(event.target);
+        });
     }
 
     clearSearch() {
@@ -78,25 +103,20 @@ export default class CourseSearch {
             var subj = this.subjectEl.value;
             var course = this.courseEl.value;
             var filtered = this.courseData;
+            var re = new RegExp(course, 'i');
             if (subj !== 'all') filtered = filtered.filter(c => c[3] === subj)
-            if (course !== '') filtered = filtered.filter(c => c[2].indexOf(course) !== -1)
+            if (course !== '') filtered = filtered.filter(c => re.test(c[2]))
 
-            var byProvider = {};
-            filtered.map(function(c) {
-                byProvider[c[4]] = byProvider[c[4]] || [];
-                byProvider[c[4]].push(c);
+            var numProviders = uniq(filtered.map(c => c[4])).length
+
+            var bySubject = groupBy(filtered, 3);
+            Object.keys(bySubject).map(function(k) {
+                bySubject[k] = groupBy(bySubject[k], 4);
             });
 
-            var instIds = Object.keys(byProvider);
-            var results = instIds.map(function(instId) {
-                return searchResultTmplFn({
-                    institution: instIdToName[instId],
-                    courses: byProvider[instId]
-                });
-            }).join('')
             var statsHTML = `
                 <div class="ug16-search-results__stats">
-                    Search results: <strong>${filtered.length}</strong> courses across <strong>${instIds.length}</strong> institutions
+                    Search results: <strong>${filtered.length}</strong> courses across <strong>${numProviders}</strong> institutions
                     <button class="ug16-search-results__close-btn">
                         <svg viewBox="0 0 33.2 33.2">
                             <g>
@@ -107,7 +127,19 @@ export default class CourseSearch {
                     </button>
                 </div>`
 
-            this.searchResultsEl.innerHTML = statsHTML + results
+            var resultsHTML = statsHTML;
+
+            for (let [subjId, byInstitution] of entries(bySubject)) {
+                resultsHTML += `<h2 class="ug16-search-results__subject">${subjectNames[subjId]}</h2>`
+                for (let [instId, course] of entries(byInstitution)) {
+                    resultsHTML += searchResultTmplFn({
+                        institution: instIdToName[instId],
+                        courses: course
+                    });
+                }
+            }
+
+            this.searchResultsEl.innerHTML = resultsHTML
          }
     }
 
