@@ -9,6 +9,12 @@ import groupBy from 'lodash/collection/groupBy'
 import uniq from 'lodash/array/uniq'
 
 var searchResultTmplFn = doT.template(`
+{{##def.courseli:course:
+<li title="{{= course.name }}">
+    <a href="{{= course.url }}" target="_blank">{{= course.name }} <span>&raquo;</span></a>
+</li>
+#}}
+
 <div class="ug16-search-result">
     <h2>
         <span class="ug16-search__institution-rank">
@@ -21,18 +27,14 @@ var searchResultTmplFn = doT.template(`
     {{?it.courses.length <= 7}}
         <ul>
             {{~it.courses :course:index}}
-            <li title="{{= course.name }}">
-                <a href="{{= course.url }}" target="_blank">{{= course.name }}</a>
-            </li>
+                {{#def.courseli:course }}
             {{~}}
         </ul>
     {{?}}
     {{?it.courses.length > 7}}
         <ul>
             {{~it.courses.slice(0,5) :course:index}}
-            <li title="{{= course.name }}">
-                <a href="{{= course.url }}" target="_blank">{{= course.name }}</a>
-            </li>
+                {{#def.courseli:course}}
             {{~}}
         </ul>
         <button class="ug16-search-result__untruncate">
@@ -41,9 +43,7 @@ var searchResultTmplFn = doT.template(`
         </button>
         <ul style="display:none;">
             {{~it.courses.slice(5) :course:index}}
-            <li title="{{= course.name }}">
-                <a href="{{= course.url }}" target="_blank">{{= course.name }}</a>
-            </li>
+                {{#def.courseli:course}}
             {{~}}
         </ul>
     {{?}}
