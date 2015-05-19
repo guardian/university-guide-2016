@@ -103,9 +103,9 @@ export default class CourseSearch {
             var subj = this.subjectEl.value;
             var course = this.courseEl.value;
             var filtered = this.courseData;
-            var re = new RegExp(course, 'i');
+            var regexps = course.split(' ').map(word => new RegExp(word, 'i'))
             if (subj !== 'all') filtered = filtered.filter(c => c[3] === subj)
-            if (course !== '') filtered = filtered.filter(c => re.test(c[2]))
+            if (course !== '') filtered = filtered.filter(c => !regexps.find(re => !re.test(c[2])))
 
             var numProviders = uniq(filtered.map(c => c[4])).length
 
