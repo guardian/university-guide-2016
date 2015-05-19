@@ -30,6 +30,7 @@ export default class Table {
         this.subjectChange = opts.subjectChange
 
         this.el.innerHTML = this.HTML;
+        this.tbodyEl = this.el.querySelector('tbody');
 
         bean.on(this.el, 'click', 'tbody tr', this.expandSelection.bind(this));
 
@@ -55,10 +56,6 @@ export default class Table {
         return headers.map(h => `<th data-h="${h}">${h}</th>`).join('');
     }
 
-    get loadingHTML() {
-        return `<tr class="institutions-loading"><td colspan="${headers.length}">Loading</td></tr>`;
-    }
-
     coursesHTML(courses) {
         return `<tr class="course-list">
                     <td colspan="${headers.length}">
@@ -75,7 +72,7 @@ export default class Table {
                 return `<td data-h="${headers[i]}">${cell || '-'}</td>`
             }).join('') + '</tr>';
         }).join('');
-        this.el.querySelector('tbody').innerHTML = html;
+        this.tbodyEl.innerHTML = html;
 
         this.el.querySelector('.subject-link').innerHTML =
             `<a href="${data.link}">Find out more about studying ${(subjectNames[id] || '').toLowerCase()}</a>`;
@@ -87,13 +84,14 @@ export default class Table {
         if (subjectCache[id]) {
             this.renderData(id, subjectCache[id]);
         } else {
-            this.el.querySelector('tbody').innerHTML = this.loadingHTML;
+            bonzo(this.tbodyEl).addClass('is-loading');
 
             reqwest({
                 url: config.assetPath + '/assets/subjects/overall/' + id + '.json',
                 type: 'json',
                 success: data => {
                     subjectCache[id] = data;
+                    bonzo(this.tbodyEl).removeClass('is-loading');
                     this.show(id);
                 }
             });

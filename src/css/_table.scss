@@ -39,6 +39,10 @@
     tbody {
         color: #676767;
         font-weight: bold;
+        transition: opacity 0.2s ease-out;
+        &.is-loading {
+            opacity: 0.5;
+        }
     }
     tbody td {
         border-top: 1px solid transparent;
