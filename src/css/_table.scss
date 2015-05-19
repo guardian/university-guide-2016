@@ -1,7 +1,8 @@
 .ug16__table-container {
     border-top: 2px solid #21c6dd;
     table {
-        border-collapse: collapse;
+        width: 100%;
+        border-spacing: 0;
         @include fs-textSans(4);
     }
     table td, table th {
@@ -28,7 +29,7 @@
         font-weight: bold;
     }
     tbody td {
-        padding: 6px 0;
+        padding: 6px 4px;
     }
     tbody td, thead th {
         text-align: center;
@@ -91,12 +92,25 @@
     &.has-selected {
         tbody tr {
             opacity: 0.5;
-            &.is-selected {
+            &.is-selected,
+            &.course-list {
                 opacity: 1;
                 background-color: white;
+            }
+            &.is-selected td {
                 border-top: 1px solid #bdbdbd;
+            }
+            &.course-list td {
                 border-bottom: 1px solid #bdbdbd;
             }
+        }
+    }
+
+    .course-list {
+        opacity: 1;
+        td {
+            text-align: left;
+            display: table-cell !important;
         }
     }
 

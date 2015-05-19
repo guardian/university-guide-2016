@@ -97,16 +97,13 @@ def subject_sort(a, b):
 
 for gsgId, subject in subjects.iteritems():
     institutions_out = [pick(institution, subject_fields) for institution in sorted(subject['institutions'], cmp=subject_sort)]
+    courses_out = {institution['institutionId']: institution['courses'] for institution in subject['institutions']}
     with open('src/assets/subjects/overall/%s.json' % gsgId, 'w') as f:
-        json.dump({'institutions': institutions_out, 'link': subject['link']}, f)
-
-
-# Per subject course listings
-
-for gsgId, subject in subjects.iteritems():
-    institutions_out = {institution['institutionId']: institution['courses'] for institution in subject['institutions']}
-    with open('src/assets/subjects/courses/%s.json' % gsgId, 'w') as f:
-        json.dump(institutions_out, f)
+        json.dump({
+            'institutions': institutions_out,
+            'link': subject['link'],
+            'courses': courses_out
+        }, f)
 
 # Subject names
 

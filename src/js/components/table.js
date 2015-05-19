@@ -54,6 +54,14 @@ export default class Table {
         return headers.map(h => `<th data-h="${h}">${h}</th>`).join('');
     }
 
+    coursesHTML(courses) {
+        return `<tr class="course-list">
+                    <td colspan="${headers.length}">
+                        <ul>${courses.map(c => `<li>${c}</li>`).join('')}</ul>
+                    </td>
+                </tr>`;
+    }
+
     renderData(id, data) {
         this.el.setAttribute('data-id', id);
 
@@ -66,7 +74,6 @@ export default class Table {
 
         this.el.querySelector('.subject-link').innerHTML =
             `<a href="${data.link}">Find out more about studying ${(subjectNames[id] || '').toLowerCase()}</a>`;
-
     }
 
     show(id) {
@@ -96,23 +103,25 @@ export default class Table {
             let row = evt.currentTarget;
             let institutionId = row.getAttribute('data-institution');
 
+            this.clearSelection();
+
             if (row === this.lastRow) {
-                this.clearSelection();
+                this.lastRow = undefined;
             } else {
-                bonzo(this.el).addClass('has-selected');
-                bonzo(this.lastRow).removeClass('is-selected');
-                bonzo(row).addClass('is-selected');
                 this.lastRow = row;
+                bonzo(this.el).addClass('has-selected');
+                bonzo(row).addClass('is-selected');
+
+                let courses = subjectCache[subjectId].courses[institutionId];
+                bonzo(row).after(this.coursesHTML(courses));
             }
         }
     }
 
     clearSelection() {
-        if (this.lastRow) {
-            bonzo(this.el).removeClass('has-selected');
-            bonzo(this.lastRow).removeClass('is-selected');
-            this.lastRow = undefined;
-        }
+        bonzo(this.el).removeClass('has-selected');
+        bonzo(this.lastRow).removeClass('is-selected');
+        bonzo(this.el.querySelector('.course-list')).remove();
     }
 
     set(id) {
