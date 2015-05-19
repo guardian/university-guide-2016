@@ -125,6 +125,16 @@
         }
     }
 }
+.ug16-search__institution-rank {
+    font-family: "Guardian Text Sans web";
+    display: inline-block;
+    text-align: center;
+    color: #333;
+    // margin-right: 5px;
+    font-size: 16px;
+    border-right: 1px solid #bdbdbd;
+    padding-right: 5px;
+}
 
 .ug16-search-results__close-btn {
     background: transparent;

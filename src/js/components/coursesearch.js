@@ -11,6 +11,9 @@ import uniq from 'lodash/array/uniq'
 var searchResultTmplFn = doT.template(`
 <div class="ug16-search-result">
     <h2>
+        <span class="ug16-search__institution-rank">
+            {{= it.rank }}
+        </span>
         {{= it.institution }}
         <span class="ug16-search__course-count">{{= it.courses.length }} course{{? it.courses.length > 1 }}s{{?}}</span>
     </h2>
@@ -18,8 +21,8 @@ var searchResultTmplFn = doT.template(`
     {{?it.courses.length <= 7}}
         <ul>
             {{~it.courses :course:index}}
-            <li title="{{= course[2] }}">
-                <a href="{{= course[1] }}" target="_blank">{{= course[2] }}</a>
+            <li title="{{= course.name }}">
+                <a href="{{= course.url }}" target="_blank">{{= course.name }}</a>
             </li>
             {{~}}
         </ul>
@@ -27,8 +30,8 @@ var searchResultTmplFn = doT.template(`
     {{?it.courses.length > 7}}
         <ul>
             {{~it.courses.slice(0,5) :course:index}}
-            <li title="{{= course[2] }}">
-                <a href="{{= course[1] }}" target="_blank">{{= course[2] }}</a>
+            <li title="{{= course.name }}">
+                <a href="{{= course.url }}" target="_blank">{{= course.name }}</a>
             </li>
             {{~}}
         </ul>
@@ -38,8 +41,8 @@ var searchResultTmplFn = doT.template(`
         </button>
         <ul style="display:none;">
             {{~it.courses.slice(5) :course:index}}
-            <li title="{{= course[2] }}">
-                <a href="{{= course[1] }}" target="_blank">{{= course[2] }}</a>
+            <li title="{{= course.name }}">
+                <a href="{{= course.url }}" target="_blank">{{= course.name }}</a>
             </li>
             {{~}}
         </ul>
@@ -124,13 +127,30 @@ export default class CourseSearch {
         this.searchResultsEl.innerHTML = '';
     }
 
+    getOrdinal(n) {
+       var s=["th","st","nd","rd"],
+           v=n%100;
+       return n+(s[(v-20)%10]||s[v]||s[0]);
+    }
+
+    getRankingDisplayVal(gsgId, instId, ordinal) {
+        var ranking = this.getRankingSortValue(gsgId, instId);
+        if (ranking === 9999) return 'n/a';
+        return (ordinal && ranking) ? this.getOrdinal(ranking): ranking;
+    }
+
+    getRankingSortValue(gsgId, instId) {
+        if (!this.rankingsData[gsgId]) return 9999;
+        return this.rankingsData[gsgId][instId] || 9999;
+    }
+
     renderSearchResults(results) {
         var filtered = results;
-        var numProviders = uniq(filtered.map(c => c[4])).length
+        var numProviders = uniq(filtered.map(c => c.instId)).length
 
-            var bySubject = groupBy(filtered, 3);
+            var bySubject = groupBy(filtered, 'gsgId');
             Object.keys(bySubject).map(function(k) {
-                bySubject[k] = groupBy(bySubject[k], 4);
+                bySubject[k] = groupBy(bySubject[k], 'instId');
             });
 
             var statsHTML = `
@@ -154,14 +174,18 @@ export default class CourseSearch {
                 var subjectLink = subjectNames[subjId] ? `<a class="ug16-search-results__rankings-link" href="#${subjId}">view rankings</a>` : '';
                 resultsHTML += `<h2 class="ug16-search-results__subject">${subjectNames[subjId] || 'Unknown subject'} ${subjectLink}</h2>`;
 
-                var subjectResults = ''
-                for (let [instId, course] of entries(byInstitution)) {
-                    subjectResults += searchResultTmplFn({
+                var subjectResultsHTML = ''
+                var subjectResults = entries(byInstitution)
+                    .sort((a,b) => this.getRankingSortValue(subjId, a[0]) - this.getRankingSortValue(subjId, b[0]))
+                for (let [instId, courses] of subjectResults) {
+                    // console.log(Object.keys(courses), course.gsgId, this.rankingsData[course.gsgId], this.rankingsData[course.gsgId] && this.rankingsData[course.gsgId][instId]);
+                    subjectResultsHTML += searchResultTmplFn({
                         institution: instIdToName[instId],
-                        courses: course
+                        courses: courses,
+                        rank: this.getRankingDisplayVal(subjId, instId, true)
                     });
                 }
-                resultsHTML += `<div class="ug16-search-results-group">${subjectResults}</div>`;
+                resultsHTML += `<div class="ug16-search-results-group">${subjectResultsHTML}</div>`;
             }
 
             this.searchResultsEl.innerHTML = resultsHTML
@@ -203,12 +227,16 @@ export default class CourseSearch {
          if (!this.courseData) {
             this.renderLoadingMessage();
             reqwest({
-                url: config.assetPath + '/assets/courses.json' ,
+                url: config.assetPath + '/assets/search.json',
                 type: 'json',
                 crossOrigin: true,
                 success: function(resp) {
-                    this.courseData = resp;
-                    this.search()
+                    console.log(Object.keys(resp));
+                    this.courseData = resp.courses;
+                    this.courseData.forEach(c => c.institutionName = instIdToName[c.instId])
+                    this.courseData.forEach(c => c.subjName = subjectNames[c.gsgId] || 'Unknown subject')
+                    this.rankingsData = resp.rankings;
+                    this.search();
                 }.bind(this)
             });
          } else {
@@ -219,8 +247,8 @@ export default class CourseSearch {
                 var course = this.courseEl.value;
                 var filtered = this.courseData;
                 var regexps = course.split(' ').map(word => new RegExp(word, 'i'))
-                if (subj !== 'all') filtered = filtered.filter(c => c[3] === subj)
-                if (course !== '') filtered = filtered.filter(c => !regexps.find(re => !re.test(c[2])))
+                if (subj !== 'all') filtered = filtered.filter(c => c.gsgId === subj)
+                if (course !== '') filtered = filtered.filter(c => !regexps.find(re => !re.test(c.name)))
 
                 if (filtered.length > 20000) this.renderErrorMessage('Too many results. Please refine your search!')
                 else this.renderSearchResults(filtered)
