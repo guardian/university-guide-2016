@@ -1,11 +1,12 @@
 import names from '../data/subjectNames.json!json'
+import bonzo from 'ded/bonzo'
 
 export default class Subjects {
     constructor(props) {
         this.el = props.el
         this.change = props.change;
 
-        this.el.innerHTML = this.subjectOptions;
+        bonzo(this.el).html(this.subjectOptions);
         this.el.addEventListener('change', () => {
             this.change(this.el.options[this.el.selectedIndex].value);
         });

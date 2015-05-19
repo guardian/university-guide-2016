@@ -86,7 +86,8 @@ export default class Table {
             if (pos === unrankedStart) ret = this.unrankedHTML + ret;
             return ret;
         }).join('');
-        this.tbodyEl.innerHTML = html;
+        // tbody.innerHTML is read-only in IE9, bonzo gets round it
+        bonzo(this.tbodyEl).html(html);
 
         this.el.querySelector('.subject-link').innerHTML =
             `<a href="${data.link}">Find out more about studying ${(subjectNames[id] || '').toLowerCase()}</a>`;
