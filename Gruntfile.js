@@ -160,7 +160,8 @@ module.exports = function(grunt) {
                 secretAccessKey: '<%= visuals.aws.AWSSecretKey %>',
                 region: 'us-east-1',
                 debug: grunt.option('dry'),
-                bucket: '<%= visuals.s3.bucket %>'
+                bucket: '<%= visuals.s3.bucket %>',
+                uploadConcurrency: 10
             },
             production: {
                 options: {
