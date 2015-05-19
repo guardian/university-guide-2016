@@ -39,7 +39,7 @@ function entries(obj) {
 
 export default class CourseSearch {
     constructor(opts) {
-        this.el = opts.el
+        var el = this.el = opts.el
         this.el.innerHTML = this.HTML
 
         this.searchResultsEl = el.querySelector('.ug16-search-results')
