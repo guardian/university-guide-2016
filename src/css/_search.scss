@@ -28,6 +28,10 @@
         &:hover {
             background-color: lighten(#005987, 5%);
         }
+        &:disabled {
+            background-color: #bdbdbd;
+            cursor: default;
+        }
     }
     &, button {
         @include fs-textSans(4);

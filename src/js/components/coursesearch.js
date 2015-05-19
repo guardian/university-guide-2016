@@ -45,8 +45,9 @@ export default class CourseSearch {
         this.searchResultsEl = el.querySelector('.ug16-search-results')
         this.subjectEl = el.querySelector('#ug16-search__subject')
         this.courseEl = el.querySelector('#ug16-search__course')
-        this.institutionEl = el.querySelector('#ug16-search__provder')
+        this.institutionEl = el.querySelector('#ug16-search__institution')
         this.regionEl = el.querySelector('#ug16-search__region')
+        this.searchButtonEl = el.querySelector('.ug16-search form button')
 
         this.subjectsComponent = new Subjects({
             el: this.subjectEl,
@@ -59,8 +60,10 @@ export default class CourseSearch {
     bindEventHandlers() {
 
         bean.on(this.el.querySelector('form'), 'submit', function(event) {
-            event.preventDefault();
-            this.search();
+            if (!this.isFilterEmpty) {
+                event.preventDefault();
+                this.search();
+            }
         }.bind(this));
 
         bean.on(this.searchResultsEl, 'click', '.ug16-search-results__close-btn', function(event) {
@@ -72,6 +75,25 @@ export default class CourseSearch {
             event.target.nextElementSibling.style.display = 'block';
             event.target.parentNode.removeChild(event.target);
         });
+
+        for (let el in [this.subjectEl, this.courseEl, this.institutionEl, this.regionEl]) {
+            bean.on(el, 'change', this.updateButtonState.bind(this));
+        }
+        bean.on(this.courseEl, 'keyup', this.updateButtonState.bind(this));
+        bean.on(this.institutionEl, 'keyup', this.updateButtonState.bind(this));
+    }
+
+    updateButtonState() {
+        if (this.isFilterEmpty) {
+            this.searchButtonEl.setAttribute('disabled', 'disabled');
+        } else {
+            this.searchButtonEl.removeAttribute('disabled');
+        }
+    }
+
+    get isFilterEmpty() {
+        return this.subjectEl.value === 'all' && this.courseEl.value === '' &&
+            this.institutionEl.value === '' && this.regionEl.value === 'all';
     }
 
     clearSearch() {
@@ -175,7 +197,7 @@ export default class CourseSearch {
                     ${this.regionOptions}
                 </select>
 
-                <button>Search</button>
+                <button disabled="disabled">Search</button>
             </form>
 
         </div>
