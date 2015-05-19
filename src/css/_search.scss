@@ -115,6 +115,15 @@
     position: relative;
     padding: 12px 10px;
     border-top: 1px solid #f7f7f7;
+    a {
+        font-size: 14px;
+        text-decoration: none;
+        margin-left: 10px;
+        color: #005987;
+        &:hover {
+            text-decoration: underline;
+        }
+    }
 }
 
 .ug16-search-results__close-btn {
@@ -165,11 +174,6 @@
     h2 {
         font-size: 16px;
         padding: 6px 0;
-        span {
-            font-weight: normal;
-            font-size: 14px;
-            float: right;
-        }
     }
     ul {
         @include fs-textSans(4);
@@ -195,6 +199,12 @@
             }
         }
     }
+}
+
+.ug16-search__course-count {
+    font-weight: normal;
+    font-size: 14px;
+    float: right;
 }
 
 .ug16-search-result__untruncate {

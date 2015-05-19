@@ -10,7 +10,10 @@ import uniq from 'lodash/array/uniq'
 
 var searchResultTmplFn = doT.template(`
 <div class="ug16-search-result">
-    <h2>{{= it.institution }} <span>{{= it.courses.length }} course{{? it.courses.length > 1 }}s{{?}}</span></h2>
+    <h2>
+        {{= it.institution }}
+        <span class="ug16-search__course-count">{{= it.courses.length }} course{{? it.courses.length > 1 }}s{{?}}</span>
+    </h2>
 
     {{?it.courses.length <= 7}}
         <ul>
@@ -91,6 +94,17 @@ export default class CourseSearch {
         }
         bean.on(this.courseEl, 'keyup', this.updateButtonState.bind(this));
         bean.on(this.institutionEl, 'keyup', this.updateButtonState.bind(this));
+
+        bean.on(this.searchResultsEl, 'click', function(event) {
+            if (event.target.className === 'ug16-search-results__rankings-link') {
+                this.clearSearch();
+                this.scrollToTable();
+            }
+        }.bind(this));
+    }
+
+    scrollToTable() {
+        window.scrollTo(null, this.el.getBoundingClientRect().top);
     }
 
     updateButtonState() {
@@ -137,15 +151,17 @@ export default class CourseSearch {
             var resultsHTML = statsHTML;
 
             for (let [subjId, byInstitution] of entries(bySubject)) {
-                resultsHTML += `<h2 class="ug16-search-results__subject">${subjectNames[subjId]}</h2>`
-                resultsHTML += '<div class="ug16-search-results-group">'
+                var subjectLink = subjectNames[subjId] ? `<a class="ug16-search-results__rankings-link" href="#${subjId}">view rankings</a>` : '';
+                resultsHTML += `<h2 class="ug16-search-results__subject">${subjectNames[subjId] || 'Unknown subject'} ${subjectLink}</h2>`;
+
+                var subjectResults = ''
                 for (let [instId, course] of entries(byInstitution)) {
-                    resultsHTML += searchResultTmplFn({
+                    subjectResults += searchResultTmplFn({
                         institution: instIdToName[instId],
                         courses: course
                     });
                 }
-                resultsHTML += '</div>'
+                resultsHTML += `<div class="ug16-search-results-group">${subjectResults}</div>`;
             }
 
             this.searchResultsEl.innerHTML = resultsHTML
