@@ -134,7 +134,9 @@
         }
 
         ul {
-            margin: 0 0 10px;
+            margin: 0 auto 10px;
+            width: 90%;
+            list-style-position: outside;
 
             @include mq(desktop) {
                 -webkit-column-count: 2;
