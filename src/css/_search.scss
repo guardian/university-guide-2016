@@ -33,7 +33,7 @@
             cursor: default;
         }
     }
-    &, button {
+    &, button, select, input {
         @include fs-textSans(4);
     }
 }
@@ -65,8 +65,7 @@
     clear: both;
     margin-top: 0;
     position: relative;
-    padding: 0 10px;
-    padding-top: 12px;
+    padding: 12px 10px;
     border-top: 1px solid #f7f7f7;
 }
 
@@ -111,6 +110,7 @@
 
     h2 {
         font-size: 16px;
+        padding: 6px 0;
         span {
             font-weight: normal;
             font-size: 14px;
