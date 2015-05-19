@@ -3,10 +3,6 @@
 	box-sizing: border-box;
     -webkit-font-smoothing: antialiased;
     background: #fff;
-    padding: 0 10px;
-    @include mq(tablet) {
-        padding: 0 20px;
-    }
 
     select {
         border: 1px solid #9B9B9B;
