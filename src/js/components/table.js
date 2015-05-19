@@ -55,6 +55,10 @@ export default class Table {
         return headers.map(h => `<th data-h="${h}">${h}</th>`).join('');
     }
 
+    get loadingHTML() {
+        return `<tr class="institutions-loading"><td colspan="${headers.length}">Loading</td></tr>`;
+    }
+
     coursesHTML(courses) {
         return `<tr class="course-list">
                     <td colspan="${headers.length}">
@@ -83,6 +87,8 @@ export default class Table {
         if (subjectCache[id]) {
             this.renderData(id, subjectCache[id]);
         } else {
+            this.el.querySelector('tbody').innerHTML = this.loadingHTML;
+
             reqwest({
                 url: config.assetPath + '/assets/subjects/overall/' + id + '.json',
                 type: 'json',
