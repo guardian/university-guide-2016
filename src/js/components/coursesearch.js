@@ -213,15 +213,6 @@ export default class CourseSearch {
     }
 
     search() {
-         /*
-         [
-          1,
-          "http://www.hud.ac.uk/courses/2014-15/00000025",
-          "BSc (hons) physiotherapy (optional foundation year)",
-          "S040",
-          "0061",
-          "00000025"
-         ]*/
          if (!this.courseData) {
             this.renderLoadingMessage();
             reqwest({
