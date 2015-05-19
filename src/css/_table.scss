@@ -41,7 +41,7 @@
         font-weight: bold;
         transition: opacity 0.2s ease-out;
         &.is-loading {
-            opacity: 0.5;
+            opacity: 0.3;
         }
     }
     tbody td {
@@ -70,6 +70,7 @@
     table th[data-h="Institution"],
     table td[data-h="Institution"] {
         text-align: left;
+        width: 25%;
     }
 
     table tbody td:last-child a.institution-link {
