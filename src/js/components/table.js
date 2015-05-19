@@ -1,6 +1,8 @@
 import Subjects from './subjects'
 import { config } from '../lib/cfg'
 import reqwest from 'reqwest'
+import bean from 'fat/bean'
+import bonzo from 'ded/bonzo'
 
 import institutionalRankings from '../data/institutionalRankings.json!json'
 import subjectNames from '../data/subjectNames.json!json'
@@ -29,6 +31,8 @@ export default class Table {
 
         this.el.innerHTML = this.HTML;
 
+        bean.on(this.el, 'click', 'tbody tr', this.expandSelection.bind(this));
+
         this.subjectsComponent = new Subjects({
             el: this.el.querySelector('select'),
             change: this.show.bind(this)
@@ -54,7 +58,9 @@ export default class Table {
         this.el.setAttribute('data-id', id);
 
         var html = preprocessData(data.institutions).map(function(row) {
-            return '<tr>' + row.map((cellVal, i) => `<td data-h="${headers[i]}">${cellVal}</td>`).join('') + '</tr>';
+            return `<tr data-institution="${row[0]}">` + row.slice(1).map((cell, i) => {
+                return `<td data-h="${headers[i]}">${cell}</td>`
+            }).join('') + '</tr>';
         }).join('');
         this.el.querySelector('tbody').innerHTML = html;
 
@@ -79,7 +85,34 @@ export default class Table {
             });
         }
 
+        this.clearSelection();
         this.subjectChange(id);
+    }
+
+    expandSelection(evt) {
+        var subjectId = this.el.getAttribute('data-id');
+
+        if (subjectId !== 'all') {
+            let row = evt.currentTarget;
+            let institutionId = row.getAttribute('data-institution');
+
+            if (row === this.lastRow) {
+                this.clearSelection();
+            } else {
+                bonzo(this.el).addClass('has-selected');
+                bonzo(this.lastRow).removeClass('is-selected');
+                bonzo(row).addClass('is-selected');
+                this.lastRow = row;
+            }
+        }
+    }
+
+    clearSelection() {
+        if (this.lastRow) {
+            bonzo(this.el).removeClass('has-selected');
+            bonzo(this.lastRow).removeClass('is-selected');
+            this.lastRow = undefined;
+        }
     }
 
     set(id) {

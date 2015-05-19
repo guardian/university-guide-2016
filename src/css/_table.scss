@@ -36,19 +36,11 @@
     tbody tr {
         cursor: pointer;
         transition: opacity 0.1s ease-out;
-        border-top: 1px solid transparent;
-        border-bottom: 1px solid transparent;
         &:nth-child(odd) {
             background-color: #efefef;
         }
         &:nth-child(even) {
             background-color: #f9f9f7;
-        }
-        &.is-selected {
-            background-color: white;
-            opacity: 1;
-            border-top-color: #bdbdbd;
-            border-bottom-color: #bdbdbd;
         }
     }
 
@@ -93,6 +85,18 @@
 
         @include mq(desktop) {
             display: table-cell;
+        }
+    }
+
+    &.has-selected {
+        tbody tr {
+            opacity: 0.5;
+            &.is-selected {
+                opacity: 1;
+                background-color: white;
+                border-top: 1px solid #bdbdbd;
+                border-bottom: 1px solid #bdbdbd;
+            }
         }
     }
 

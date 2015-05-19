@@ -8,6 +8,7 @@ institutionLinks = {i['name'].strip(): i['url'] for i in csv.DictReader(open('da
 institutionalRankings = {i['institutionId']: i for i in json.load(open('data/institutionalRankings.json'))}
 subjectNames = {s['gsgId']: s['guardianSubjectGroup'] for s in json.load(open('data/guardianSubjectGroups.json'))}
 subjectLinks = {s['name'].lower(): s['url'] for s in csv.DictReader(open('data/subjectLinks.csv'))}
+courses = json.load(open('src/assets/courses.json'))
 
 # munge together all the data we have on institutions
 institutions = {}
@@ -27,15 +28,22 @@ for id, institution in institutionDetails.iteritems():
 
     institutions[id] = institution
 
+def get_courses(iId, gsgId):
+    return [x[2] for x in courses if x[3] == gsgId and x[4] == iId]
+
 subjects = defaultdict(lambda: {'name': '', 'institutions': []})
 for institution in json.load(open('data/rankingsList.json')) + json.load(open('data/unrankedProviderList.json')):
-    institution['guardianHeiTitle'] = institutions[institution['institutionId']]['guardianHeiTitle']
-    institution['link'] = institutionLinks.get(institution['guardianHeiTitle'], '')
+    iId = institution['institutionId']
+    gsgId = institution['gsgId']
 
-    name = subjectNames[institution['gsgId']]
-    subjects[institution['gsgId']]['name'] = name
-    subjects[institution['gsgId']]['link'] = subjectLinks[name.lower()]
-    subjects[institution['gsgId']]['institutions'].append(institution)
+    institution['guardianHeiTitle'] = institutions[iId]['guardianHeiTitle']
+    institution['link'] = institutionLinks.get(institution['guardianHeiTitle'], '')
+    institution['courses'] = get_courses(iId, gsgId)
+
+    name = subjectNames[gsgId]
+    subjects[gsgId]['name'] = name
+    subjects[gsgId]['link'] = subjectLinks[name.lower()]
+    subjects[gsgId]['institutions'].append(institution)
 
 ################ GENERATE JSON ################
 
@@ -60,7 +68,7 @@ common_fields = ('guardianHeiTitle', 'guardianScore',
 
 # Institution ranking
 
-institutions_fields = ('rank2016', 'rank2015') + common_fields
+institutions_fields = ('institutionId', 'rank2016', 'rank2015') + common_fields
 
 def institutions_sort(a, b):
     if not a.get('rank2016'):
@@ -77,7 +85,7 @@ with open('src/js/data/institutionalRankings.json', 'w') as f:
 
 # Subject ranking
 
-subject_fields = ('rank', '') + common_fields
+subject_fields = ('institutionId', 'rank', '') + common_fields
 
 def subject_sort(a, b):
     if not a.get('rank'):
@@ -91,6 +99,14 @@ for gsgId, subject in subjects.iteritems():
     institutions_out = [pick(institution, subject_fields) for institution in sorted(subject['institutions'], cmp=subject_sort)]
     with open('src/assets/subjects/overall/%s.json' % gsgId, 'w') as f:
         json.dump({'institutions': institutions_out, 'link': subject['link']}, f)
+
+
+# Per subject course listings
+
+for gsgId, subject in subjects.iteritems():
+    institutions_out = {institution['institutionId']: institution['courses'] for institution in subject['institutions']}
+    with open('src/assets/subjects/courses/%s.json' % gsgId, 'w') as f:
+        json.dump(institutions_out, f)
 
 # Subject names
 
