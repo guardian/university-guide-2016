@@ -76,7 +76,7 @@ export default class CourseSearch {
             event.target.parentNode.removeChild(event.target);
         });
 
-        for (let el in [this.subjectEl, this.courseEl, this.institutionEl, this.regionEl]) {
+        for (let el of [this.subjectEl, this.courseEl, this.institutionEl, this.regionEl]) {
             bean.on(el, 'change', this.updateButtonState.bind(this));
         }
         bean.on(this.courseEl, 'keyup', this.updateButtonState.bind(this));
@@ -100,36 +100,9 @@ export default class CourseSearch {
         this.searchResultsEl.innerHTML = '';
     }
 
-    search() {
-         /*
-         [
-          1,
-          "http://www.hud.ac.uk/courses/2014-15/00000025",
-          "BSc (hons) physiotherapy (optional foundation year)",
-          "S040",
-          "0061",
-          "00000025"
-         ]*/
-         if (!this.courseData) {
-            this.searchResultsEl.innerHTML = 'Loading…'
-            reqwest({
-                url: config.assetPath + '/assets/courses.json' ,
-                type: 'json',
-                crossOrigin: true,
-                success: function(resp) {
-                    this.courseData = resp;
-                    this.search()
-                }.bind(this)
-            });
-         } else {
-            var subj = this.subjectEl.value;
-            var course = this.courseEl.value;
-            var filtered = this.courseData;
-            var regexps = course.split(' ').map(word => new RegExp(word, 'i'))
-            if (subj !== 'all') filtered = filtered.filter(c => c[3] === subj)
-            if (course !== '') filtered = filtered.filter(c => !regexps.find(re => !re.test(c[2])))
-
-            var numProviders = uniq(filtered.map(c => c[4])).length
+    renderSearchResults(results) {
+        var filtered = results;
+        var numProviders = uniq(filtered.map(c => c[4])).length
 
             var bySubject = groupBy(filtered, 3);
             Object.keys(bySubject).map(function(k) {
@@ -137,8 +110,10 @@ export default class CourseSearch {
             });
 
             var statsHTML = `
-                <div class="ug16-search-results__stats">
-                    Search results: <strong>${filtered.length}</strong> courses across <strong>${numProviders}</strong> institutions
+                <div class="ug16-search-results__meta">
+                    <p>
+                        Search results: <strong>${filtered.length}</strong> courses across <strong>${numProviders}</strong> institutions
+                    </p>
                     <button class="ug16-search-results__close-btn">
                         <svg viewBox="0 0 33.2 33.2">
                             <g>
@@ -164,6 +139,66 @@ export default class CourseSearch {
             }
 
             this.searchResultsEl.innerHTML = resultsHTML
+    }
+
+    renderErrorMessage(msg) {
+        var errorHTML = `
+            <div class="ug16-search-results__meta">
+                <p>${msg}</p>
+                <button class="ug16-search-results__close-btn">
+                    <svg viewBox="0 0 33.2 33.2">
+                        <g>
+                            <polygon points="2.1,0 0,2.1 14.8,18.4 31.4,32.9 33.2,31.1 18.4,14.8 "></polygon>
+                            <polygon points="0,31.1 2.1,33.2 18.4,18.4 33.2,2.1 31.1,0 14.8,14.8 "></polygon>
+                        </g>
+                    </svg>
+                </button>
+            </div>`
+        this.searchResultsEl.innerHTML = errorHTML
+    }
+
+    renderLoadingMessage() {
+        this.searchResultsEl.innerHTML = `
+            <div class="ug16-search-results__meta">
+                <p>Searching…</p>
+            </div>`
+    }
+
+    search() {
+         /*
+         [
+          1,
+          "http://www.hud.ac.uk/courses/2014-15/00000025",
+          "BSc (hons) physiotherapy (optional foundation year)",
+          "S040",
+          "0061",
+          "00000025"
+         ]*/
+         if (!this.courseData) {
+            this.renderLoadingMessage();
+            reqwest({
+                url: config.assetPath + '/assets/courses.json' ,
+                type: 'json',
+                crossOrigin: true,
+                success: function(resp) {
+                    this.courseData = resp;
+                    this.search()
+                }.bind(this)
+            });
+         } else {
+            this.renderLoadingMessage();
+
+            window.setTimeout(function() {
+                var subj = this.subjectEl.value;
+                var course = this.courseEl.value;
+                var filtered = this.courseData;
+                var regexps = course.split(' ').map(word => new RegExp(word, 'i'))
+                if (subj !== 'all') filtered = filtered.filter(c => c[3] === subj)
+                if (course !== '') filtered = filtered.filter(c => !regexps.find(re => !re.test(c[2])))
+
+                if (filtered.length > 20000) this.renderErrorMessage('Too many results. Please refine your search!')
+                else this.renderSearchResults(filtered)
+            }.bind(this), 10);
          }
     }
 

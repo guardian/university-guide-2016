@@ -38,8 +38,20 @@
     }
 }
 
+.ug16-search-results__meta {
+    background-color: #f9f9f7;
+    color: #333;
+    @include fs-headline(2);
+    p {
+        margin: 0;
+        text-align: center;
+        padding: 24px 0;
+    }
+}
+
 .ug16-search-results {
     overflow: hidden;
+    position: relative;
 }
 
 .ug16-search-results__stats {
@@ -61,10 +73,12 @@
 .ug16-search-results__close-btn {
     background: transparent;
     border: 0;
-    width: 36px;
-    float: right;
-    padding: 6px;
-    margin-top: -8px;
+    width: 28px;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    box-sizing:content-box;
+    padding: 18px 10px;
     cursor: pointer;
     svg {
         fill: #222;
