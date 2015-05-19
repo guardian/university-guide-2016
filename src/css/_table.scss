@@ -1,6 +1,5 @@
 .ug16__table-container {
     border-top: 2px solid #21c6dd;
-    margin-bottom: 10px;
 
     table {
         width: 100%;
@@ -170,6 +169,11 @@
         }
     }
 
+    .ug16__unranked-msg {
+        font-size: 14px;
+        margin: 12px 0;
+    }
+
     // Overall vs subject table differences
     table td, table th {
         &[data-h="Rank 2015"] {
@@ -190,6 +194,10 @@
             &[data-h="Rank 2015"] {
                 display: table-cell;
             }
+        }
+
+        .ug16__unranked-msg {
+            display: none;
         }
     }
 }

@@ -8,7 +8,7 @@ institutionLinks = {i['name'].strip(): i['url'] for i in csv.DictReader(open('da
 institutionalRankings = {i['institutionId']: i for i in json.load(open('data/institutionalRankings.json'))}
 subjectNames = {s['gsgId']: s['guardianSubjectGroup'] for s in json.load(open('data/guardianSubjectGroups.json'))}
 subjectLinks = {s['name'].lower(): s['url'] for s in csv.DictReader(open('data/subjectLinks.csv'))}
-courses = json.load(open('src/assets/courses.json'))
+courses = json.load(open('data/courses.json'))
 
 # munge together all the data we have on institutions
 institutions = {}
@@ -29,7 +29,7 @@ for id, institution in institutionDetails.iteritems():
     institutions[id] = institution
 
 def get_courses(iId, gsgId):
-    return [[x[1], x[2]] for x in courses if x[3] == gsgId and x[4] == iId]
+    return [[x['url'], x['courseTitle']] for x in courses if x['gsgId'] == gsgId and x['instId'] == iId]
 
 subjects = defaultdict(lambda: {'name': '', 'institutions': []})
 for institution in json.load(open('data/rankingsList.json')) + json.load(open('data/unrankedProviderList.json')):
@@ -78,7 +78,7 @@ def institutions_sort(a, b):
     else:
         return int(a['rank2016']) - int(b['rank2016'])
 
-institutions_out = [pick(institution, institutions_fields) for institution in sorted(institutions.values(), cmp=institutions_sort)]
+institutions_out = [pick(institution, institutions_fields) for institution in sorted(institutions.values(), cmp=institutions_sort) if institution.get('rank2016')]
 
 with open('src/js/data/institutionalRankings.json', 'w') as f:
     json.dump(institutions_out, f)

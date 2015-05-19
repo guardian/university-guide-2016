@@ -49,7 +49,11 @@ export default class Table {
                     </caption>
                     <thead><tr>${this.headersHTML}</tr></thead>
                     <tbody></tbody>
-                </table>`;
+                </table>
+                <p class="ug16__unranked-msg">
+                    Note: dashes are used where there is insufficient data to calculate a ranking position
+                    for a provider delivering courses in this subject area
+                </p>`;
     }
 
     get headersHTML() {
