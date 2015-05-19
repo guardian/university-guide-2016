@@ -134,14 +134,20 @@
         fill: #444;
     }
 }
+@mixin columns($num) {
+    -moz-column-count: $num;
+    -webkit-column-count: $num;
+    column-count: $num;
+}
+
 .ug16-search-results-group {
-    -moz-column-count: 3;
-    -webkit-column-count: 3;
-    column-count: 3;
-    -moz-column-gap: 10px;
-    -webkit-column-gap: 10px;
-    column-gap: 10px;
     padding: 0 10px;
+    @include mq(desktop) {
+        @include columns(2);
+        -moz-column-gap: 10px;
+        -webkit-column-gap: 10px;
+        column-gap: 10px;
+    }
 }
 
 .ug16-search-result {
