@@ -690,8 +690,6 @@ Friday 15 May 2015 <span class="content__dateline-time">11.27 BST</span>
 </li>
 </ul>
 </div>
-<div class="meta__save-for-later" data-link-name="meta-save-for-later" data-component="meta-save-for-later">
-</div>
 <div class="meta__numbers modern-visible">
 <div class="u-h meta__number js-sharecount">
 </div>
