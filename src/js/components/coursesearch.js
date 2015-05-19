@@ -224,6 +224,7 @@ export default class CourseSearch {
                     this.courseData.forEach(c => c.institutionName = instIdToName[c.instId])
                     this.courseData.forEach(c => c.subjName = subjectNames[c.gsgId] || 'Unknown subject')
                     this.rankingsData = resp.rankings;
+                    this.regionsData = resp.regions;
                     this.search();
                 }.bind(this)
             });
@@ -234,6 +235,7 @@ export default class CourseSearch {
                 var subj = this.subjectEl.value;
                 var course = this.courseEl.value;
                 var institution = this.institutionEl.value;
+                var region = this.regionEl.value;
                 var filtered = this.courseData;
                 if (subj !== 'all') filtered = filtered.filter(c => c.gsgId === subj)
                 if (course !== '') {
@@ -244,6 +246,7 @@ export default class CourseSearch {
                     let regexps = institution.split(' ').map(word => new RegExp(word, 'i'))
                     filtered = filtered.filter(c => !regexps.find(re => !re.test(c.institutionName)))
                 }
+                if (region !== 'all') filtered = filtered.filter(c => this.regionsData[c.instId] === region);
                 if (filtered.length > 5000) this.renderErrorMessage('Too many results. Please refine your search!')
                 else this.renderSearchResults(filtered)
             }.bind(this), 10);
