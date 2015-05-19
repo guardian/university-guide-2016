@@ -197,14 +197,21 @@
             white-space: nowrap;
             text-overflow: ellipsis;
             overflow: hidden;
-            padding-right: 20px;
             box-sizing: border-box;
             width: 100%;
             a {
                 color: #111;
                 text-decoration: none;
+                display: block;
+                padding-right: 20px;
+                transition: background 100ms;
                 &:hover {
+                    transition: none;
                     text-decoration: underline;
+                    background: rgba(0,0,0,0.02);
+                    &:after {
+                        content: ' \00BB';
+                    }
                 }
             }
         }
