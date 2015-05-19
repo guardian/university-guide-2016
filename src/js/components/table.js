@@ -99,13 +99,13 @@ export default class Table {
     expandSelection(evt) {
         var subjectId = this.el.getAttribute('data-id');
 
-        if (subjectId !== 'all') {
+        if (evt.target.tagName !== 'A' && subjectId !== 'all') {
             let row = evt.currentTarget;
             let institutionId = row.getAttribute('data-institution');
 
             this.clearSelection();
 
-            if (row === this.lastRow) {
+            if (row === this.lastRow || row.className == 'course-list') {
                 this.lastRow = undefined;
             } else {
                 this.lastRow = row;
