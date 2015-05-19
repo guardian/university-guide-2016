@@ -1,4 +1,4 @@
-#ug16 {
+.ug16 {
 	max-width: 1300px;
 	box-sizing: border-box;
     -webkit-font-smoothing: antialiased;
@@ -15,12 +15,11 @@
         max-width: 100%;
         @include fs-textSans(4);
     }
-}
 
-.fonts__egyptian { @include fs-headline(3); }
-.fonts__text-egyptian { @include fs-bodyCopy(2); }
-.fonts__sans { @include f-headlineSans; }
-.fonts__text-sans { @include fs-textSans(4); }
+    h2 {
+        margin: 18px 0;
+    }
+}
 
 .ug16__section {
     clear: both;
