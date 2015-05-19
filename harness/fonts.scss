@@ -9,7 +9,7 @@ $frontend-webfonts: ( // this should replicate frontend's font config
         (weight: 'light', style: 'normal'),
         (weight: 'regular', style: 'normal'),
         (weight: 'medium', style: 'normal'),
-        (weight: 'semibold', style: 'normal'),
+        (weight: 'semibold', style: 'normal', use-as: ( weight: ultrablack )),
     ),
     'Guardian Sans Web': (
         (weight: 'regular', style: 'normal'),
@@ -17,12 +17,12 @@ $frontend-webfonts: ( // this should replicate frontend's font config
     'Guardian Text Egyptian Web': (
         (weight: 'regular', style: 'normal'),
         (weight: 'regular', style: 'italic'),
-        (weight: 'medium', style: 'normal'),
+        (weight: 'medium', style: 'normal', use-as: ( weight: bold )),
     ),
     'Guardian Text Sans Web': (
         (weight: 'regular', style: 'normal'),
         (weight: 'regular', style: 'italic'),
-        (weight: 'medium', style: 'normal'),
+        (weight: 'medium', style: 'normal', use-as: ( weight: bold )),
     ),
 ) !default;
 
