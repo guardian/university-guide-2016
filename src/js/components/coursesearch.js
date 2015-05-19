@@ -227,22 +227,31 @@ export default class CourseSearch {
         <div class="ug16-search">
 
             <form>
-                <label for='ug16-search__subject'>Subject</label>
-                <select id="ug16-search__subject"></select>
+                <div class="ug16-search__field">
+                    <label for='ug16-search__subject'>Subject</label>
+                    <select id="ug16-search__subject"></select>
+                </div>
 
-                <label for='ug16-search__course'>Course</label>
-                <input type="text" id="ug16-search__course"/>
+                <div class="ug16-search__field">
+                    <label for='ug16-search__course'>Course</label>
+                    <input type="text" id="ug16-search__course"/>
+                </div>
 
-                <label for='ug16-search__institution'>Institution</label>
-                <input type="text" id="ug16-search__institution"/>
+                <div class="ug16-search__field">
+                    <label for='ug16-search__institution'>Institution</label>
+                    <input type="text" id="ug16-search__institution"/>
+                </div>
 
-                <label for='ug16-search__region'>Region</label>
-                <select id="ug16-search__region">
-                    <option value="all">All regions</option>
-                    ${this.regionOptions}
-                </select>
+                <div class="ug16-search__field">
+                    <label for='ug16-search__region'>Region</label>
+                    <select id="ug16-search__region">
+                        <option value="all">All regions</option>
+                        ${this.regionOptions}
+                    </select>
+                </div>
 
                 <button disabled="disabled">Search</button>
+
             </form>
 
         </div>

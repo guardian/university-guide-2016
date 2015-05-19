@@ -1,16 +1,43 @@
 .ug16-search {
     background-color: #efefef;
     border-top: 2px solid #21c6dd;
-    padding: 12px 0;
+    padding: 6px 10px;
     position: relative;
+    width: 100%;
+    box-sizing: border-box;
+
+    form {
+        @include mq(tablet) {
+            padding-right: 120px;
+        }
+    }
 
     label {
-        padding: 0 10px;
+        padding-right: 10px;
+        display: inline-block;
+        width: 60px;
+        @include mq(tablet){
+            width: auto;
+
+        }
     }
     input {
         height: 30px;
         box-sizing: border-box;
         padding: 3px 5px;
+        width: 150px;
+    }
+    select, input {
+        width: 100%;
+        @include mq(mobileLandscape) {
+            width: auto;
+            width: calc(100% - 80px);
+        }
+    }
+    #ug16-search__subject {
+        @include mq(tablet) {
+            width: 240px;
+        }
     }
     button {
         border: none;
@@ -19,12 +46,20 @@
         background-color: #005987;
         padding: 0 20px;
         height: 36px;
-        position: absolute;
-        right: 20px;
-        top: 0;
-        bottom: 0;
-        margin: auto;
         cursor: pointer;
+        display: block;
+        margin: 6px auto;
+        clear: both;
+        width: 100%;
+
+        @include mq(tablet) {
+            width: auto;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            margin: auto 10px;
+        }
         &:hover {
             background-color: lighten(#005987, 5%);
         }
@@ -35,6 +70,19 @@
     }
     &, button, select, input {
         @include fs-textSans(4);
+    }
+}
+
+.ug16-search__field {
+    display: inline-block;
+    padding: 6px 0;
+    width: 100%;
+    padding-right: 10px;
+    @include mq(mobileLandscape) {
+        width: 100%;
+    }
+    @include mq(tablet) {
+        width: auto;
     }
 }
 
