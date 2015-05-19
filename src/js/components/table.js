@@ -42,8 +42,9 @@ export default class Table {
     get HTML() {
         return `<table>
                     <caption>
-                        <label>Subject <select></select></label>
-                        <span class="subject-link"></span>
+                        <label for="ug16-table__subject">Subject</label>
+                        <select id="ug16-table__subject"></select>
+                        <div class="subject-link"></div>
                     </caption>
                     <thead><tr>${this.headersHTML}</tr></thead>
                     <tbody></tbody>

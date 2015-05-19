@@ -16,8 +16,17 @@
         text-align: left;
         color:  #4A4A4A;
         padding: 6px 10px;
+        label {
+            margin-right: 10px;
+        }
+
         select {
-            margin: 0 10px;
+            width: 100%;
+            margin: 3px 0;
+            @include mq(tablet) {
+                margin: 0 10px 0 0;
+                width: auto;
+            }
         }
     }
     thead th {
@@ -64,7 +73,7 @@
     }
 
     .subject-link {
-        white-space: nowrap;
+        display: inline-block;
         @include fs-textSans(2);
         & a {
             color: #005689;
