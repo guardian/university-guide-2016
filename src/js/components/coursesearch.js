@@ -238,7 +238,7 @@ export default class CourseSearch {
                 if (subj !== 'all') filtered = filtered.filter(c => c.gsgId === subj)
                 if (course !== '') filtered = filtered.filter(c => !regexps.find(re => !re.test(c.name)))
 
-                if (filtered.length > 20000) this.renderErrorMessage('Too many results. Please refine your search!')
+                if (filtered.length > 5000) this.renderErrorMessage('Too many results. Please refine your search!')
                 else this.renderSearchResults(filtered)
             }.bind(this), 10);
          }
