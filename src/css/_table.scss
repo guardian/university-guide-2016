@@ -16,7 +16,7 @@
         color:  #4A4A4A;
         padding: 6px 10px;
         select {
-            margin-left: 10px;
+            margin: 0 10px;
         }
     }
     thead th {
@@ -33,16 +33,32 @@
     tbody td, thead th {
         text-align: center;
     }
-    tbody tr:nth-child(odd) {
-        background-color: #efefef;
+    tbody tr {
+        cursor: pointer;
+        transition: opacity 0.1s ease-out;
+        border-top: 1px solid transparent;
+        border-bottom: 1px solid transparent;
+        &:nth-child(odd) {
+            background-color: #efefef;
+        }
+        &:nth-child(even) {
+            background-color: #f9f9f7;
+        }
+        &.is-selected {
+            background-color: white;
+            opacity: 1;
+            border-top-color: #bdbdbd;
+            border-bottom-color: #bdbdbd;
+        }
     }
-    tbody tr:nth-child(even) {
-        background-color: #f9f9f7;
+
+    table th[data-h="Link"] {
+        font-size: 0;
     }
+
     table th[data-h="Institution"],
     table td[data-h="Institution"] {
         text-align: left;
-        width: 20%;
     }
 
     table tbody td:last-child a {
@@ -53,8 +69,8 @@
     }
 
     .subject-link {
+        white-space: nowrap;
         @include fs-textSans(2);
-        margin-left: 10px;
         & a {
             color: #005689;
             text-decoration: none;
@@ -69,15 +85,37 @@
         display: none;
 
         &[data-h="Rank 2016"],
-        &[data-h="Rank 2015"],
         &[data-h="Institution"],
+        &[data-h="Link"],
         &[data-h="Guardian score/100"] {
             display: table-cell;
         }
 
-        @include mq(tablet) {
+        @include mq(desktop) {
             display: table-cell;
         }
     }
 
+    // Overall vs subject table differences
+    table td, table th {
+        &[data-h="Rank 2015"] {
+            display: none;
+        }
+    }
+
+    &[data-id="all"] {
+        .subject-link {
+            display: none;
+        }
+
+        tbody tr {
+            cursor: auto;
+        }
+
+        table td, table th {
+            &[data-h="Rank 2015"] {
+                display: table-cell;
+            }
+        }
+    }
 }

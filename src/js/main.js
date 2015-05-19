@@ -13,7 +13,7 @@ function init(el, config) {
 
     var tableComponent = new Table({
         el: el.querySelector('#ug16 .ug16__table-container'),
-        callback: id => window.location.hash = '#' + id
+        subjectChange: id => window.location.hash = '#' + id
     });
 
     function showTable() {

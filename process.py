@@ -77,7 +77,7 @@ with open('src/js/data/institutionalRankings.json', 'w') as f:
 
 # Subject ranking
 
-subject_fields = ('rank',) + common_fields
+subject_fields = ('rank', '') + common_fields
 
 def subject_sort(a, b):
     if not a.get('rank'):

@@ -1,18 +1,15 @@
 import Subjects from './subjects'
-import reqwest from 'reqwest'
 import { config } from '../lib/cfg'
+import reqwest from 'reqwest'
 
 import institutionalRankings from '../data/institutionalRankings.json!json'
 import subjectNames from '../data/subjectNames.json!json'
 
-const institutionHeaders = ['Rank 2016', 'Rank 2015', 'Institution', 'Guardian score/100', 'Satisfied with course',
+const headers = ['Rank 2016', 'Rank 2015', 'Institution', 'Guardian score/100', 'Satisfied with course',
     'Satisfied with teaching', /*'Satisfied with feedback',*/ 'Student to staff ratio', 'Spend per student/10',
     'Average entry tariff', 'Value added score/10', 'Career after 6 months', 'Link'];
 
-const subjectHeaders = institutionHeaders.slice();
-subjectHeaders.splice(1, 1);
-
-var subjectCache = {};
+var subjectCache = {'all': {'institutions': institutionalRankings}};
 
 function preprocessData(data) {
     if (data.length) {
@@ -28,70 +25,61 @@ function preprocessData(data) {
 export default class Table {
     constructor(opts) {
         this.el = opts.el
-        this.callback = opts.callback
-        this.renderTable()
+        this.subjectChange = opts.subjectChange
+
+        this.el.innerHTML = this.HTML;
 
         this.subjectsComponent = new Subjects({
             el: this.el.querySelector('select'),
-            id: opts.id,
             change: this.show.bind(this)
         });
     }
 
-    renderTable() {
-        this.el.innerHTML = `
-            <table>
-                <caption>
-                    <label>Subject <select></select></label>
-                    <span class="subject-link"></span>
-                </caption>
-                <thead><tr></tr></thead>
-                <tbody></tbody>
-            </table>`;
+    get HTML() {
+        return `<table>
+                    <caption>
+                        <label>Subject <select></select></label>
+                        <span class="subject-link"></span>
+                    </caption>
+                    <thead><tr>${this.headersHTML}</tr></thead>
+                    <tbody></tbody>
+                </table>`;
     }
 
-    renderData(headers, rows) {
-        this.el.querySelector('thead tr').innerHTML = headers.map(h => `<th data-h="${h}">${h}</th>`).join('');
+    get headersHTML() {
+        return headers.map(h => `<th data-h="${h}">${h}</th>`).join('');
+    }
 
-        var html = preprocessData(rows).map(function(row) {
+    renderData(id, data) {
+        this.el.setAttribute('data-id', id);
+
+        var html = preprocessData(data.institutions).map(function(row) {
             return '<tr>' + row.map((cellVal, i) => `<td data-h="${headers[i]}">${cellVal}</td>`).join('') + '</tr>';
         }).join('');
         this.el.querySelector('tbody').innerHTML = html;
-    }
 
-    renderSubjectLink(id) {
-        var el = this.el.querySelector('.subject-link');
-        el.innerHTML = id ? `<a href="${subjectCache[id].link}">Find out more about studying ${subjectNames[id].toLowerCase()}</a>` : '';
+        this.el.querySelector('.subject-link').innerHTML =
+            `<a href="${data.link}">Find out more about studying ${(subjectNames[id] || '').toLowerCase()}</a>`;
+
     }
 
     show(id) {
-        if (subjectNames[id]) {
-            this.showSubject(id);
-        } else {
-            this.showInstitutions();
-        }
-        this.callback(id);
-    }
+        id = subjectNames[id] ? id : 'all';
 
-    showSubject(id) {
         if (subjectCache[id]) {
-            this.renderData(subjectHeaders, subjectCache[id].institutions);
-            this.renderSubjectLink(id);
+            this.renderData(id, subjectCache[id]);
         } else {
             reqwest({
                 url: config.assetPath + '/assets/subjects/overall/' + id + '.json',
                 type: 'json',
                 success: data => {
                     subjectCache[id] = data;
-                    this.showSubject(id);
+                    this.show(id);
                 }
             });
         }
-    }
 
-    showInstitutions() {
-        this.renderData(institutionHeaders, institutionalRankings);
-        this.renderSubjectLink();
+        this.subjectChange(id);
     }
 
     set(id) {
