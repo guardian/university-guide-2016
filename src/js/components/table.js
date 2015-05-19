@@ -32,7 +32,7 @@ export default class Table {
         this.el.innerHTML = this.HTML;
         this.tbodyEl = this.el.querySelector('tbody');
 
-        bean.on(this.el, 'click', 'tbody tr', this.expandSelection.bind(this));
+        bean.on(this.el, 'click', 'tbody tr:not(.unranked-message)', this.expandSelection.bind(this));
 
         this.subjectsComponent = new Subjects({
             el: this.el.querySelector('select'),
@@ -56,6 +56,12 @@ export default class Table {
         return headers.map(h => `<th data-h="${h}">${h}</th>`).join('');
     }
 
+    get unrankedHTML() {
+        return `<tr class="unranked-message">
+                    <td colspan="${headers.length}">Other universities where this subject is taught</td>
+                </tr>`;
+    }
+
     coursesHTML(courses) {
         return `<tr class="course-list">
                     <td colspan="${headers.length}">
@@ -67,10 +73,14 @@ export default class Table {
     renderData(id, data) {
         this.el.setAttribute('data-id', id);
 
-        var html = preprocessData(data.institutions).map(function(row) {
-            return `<tr data-institution="${row[0]}">` + row.slice(1).map((cell, i) => {
-                return `<td data-h="${headers[i]}">${cell || '-'}</td>`
+        var unrankedStart = data.institutions.findIndex(row => row[1] == '');
+        var html = preprocessData(data.institutions).map((row, pos) => {
+            var ret = `<tr data-institution="${row[0]}">` + row.slice(1).map((cell, i) => {
+                return `<td data-h="${headers[i]}">${cell || '-'}</td>`;
             }).join('') + '</tr>';
+
+            if (pos === unrankedStart) ret = this.unrankedHTML + ret;
+            return ret;
         }).join('');
         this.tbodyEl.innerHTML = html;
 

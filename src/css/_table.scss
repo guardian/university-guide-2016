@@ -70,7 +70,10 @@
     table th[data-h="Institution"],
     table td[data-h="Institution"] {
         text-align: left;
-        width: 25%;
+        width: 50%;
+        @include mq(desktop) {
+            width: 25%;
+        }
     }
 
     table tbody td:last-child a.institution-link {
@@ -157,17 +160,20 @@
         }
     }
 
+    .unranked-message {
+        @include fs-bodyCopy(2);
+        cursor: auto;
+        font-weight: normal;
+        background: white !important;
+        td {
+            text-align: left;
+        }
+    }
+
     // Overall vs subject table differences
     table td, table th {
         &[data-h="Rank 2015"] {
             display: none;
-        }
-    }
-
-    tr.institutions-loading {
-        cursor: auto;
-        td {
-            padding: 20px 0;
         }
     }
 
