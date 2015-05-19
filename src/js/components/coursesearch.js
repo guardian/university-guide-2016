@@ -87,7 +87,6 @@ export default class CourseSearch {
         }.bind(this))
 
         bean.on(this.searchResultsEl, 'click', '.ug16-search-result .ug16-search-result__untruncate', function(event) {
-            console.log('untruncate', event);
             event.target.nextElementSibling.style.display = 'block';
             event.target.parentNode.removeChild(event.target);
         });
@@ -178,7 +177,6 @@ export default class CourseSearch {
                 var subjectResults = entries(byInstitution)
                     .sort((a,b) => this.getRankingSortValue(subjId, a[0]) - this.getRankingSortValue(subjId, b[0]))
                 for (let [instId, courses] of subjectResults) {
-                    // console.log(Object.keys(courses), course.gsgId, this.rankingsData[course.gsgId], this.rankingsData[course.gsgId] && this.rankingsData[course.gsgId][instId]);
                     subjectResultsHTML += searchResultTmplFn({
                         institution: instIdToName[instId],
                         courses: courses,
@@ -231,7 +229,6 @@ export default class CourseSearch {
                 type: 'json',
                 crossOrigin: true,
                 success: function(resp) {
-                    console.log(Object.keys(resp));
                     this.courseData = resp.courses;
                     this.courseData.forEach(c => c.institutionName = instIdToName[c.instId])
                     this.courseData.forEach(c => c.subjName = subjectNames[c.gsgId] || 'Unknown subject')
