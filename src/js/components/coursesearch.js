@@ -11,25 +11,35 @@ import uniq from 'lodash/array/uniq'
 var searchResultTmplFn = doT.template(`
 <div class="ug16-search-result">
     <h2>{{= it.institution }} <span>{{= it.courses.length }} course{{? it.courses.length > 1 }}s{{?}}</span></h2>
-    <ul>
-        {{~it.courses.slice(0,5) :course:index}}
-        <li title="{{= course[2] }}">
-            <a href="{{= course[1] }}" target="_blank">{{= course[2] }}</a>
-        </li>
-        {{~}}
-    </ul>
-    {{?it.courses.length > 5}}
-    <button class="ug16-search-result__untruncate">
-        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path d="M15 5h2l.5 9.5 9.5.5v2l-9.5.5L17 27h-2l-.5-9.5L5 17v-2l9.5-.5L15 5z"/></svg>
-        Show more courses
-    </button>
-    <ul style="display:none;">
-        {{~it.courses.slice(5) :course:index}}
-        <li title="{{= course[2] }}">
-            <a href="{{= course[1] }}" target="_blank">{{= course[2] }}</a>
-        </li>
-        {{~}}
-    </ul>
+
+    {{?it.courses.length <= 7}}
+        <ul>
+            {{~it.courses :course:index}}
+            <li title="{{= course[2] }}">
+                <a href="{{= course[1] }}" target="_blank">{{= course[2] }}</a>
+            </li>
+            {{~}}
+        </ul>
+    {{?}}
+    {{?it.courses.length > 7}}
+        <ul>
+            {{~it.courses.slice(0,5) :course:index}}
+            <li title="{{= course[2] }}">
+                <a href="{{= course[1] }}" target="_blank">{{= course[2] }}</a>
+            </li>
+            {{~}}
+        </ul>
+        <button class="ug16-search-result__untruncate">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path d="M15 5h2l.5 9.5 9.5.5v2l-9.5.5L17 27h-2l-.5-9.5L5 17v-2l9.5-.5L15 5z"/></svg>
+            Show more courses
+        </button>
+        <ul style="display:none;">
+            {{~it.courses.slice(5) :course:index}}
+            <li title="{{= course[2] }}">
+                <a href="{{= course[1] }}" target="_blank">{{= course[2] }}</a>
+            </li>
+            {{~}}
+        </ul>
     {{?}}
 </div>`);
 
@@ -224,7 +234,7 @@ export default class CourseSearch {
                 <input type="text" id="ug16-search__course"/>
 
                 <label for='ug16-search__institution'>Institution</label>
-                <input type="text" id="ug16-search__institution" />
+                <input type="text" id="ug16-search__institution"/>
 
                 <label for='ug16-search__region'>Region</label>
                 <select id="ug16-search__region">
