@@ -31,6 +31,7 @@ var courses = coursesRaw.map(function(c) {
 });
 
 var out = {
+    regions: JSON.parse(fs.readFileSync('./data/regions.json')),
     rankings: rankings,
     courses: courses
 }
