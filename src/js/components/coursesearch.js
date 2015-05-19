@@ -233,11 +233,17 @@ export default class CourseSearch {
             window.setTimeout(function() {
                 var subj = this.subjectEl.value;
                 var course = this.courseEl.value;
+                var institution = this.institutionEl.value;
                 var filtered = this.courseData;
-                var regexps = course.split(' ').map(word => new RegExp(word, 'i'))
                 if (subj !== 'all') filtered = filtered.filter(c => c.gsgId === subj)
-                if (course !== '') filtered = filtered.filter(c => !regexps.find(re => !re.test(c.name)))
-
+                if (course !== '') {
+                    let regexps = course.split(' ').map(word => new RegExp(word, 'i'))
+                    filtered = filtered.filter(c => !regexps.find(re => !re.test(c.name)))
+                }
+                if (institution !== '') {
+                    let regexps = institution.split(' ').map(word => new RegExp(word, 'i'))
+                    filtered = filtered.filter(c => !regexps.find(re => !re.test(c.institutionName)))
+                }
                 if (filtered.length > 5000) this.renderErrorMessage('Too many results. Please refine your search!')
                 else this.renderSearchResults(filtered)
             }.bind(this), 10);
