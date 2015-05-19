@@ -18,7 +18,7 @@ function preprocessData(data) {
         var i = data[0].length-1;
         return data.map(row => {
             var copy = row.slice();
-            copy[i] = `<a href="${row[i]}" target="_blank"></a>`;
+            copy[i] = `<a class="institution-link" href="${row[i]}" target="_blank"></a>`;
             return copy;
         })
     }
@@ -57,7 +57,7 @@ export default class Table {
     coursesHTML(courses) {
         return `<tr class="course-list">
                     <td colspan="${headers.length}">
-                        <ul>${courses.map(c => `<li>${c}</li>`).join('')}</ul>
+                        <ul>${courses.map(c => `<li><a href="${c[0]}" target="_blank">${c[1]}</a></li>`).join('')}</ul>
                     </td>
                 </tr>`;
     }

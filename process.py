@@ -29,7 +29,7 @@ for id, institution in institutionDetails.iteritems():
     institutions[id] = institution
 
 def get_courses(iId, gsgId):
-    return [x[2] for x in courses if x[3] == gsgId and x[4] == iId]
+    return [[x[1], x[2]] for x in courses if x[3] == gsgId and x[4] == iId]
 
 subjects = defaultdict(lambda: {'name': '', 'institutions': []})
 for institution in json.load(open('data/rankingsList.json')) + json.load(open('data/unrankedProviderList.json')):
