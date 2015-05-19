@@ -36,23 +36,21 @@
 
 .ug16-search-results {
     overflow: hidden;
-    background-color: #f9f9f7;
-    padding: 0 10px;
 }
 
 .ug16-search-results__stats {
     font-family: "Guardian Text Sans Web", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
     font-weight: normal;
     font-size: 15px;
-    padding: 18px 0;
+    padding: 18px 10px;
 }
 
 .ug16-search-results__subject {
     clear: both;
-    border-top: 1px solid #999;
     margin-top: 0;
-    padding-top: 12px;
     position: relative;
+    padding: 0 10px;
+    padding-top: 12px;
 }
 
 .ug16-search-results__close-btn {
@@ -77,6 +75,7 @@
     -moz-column-gap: 10px;
     -webkit-column-gap: 10px;
     column-gap: 10px;
+    padding: 0 10px;
 }
 
 .ug16-search-result {
@@ -89,7 +88,7 @@
     border: 1px solid #ededed;
     padding: 12px 10px;
     padding-top: 0;
-    background: #fbfbf9;
+    background-color: #f9f9f7;
 
     h2 {
         font-size: 16px;
