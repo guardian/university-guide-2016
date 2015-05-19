@@ -68,7 +68,7 @@ export default class Table {
 
         var html = preprocessData(data.institutions).map(function(row) {
             return `<tr data-institution="${row[0]}">` + row.slice(1).map((cell, i) => {
-                return `<td data-h="${headers[i]}">${cell}</td>`
+                return `<td data-h="${headers[i]}">${cell || '-'}</td>`
             }).join('') + '</tr>';
         }).join('');
         this.el.querySelector('tbody').innerHTML = html;
