@@ -61,7 +61,7 @@ export default class Table {
     }
 
     get unrankedHTML() {
-        return `<tr class="ug16-table___unranked-msg">
+        return `<tr class="ug16-table__unranked-msg">
                     <td colspan="${headers.length}">Other universities where this subject is taught</td>
                 </tr>`;
     }
@@ -77,17 +77,18 @@ export default class Table {
     renderData(id, data) {
         this.el.setAttribute('data-id', id);
 
-        var unrankedStart = data.institutions.findIndex(row => row[1] == '');
-        var html = preprocessData(data.institutions).map((row, pos) => {
-            var ret = `<tr data-institution="${row[0]}">` + row.slice(1).map((cell, i) => {
+        var rows = preprocessData(data.institutions).map((row, pos) => {
+            return `<tr data-institution="${row[0]}">` + row.slice(1).map((cell, i) => {
                 return `<td data-h="${headers[i]}">${cell || '-'}</td>`;
             }).join('') + '</tr>';
+        });
 
-            if (pos === unrankedStart) ret = this.unrankedHTML + ret;
-            return ret;
-        }).join('');
-        // tbody.innerHTML is read-only in IE9, bonzo gets round it
-        this.$tbodyEl.html(html);
+        var firstUnranked = data.institutions.findIndex(row => row[1] == '');
+        if (firstUnranked !== -1) {
+            rows.splice(firstUnranked, 0, this.unrankedHTML);
+        }
+
+        this.$tbodyEl.html(rows.join(''));
 
         this.el.querySelector('.ug16-table__subject-link').innerHTML =
             `<a href="${data.link}">Find out more about studying ${(subjectNames[id] || '').toLowerCase()}</a>`;
