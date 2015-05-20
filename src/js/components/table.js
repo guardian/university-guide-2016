@@ -18,7 +18,7 @@ function preprocessData(data) {
         var i = data[0].length-1;
         return data.map(row => {
             var copy = row.slice();
-            copy[i] = `<a class="institution-link" href="${row[i]}" target="_blank"></a>`;
+            copy[i] = `<a class="ug16-table__institution-link" href="${row[i]}" target="_blank"></a>`;
             return copy;
         })
     }
@@ -30,9 +30,9 @@ export default class Table {
         this.subjectChange = opts.subjectChange
 
         this.el.innerHTML = this.HTML;
-        this.tbodyEl = this.el.querySelector('tbody');
+        this.$tbodyEl = bonzo(this.el.querySelector('tbody'));
 
-        bean.on(this.el, 'click', 'tbody tr:not(.unranked-message)', this.expandSelection.bind(this));
+        bean.on(this.el, 'click', 'tbody tr:not(.ug16-table__unranked-msg)', this.expandSelection.bind(this));
 
         this.subjectsComponent = new Subjects({
             el: this.el.querySelector('select'),
@@ -45,12 +45,12 @@ export default class Table {
                     <caption>
                         <label for="ug16-table__subject">Subject</label>
                         <select id="ug16-table__subject"></select>
-                        <div class="subject-link"></div>
+                        <div class="ug16-table__subject-link"></div>
                     </caption>
                     <thead><tr>${this.headersHTML}</tr></thead>
                     <tbody></tbody>
                 </table>
-                <p class="ug16__unranked-msg">
+                <p class="ug16-table__footnote">
                     Note: dashes are used where there is insufficient data to calculate a ranking position
                     for a provider delivering courses in this subject area
                 </p>`;
@@ -61,13 +61,13 @@ export default class Table {
     }
 
     get unrankedHTML() {
-        return `<tr class="unranked-message">
+        return `<tr class="ug16-table___unranked-msg">
                     <td colspan="${headers.length}">Other universities where this subject is taught</td>
                 </tr>`;
     }
 
     coursesHTML(courses) {
-        return `<tr class="course-list">
+        return `<tr class="ug16-table__course-list">
                     <td colspan="${headers.length}">
                         <ul>${courses.map(c => `<li><a href="${c[0]}" target="_blank">${c[1]}</a></li>`).join('')}</ul>
                     </td>
@@ -87,9 +87,9 @@ export default class Table {
             return ret;
         }).join('');
         // tbody.innerHTML is read-only in IE9, bonzo gets round it
-        bonzo(this.tbodyEl).html(html);
+        this.$tbodyEl.html(html);
 
-        this.el.querySelector('.subject-link').innerHTML =
+        this.el.querySelector('.ug16-table__subject-link').innerHTML =
             `<a href="${data.link}">Find out more about studying ${(subjectNames[id] || '').toLowerCase()}</a>`;
     }
 
@@ -99,14 +99,14 @@ export default class Table {
         if (subjectCache[id]) {
             this.renderData(id, subjectCache[id]);
         } else {
-            bonzo(this.tbodyEl).addClass('is-loading');
+            this.$tbodyEl.addClass('is-loading');
 
             reqwest({
                 url: config.assetPath + '/assets/subjects/overall/' + id + '.json',
                 type: 'json',
                 success: data => {
                     subjectCache[id] = data;
-                    bonzo(this.tbodyEl).removeClass('is-loading');
+                    this.$tbodyEl.removeClass('is-loading');
                     this.show(id);
                 }
             });
@@ -125,7 +125,7 @@ export default class Table {
 
             this.clearSelection();
 
-            if (row === this.lastRow || row.className == 'course-list') {
+            if (row === this.lastRow || row.className == 'ug16-table__course-list') {
                 this.lastRow = undefined;
             } else {
                 this.lastRow = row;
@@ -141,7 +141,7 @@ export default class Table {
     clearSelection() {
         bonzo(this.el).removeClass('has-selected');
         bonzo(this.lastRow).removeClass('is-selected');
-        bonzo(this.el.querySelector('.course-list')).remove();
+        bonzo(this.el.querySelector('.ug16-table__course-list')).remove();
     }
 
     set(id) {

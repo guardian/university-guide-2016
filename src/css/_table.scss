@@ -75,14 +75,14 @@
         }
     }
 
-    table tbody td:last-child a.institution-link {
+    .ug16-table__institution-link {
         background-image: url(assets/i_circle.png);
         width: 16px;
         height: 17px;
         display: inline-block;
     }
 
-    .subject-link {
+    .ug16-table__subject-link {
         display: inline-block;
         @include fs-textSans(2);
         & a {
@@ -113,21 +113,22 @@
     &.has-selected {
         tbody tr {
             opacity: 0.5;
+
             &.is-selected,
-            &.course-list {
+            &.ug16-table__course-list {
                 opacity: 1;
                 background-color: white;
             }
             &.is-selected td {
                 border-top: 1px solid #bdbdbd;
             }
-            &.course-list td {
+            &.ug16-table__course-list td {
                 border-bottom: 1px solid #bdbdbd;
             }
         }
     }
 
-    .course-list {
+    .ug16-table__course-list {
         opacity: 1;
 
         td {
@@ -159,7 +160,7 @@
         }
     }
 
-    .unranked-message {
+    .ug16-table__unranked-msg {
         @include fs-bodyCopy(2);
         cursor: auto;
         font-weight: normal;
@@ -169,7 +170,7 @@
         }
     }
 
-    .ug16__unranked-msg {
+    .ug16-table__footnote {
         font-size: 14px;
         margin: 12px 0;
     }
@@ -182,10 +183,6 @@
     }
 
     &[data-id="all"] {
-        .subject-link {
-            display: none;
-        }
-
         tbody tr {
             cursor: auto;
         }
@@ -196,7 +193,8 @@
             }
         }
 
-        .ug16__unranked-msg {
+        .ug16-table__subject-link,
+        .ug16-table__footnote {
             display: none;
         }
     }
