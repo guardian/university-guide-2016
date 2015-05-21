@@ -19,7 +19,7 @@ function init(el, config) {
 
 
     var animationComponent = new Animation({
-        el: el.querySelector('#ug16 .ug16__animation-container'),
+        el: el.querySelector('.ug16__animation-container'),
         subjectChange: id => window.location.hash = '#' + id
     });
 

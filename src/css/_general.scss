@@ -1,5 +1,11 @@
+.element-interactive {
+    background: #f1f1f1;
+}
 .ug16 {
 	max-width: 1300px;
+    overflow: hidden;
+    margin: auto;
+    padding: 0 20px;
 	box-sizing: border-box;
     -webkit-font-smoothing: antialiased;
     background: #fff;
