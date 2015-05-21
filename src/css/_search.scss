@@ -229,18 +229,19 @@
 }
 
 .ug16-search__ranking,
-.ug16-search__course-count {
+.ug16-search__count {
     @include f-textSans;
     font-weight: normal;
     font-size: 12px;
 }
 
 .ug16-search__ranking {
-    margin: 3px 0 8px;
+    margin-top: 3px;
 }
 
-.ug16-search__course-count {
+.ug16-search__count {
     color: #767676;
+    margin-top: 8px;
 }
 
 .ug16-search__course-list {

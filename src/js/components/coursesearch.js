@@ -21,7 +21,7 @@ var searchResultTmplFn = doT.template(`
     <h2>
         {{= institution.name }}
         <div class="ug16-search__ranking">Ranked 5th overall, {{= institution.rank}} in subject</div>
-        <div class="ug16-search__course-count">
+        <div class="ug16-search__count">
             {{= institution.courses.length }} course{{? institution.courses.length > 1 }}s{{?}}
         </div>
     </h2>
@@ -40,7 +40,7 @@ var searchResultTmplFn = doT.template(`
                 {{~}}
             </ul>
             <button class="ug16-search-result__untruncate">
-                ${buttonSVG} Show all
+                ${buttonSVG} Show all courses
             </button>
             <ul class="ug16-course-list" style="display:none;">
                 {{~institution.courses.slice(3) :course:j}}
@@ -56,6 +56,9 @@ var searchResultTmplFn = doT.template(`
         <h2 class="ug16-search-subject__name">
             <div style="font-size: 12px">courses in</div>{{= subject.name}}
             <a href="{{= subject.link}}">view rankings</a>
+            <div class="ug16-search__count">
+                {{= subject.institutions.length }} institution{{? subject.institutions.length > 1 }}s{{?}}
+            </div>
         </h2>
         <div class="ug16-search-subject__results">
             {{?subject.institutions.length <= 3}}
@@ -68,7 +71,7 @@ var searchResultTmplFn = doT.template(`
                     {{#def.institutiondiv:institution}}
                 {{~}}
                 <button class="ug16-search-result__untruncate">
-                    ${buttonSVG} Show all
+                    ${buttonSVG} Show all institutions
                 </button>
                 <div class="ug16-search-result__extra">
                     {{~subject.institutions.slice(2) :institution:i}}
@@ -223,8 +226,6 @@ export default class CourseSearch {
                 institutions: this.searchResultHTML(subjId, subjectResults)
             });
         }
-
-        console.log(subjects);
 
         this.searchResultsEl.innerHTML = statsHTML + searchResultTmplFn({subjects: subjects});
     }
