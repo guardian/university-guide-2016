@@ -54,7 +54,7 @@ var searchResultTmplFn = doT.template(`
 {{~it.subjects :subject:index}}
     <div class="ug16-search-subject">
         <h2 class="ug16-search-subject__name">
-            <div style="font-size: 12px">courses in</div>{{= subject.name}}
+            <div style="font-size: 12px">courses within</div>{{= subject.name}}
             <a href="{{= subject.link}}">view rankings</a>
             <div class="ug16-search__count">
                 {{= subject.institutions.length }} institution{{? subject.institutions.length > 1 }}s{{?}}
@@ -224,6 +224,8 @@ export default class CourseSearch {
                 institutions: this.searchResultHTML(subjId, subjectResults)
             });
         }
+
+        subjects.sort((a, b) => b.institutions.length - a.institutions.length);
 
         this.searchResultsEl.innerHTML = statsHTML + searchResultTmplFn({subjects: subjects});
     }
