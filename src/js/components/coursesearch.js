@@ -212,14 +212,8 @@ export default class CourseSearch {
                 </button>
             </div>`;
 
-        var resultsHTML = statsHTML;
-
         var subjects = [];
-
         for (let [subjId, byInstitution] of entries(bySubject)) {
-            var subjectLink = subjectNames[subjId] ? `<a class="ug16-search-results__rankings-link" href="#${subjId}">view rankings</a>` : '';
-            resultsHTML += `<h2 class="ug16-search-results__subject">${subjectNames[subjId] || subjId} ${subjectLink}</h2>`;
-
             var subjectResults = entries(byInstitution)
                 .sort((a,b) => this.getRankingSortValue(subjId, a[0]) - this.getRankingSortValue(subjId, b[0]));
 
@@ -232,7 +226,7 @@ export default class CourseSearch {
 
         console.log(subjects);
 
-        this.searchResultsEl.innerHTML = searchResultTmplFn({subjects: subjects});
+        this.searchResultsEl.innerHTML = statsHTML + searchResultTmplFn({subjects: subjects});
     }
 
     renderErrorMessage(msg) {
