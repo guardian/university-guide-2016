@@ -104,6 +104,7 @@ export default class CourseSearch {
             el: this.subjectEl,
             change: a => a
         });
+        this.subjectsComponent.choose('all');
 
         this.bindEventHandlers();
     }
