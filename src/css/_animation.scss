@@ -1,0 +1,101 @@
+.ug16__animation-container{
+
+	.head-area{
+      position:relative;
+      background-color: #194377;
+      width:100%;
+      height:132px;
+      border-top: 1px solid #F1F1F1;
+    }
+
+    .head-content{
+      position:relative;
+      width:100%;
+      max-width:1300px;
+      height:132px;
+      margin-left: auto;
+      margin-right: auto;
+      background-color: #005689;
+    }
+
+    .head-content-left{
+      position:relative;
+      width:230px;
+      height:132px;
+      float:left;
+      background-color: #333;
+    }
+
+	.head-content-main{
+      position:relative;
+      width:410px;
+      height:132px;
+      padding-left:10px;
+      float:left;
+      background-color: none;
+	 }
+	    
+    h1{
+    	color: #F1F1F1;
+    	font-weight:100;
+    	line-height:12px;
+    }
+
+     h2{
+    	color: #F1F1F1;
+    	font-weight:100;
+    	line-height:12px;
+    }
+
+    
+    .animation-holder{
+      position:relative;
+      height: 450px;
+      width:100%;
+    }
+
+    .people, .bg-1, .bg-2, .bg-3, .bg-4{
+      position:absolute;
+      top:0px;
+      width:100%;
+      height:450px; 
+    }
+
+    .people{
+      height:450px;
+      width:100%;  
+      background: url('assets/doods-sprite.png');
+      background-position: center 0px;
+      background-repeat: repeat-y; 
+    }
+
+    .bg-1{        
+      background: url('assets/bg-1.png');
+      background-repeat: repeat-x;
+      background-position: right;
+    }
+
+    .bg-2{        
+      background: url('assets/bg-2.png');
+      background-repeat: repeat-x;
+      background-position: right;
+
+    }
+
+    .bg-4{        
+      background: url('assets/bg-4.png');
+      background-repeat: repeat-x;
+      background-position: right;
+
+    }
+
+   .bg-3{        
+      background: url('assets/bg-3.gif');
+      background-repeat: repeat-x;
+      background-position: right;
+
+    }
+
+} 
+
+	
