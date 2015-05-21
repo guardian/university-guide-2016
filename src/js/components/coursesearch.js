@@ -61,12 +61,12 @@ var searchResultTmplFn = doT.template(`
             </div>
         </h2>
         <div class="ug16-search-subject__results">
-            {{?subject.institutions.length <= 3}}
+            {{?subject.institutions.length <= 3 || it.subjects.length == 1}}
                 {{~subject.institutions :institution:i}}
                     {{#def.institutiondiv:institution}}
                 {{~}}
             {{?}}
-            {{?subject.institutions.length > 3}}
+            {{?subject.institutions.length > 3 && it.subjects.length > 1}}
                 {{~subject.institutions.slice(0, 2) :institution:i}}
                     {{#def.institutiondiv:institution}}
                 {{~}}
