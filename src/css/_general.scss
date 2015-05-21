@@ -3,13 +3,8 @@
     margin: 0 !important;
 }
 .ug16 {
-	max-width: 1300px;
     overflow: hidden;
-    margin: auto;
-    padding: 0 20px;
-	box-sizing: border-box;
     -webkit-font-smoothing: antialiased;
-    background: #fff;
 
     select {
         border: 1px solid #9B9B9B;
@@ -21,6 +16,18 @@
         padding: 4px 5px 3px 5px;
         max-width: 100%;
         @include fs-textSans(4);
+    }
+}
+
+.ug16__content-container {
+    margin: auto;
+    max-width: 1300px;
+    box-sizing: border-box;
+    background: #fff;
+    padding-bottom: 24px;
+    padding: 0 10px;
+    @include mq(tablet) {
+        padding: 0 20px;
     }
 }
 
