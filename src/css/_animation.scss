@@ -80,11 +80,11 @@
       float:left;
       background-color: none;
 	 }
-	
+
 	h1, h2, h3, h4, h5{
 		color: #F1F1F1;
 		margin:0;
-	} 
+	}
 
     h1{
     	@include fs-headline(6);
@@ -107,7 +107,7 @@
     	color: #F1F1F1;
     }
 
-    
+
     .animation-holder{
       position:relative;
       height: 450px;
@@ -118,43 +118,42 @@
       position:absolute;
       top:0px;
       width:100%;
-      height:450px; 
+      height:450px;
     }
 
     .people{
       height:450px;
-      width:100%;  
+      width:100%;
       background: url("assets/doods-sprite.png") center 0px repeat-y;
-     
+
     }
 
-    .bg-1{        
+    .bg-1{
       background: url('assets/bg-1.png');
       background-repeat: repeat-x;
       background-position: right;
     }
 
-    .bg-2{        
+    .bg-2{
       background: url('assets/bg-2.png');
       background-repeat: repeat-x;
       background-position: right;
 
     }
 
-    .bg-4{        
+    .bg-4{
       background: url('assets/bg-4.png');
       background-repeat: repeat-x;
       background-position: right;
 
     }
 
-   .bg-3{        
+   .bg-3{
       background: url('assets/bg-3.gif');
       background-repeat: repeat-x;
       background-position: right;
 
     }
 
-} 
+}
 
-	
