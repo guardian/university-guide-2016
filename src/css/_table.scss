@@ -125,6 +125,21 @@
         }
     }
 
+    .ug16-table__stats {
+        padding-left: 200px;
+        dt {
+            margin-left: -200px;
+            display: inline-block;
+        }
+        dd {
+            display: inline-block;
+            width: 100%;
+        }
+        @include mq(desktop) {
+            display: none;
+        }
+    }
+
     .ug16-table__course-list {
         opacity: 1;
 

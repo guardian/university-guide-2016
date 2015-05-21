@@ -69,9 +69,12 @@ export default class Table {
                 </tr>`;
     }
 
-    coursesHTML(courses) {
+    coursesHTML(stats, courses) {
+        var stats = headers.map((header, i) => `<dt>${header}</dt><dd>${stats[i + 1]}</dd>`).slice(3, -1);
+        var statsHTML = '<dl class="ug16-table__stats">' + stats.join('') + '</dl>';
         return `<tr class="ug16-table__course-list">
                     <td colspan="${headers.length}">
+                        ${statsHTML}
                         <ul class="ug16-course-list">
                             ${courses.map(c => `<li><a href="${c[0]}" target="_blank">${c[1]}</a></li>`).join('')}
                         </ul>
@@ -139,7 +142,7 @@ export default class Table {
                 bonzo(row).addClass('is-selected');
 
                 let courses = subjectCache[subjectId].courses[institutionId];
-                bonzo(row).after(this.coursesHTML(courses));
+                bonzo(row).after(this.coursesHTML(institutions[institutionId], courses));
             }
         }
     }
