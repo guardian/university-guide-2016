@@ -1,5 +1,6 @@
 export default class Animation {
             constructor(opts) {
+                var el = opts.el;
                 this.animationEl = opts.el;
                 this.animationEl.innerHTML = this.HTML;
                 this.peopleAnimEl = el.querySelector('#peopleAnim')
