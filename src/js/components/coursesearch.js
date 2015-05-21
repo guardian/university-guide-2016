@@ -105,8 +105,6 @@ export default class CourseSearch {
         });
 
         this.bindEventHandlers();
-
-        this.search();
     }
 
     bindEventHandlers() {
@@ -316,7 +314,7 @@ export default class CourseSearch {
 
                 <div class="ug16-search__field">
                     <label for='ug16-search__course'>Course</label>
-                    <input type="text" id="ug16-search__course" value="film" />
+                    <input type="text" id="ug16-search__course" />
                 </div>
 
                 <div class="ug16-search__field">
