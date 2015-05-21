@@ -126,14 +126,13 @@
     }
 
     .ug16-table__stats {
-        padding-left: 200px;
+        margin: 0;
         dt {
-            margin-left: -200px;
-            display: inline-block;
+            float: left;
+            width: 200px;
         }
         dd {
-            display: inline-block;
-            width: 100%;
+            overflow: hidden;
         }
         @include mq(desktop) {
             display: none;
