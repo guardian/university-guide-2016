@@ -69,18 +69,8 @@ common_fields = ('guardianHeiTitle', 'guardianScore',
 # Institution ranking
 
 institutions_fields = ('institutionId', 'rank2016', 'rank2015') + common_fields
-
-def institutions_sort(a, b):
-    if not a.get('rank2016'):
-        return 1
-    elif not b.get('rank2016'):
-        return -1
-    else:
-        return int(a['rank2016']) - int(b['rank2016'])
-
-institutions_out = [pick(institution, institutions_fields) for institution in sorted(institutions.values(), cmp=institutions_sort) if institution.get('rank2016')]
-
-with open('src/js/data/institutionalRankings.json', 'w') as f:
+institutions_out = {id: pick(institution, institutions_fields) for id, institution in institutions.iteritems()}
+with open('src/js/data/institutions.json', 'w') as f:
     json.dump(institutions_out, f)
 
 # Subject ranking

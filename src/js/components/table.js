@@ -4,14 +4,17 @@ import reqwest from 'reqwest'
 import bean from 'fat/bean'
 import bonzo from 'ded/bonzo'
 
-import institutionalRankings from '../data/institutionalRankings.json!json'
+import institutions from '../data/institutions.json!json'
 import subjectNames from '../data/subjectNames.json!json'
 
 const headers = ['Rank 2016', 'Rank 2015', 'Institution', 'Guardian score/100', 'Satisfied with course',
     'Satisfied with teaching', /*'Satisfied with feedback',*/ 'Student to staff ratio', 'Spend per student/10',
     'Average entry tariff', 'Value added score/10', 'Career after 6 months', 'Link'];
 
-var subjectCache = {'all': {'institutions': institutionalRankings}};
+var rankedInstitutions = Object.keys(institutions).map(id => institutions[id])
+    .filter(institution => institution[1]).sort((a, b) => a[1] - b[1])
+
+var subjectCache = {'all': {'institutions': rankedInstitutions}}
 
 function preprocessData(data) {
     if (data.length) {

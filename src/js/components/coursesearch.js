@@ -2,7 +2,7 @@ import Subjects from './subjects'
 import reqwest from 'reqwest'
 import { config } from '../lib/cfg'
 import doT from 'olado/doT'
-import instIdToName from '../data/instIdToName.json!json'
+import institutions from '../data/institutions.json!json'
 import subjectNames from '../data/subjectNames.json!json'
 import bean from 'fat/bean'
 import groupBy from 'lodash/collection/groupBy'
@@ -21,7 +21,7 @@ var searchResultTmplFn = doT.template(`
 <div class="ug16-search-result">
     <h2>
         {{= institution.name }}
-        <div class="ug16-search__ranking">Ranked 5th overall, {{= institution.rank}} in subject</div>
+        <div class="ug16-search__ranking">Ranked {{= institution.overall}} overall, {{= institution.rank}} in subject</div>
         <div class="ug16-search__count">
             {{= institution.courses.length }} course{{? institution.courses.length > 1 }}s{{?}}
         </div>
@@ -162,10 +162,16 @@ export default class CourseSearch {
        return n+(s[(v-20)%10]||s[v]||s[0]);
     }
 
-    getRankingDisplayVal(gsgId, instId, ordinal) {
+    getRankingDisplayVal(gsgId, instId) {
         var ranking = this.getRankingSortValue(gsgId, instId);
         if (ranking === 9999) return 'n/a';
-        return (ordinal && ranking) ? this.getOrdinal(ranking): ranking;
+        return ranking ? this.getOrdinal(ranking): ranking;
+    }
+
+    getOverallRankingDisplayVal(instId) {
+        var ranking = institutions[instId][1];
+        if (!ranking) return 'n/a';
+        return ranking ? this.getOrdinal(ranking): ranking;
     }
 
     getRankingSortValue(gsgId, instId) {
@@ -202,19 +208,20 @@ export default class CourseSearch {
             var subjectResults = entries(byInstitution)
                 .sort((a,b) => this.getRankingSortValue(subjId, a[0]) - this.getRankingSortValue(subjId, b[0]));
 
-            var institutions = [];
+            var subjectInstitutions = [];
             for (let[instId, courses] of subjectResults) {
-                institutions.push({
-                    name: instIdToName[instId],
+                subjectInstitutions.push({
+                    name: institutions[instId][3],
                     courses: courses,
-                    rank: this.getRankingDisplayVal(subjId, instId, true)
+                    rank: this.getRankingDisplayVal(subjId, instId),
+                    overall: this.getOverallRankingDisplayVal(instId)
                 });
             }
 
             subjects.push({
-                name: subjectNames[subjId],
+                name: subjectNames[subjId] || 'Miscellaneous',
                 link: '#' + subjId,
-                institutions: institutions
+                institutions: subjectInstitutions
             });
         }
 
@@ -255,7 +262,7 @@ export default class CourseSearch {
                 crossOrigin: true,
                 success: function(resp) {
                     this.courseData = resp.courses;
-                    this.courseData.forEach(c => c.institutionName = instIdToName[c.instId])
+                    this.courseData.forEach(c => c.institutionName = institutions[c.instId][3])
                     this.courseData.forEach(c => c.subjName = subjectNames[c.gsgId] || 'Unknown subject')
                     this.rankingsData = resp.rankings;
                     this.regionsData = resp.regions;
