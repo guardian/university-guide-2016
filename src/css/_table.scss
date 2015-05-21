@@ -135,29 +135,6 @@
             text-align: left;
             display: table-cell !important;
         }
-
-        ul {
-            margin: 0 auto 10px;
-            width: 90%;
-            list-style-position: outside;
-
-            @include mq(desktop) {
-                -webkit-column-count: 2;
-                -moz-column-count: 2;
-                column-count: 2;
-            }
-        }
-
-        a {
-            color: #005689;
-            text-decoration: none;
-            &:hover {
-                text-decoration: underline;
-            }
-            &::after {
-                content: " \00BB";
-            }
-        }
     }
 
     .ug16-table__unranked-msg {

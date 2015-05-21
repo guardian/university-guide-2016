@@ -8,46 +8,77 @@ import bean from 'fat/bean'
 import groupBy from 'lodash/collection/groupBy'
 import uniq from 'lodash/array/uniq'
 
+const buttonSVG = '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path d="M15 5h2l.5 9.5 9.5.5v2l-9.5.5L17 27h-2l-.5-9.5L5 17v-2l9.5-.5L15 5z"/></svg>';
+
 var searchResultTmplFn = doT.template(`
 {{##def.courseli:course:
 <li title="{{= course.name }}">
-    <a href="{{= course.url }}" target="_blank">{{= course.name }} <span>&raquo;</span></a>
+    <a href="{{= course.url }}" target="_blank">{{= course.name }}</a>
 </li>
 #}}
-
+{{##def.institutiondiv:institution:
 <div class="ug16-search-result">
     <h2>
-        <span class="ug16-search__institution-rank">
-            {{= it.rank }}
-        </span>
-        {{= it.institution }}
-        <span class="ug16-search__course-count">{{= it.courses.length }} course{{? it.courses.length > 1 }}s{{?}}</span>
+        {{= institution.name }}
+        <div class="ug16-search__ranking">Ranked 5th overall, {{= institution.rank}} in subject</div>
+        <div class="ug16-search__course-count">
+            {{= institution.courses.length }} course{{? institution.courses.length > 1 }}s{{?}}
+        </div>
     </h2>
-
-    {{?it.courses.length <= 7}}
-        <ul>
-            {{~it.courses :course:index}}
-                {{#def.courseli:course }}
-            {{~}}
-        </ul>
-    {{?}}
-    {{?it.courses.length > 7}}
-        <ul>
-            {{~it.courses.slice(0,5) :course:index}}
-                {{#def.courseli:course}}
-            {{~}}
-        </ul>
-        <button class="ug16-search-result__untruncate">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path d="M15 5h2l.5 9.5 9.5.5v2l-9.5.5L17 27h-2l-.5-9.5L5 17v-2l9.5-.5L15 5z"/></svg>
-            Show more courses
-        </button>
-        <ul style="display:none;">
-            {{~it.courses.slice(5) :course:index}}
-                {{#def.courseli:course}}
-            {{~}}
-        </ul>
-    {{?}}
-</div>`);
+    <div class="ug16-search__course-list">
+        {{?institution.courses.length <= 5}}
+            <ul class="ug16-course-list">
+                {{~institution.courses :course:j}}
+                    {{#def.courseli:course}}
+                {{~}}
+            </ul>
+        {{?}}
+        {{?institution.courses.length > 5}}
+            <ul class="ug16-course-list">
+                {{~institution.courses.slice(0,3) :course:j}}
+                    {{#def.courseli:course}}
+                {{~}}
+            </ul>
+            <button class="ug16-search-result__untruncate">
+                ${buttonSVG} Show all
+            </button>
+            <ul class="ug16-course-list" style="display:none;">
+                {{~institution.courses.slice(3) :course:j}}
+                    {{#def.courseli:course}}
+                {{~}}
+            </ul>
+        {{?}}
+    </div>
+</div>
+#}}
+{{~it.subjects :subject:index}}
+    <div class="ug16-search-subject">
+        <h2 class="ug16-search-subject__name">
+            <div style="font-size: 12px">courses in</div>{{= subject.name}}
+            <a href="{{= subject.link}}" target="_blank">view rankings</a>
+        </h2>
+        <div class="ug16-search-subject__results">
+            {{?subject.institutions.length <= 3}}
+                {{~subject.institutions :institution:i}}
+                    {{#def.institutiondiv:institution}}
+                {{~}}
+            {{?}}
+            {{?subject.institutions.length > 3}}
+                {{~subject.institutions.slice(0, 2) :institution:i}}
+                    {{#def.institutiondiv:institution}}
+                {{~}}
+                <button class="ug16-search-result__untruncate">
+                    ${buttonSVG} Show all
+                </button>
+                <div class="ug16-search-result__extra">
+                    {{~subject.institutions.slice(2) :institution:i}}
+                        {{#def.institutiondiv:institution}}
+                    {{~}}
+                </div>
+            {{?}}
+        </div>
+    </div>
+{{~}}`);
 
 function entries(obj) {
     return Object.keys(obj).map(k => [k, obj[k]])
@@ -71,6 +102,8 @@ export default class CourseSearch {
         });
 
         this.bindEventHandlers();
+
+        this.search();
     }
 
     bindEventHandlers() {
@@ -86,7 +119,7 @@ export default class CourseSearch {
             this.clearSearch();
         }.bind(this))
 
-        bean.on(this.searchResultsEl, 'click', '.ug16-search-result .ug16-search-result__untruncate', function(event) {
+        bean.on(this.searchResultsEl, 'click', '.ug16-search-result__untruncate', function(event) {
             event.target.nextElementSibling.style.display = 'block';
             event.target.parentNode.removeChild(event.target);
         });
@@ -143,50 +176,63 @@ export default class CourseSearch {
         return this.rankingsData[gsgId][instId] || 9999;
     }
 
+    searchResultHTML(subjId, results) {
+        var institutions = [];
+        for (let[instId, courses] of results) {
+            institutions.push({
+                name: instIdToName[instId],
+                courses: courses,
+                rank: this.getRankingDisplayVal(subjId, instId, true)
+            });
+        }
+        return institutions;
+    }
+
     renderSearchResults(results) {
         var filtered = results;
-        var numProviders = uniq(filtered.map(c => c.instId)).length
+        var numProviders = uniq(filtered.map(c => c.instId)).length;
 
-            var bySubject = groupBy(filtered, 'gsgId');
-            Object.keys(bySubject).map(function(k) {
-                bySubject[k] = groupBy(bySubject[k], 'instId');
+        var bySubject = groupBy(filtered, 'gsgId');
+        Object.keys(bySubject).map(function(k) {
+            bySubject[k] = groupBy(bySubject[k], 'instId');
+        });
+
+        var statsHTML = `
+            <div class="ug16-search-results__meta">
+                <p>
+                    Search results: <strong>${filtered.length}</strong> courses across <strong>${numProviders}</strong> institutions
+                </p>
+                <button class="ug16-search-results__close-btn">
+                    <svg viewBox="0 0 33.2 33.2">
+                        <g>
+                            <polygon points="2.1,0 0,2.1 14.8,18.4 31.4,32.9 33.2,31.1 18.4,14.8 "></polygon>
+                            <polygon points="0,31.1 2.1,33.2 18.4,18.4 33.2,2.1 31.1,0 14.8,14.8 "></polygon>
+                        </g>
+                    </svg>
+                </button>
+            </div>`;
+
+        var resultsHTML = statsHTML;
+
+        var subjects = [];
+
+        for (let [subjId, byInstitution] of entries(bySubject)) {
+            var subjectLink = subjectNames[subjId] ? `<a class="ug16-search-results__rankings-link" href="#${subjId}">view rankings</a>` : '';
+            resultsHTML += `<h2 class="ug16-search-results__subject">${subjectNames[subjId] || subjId} ${subjectLink}</h2>`;
+
+            var subjectResults = entries(byInstitution)
+                .sort((a,b) => this.getRankingSortValue(subjId, a[0]) - this.getRankingSortValue(subjId, b[0]));
+
+            subjects.push({
+                name: subjectNames[subjId],
+                link: '#' + subjId,
+                institutions: this.searchResultHTML(subjId, subjectResults)
             });
+        }
 
-            var statsHTML = `
-                <div class="ug16-search-results__meta">
-                    <p>
-                        Search results: <strong>${filtered.length}</strong> courses across <strong>${numProviders}</strong> institutions
-                    </p>
-                    <button class="ug16-search-results__close-btn">
-                        <svg viewBox="0 0 33.2 33.2">
-                            <g>
-                                <polygon points="2.1,0 0,2.1 14.8,18.4 31.4,32.9 33.2,31.1 18.4,14.8 "></polygon>
-                                <polygon points="0,31.1 2.1,33.2 18.4,18.4 33.2,2.1 31.1,0 14.8,14.8 "></polygon>
-                            </g>
-                        </svg>
-                    </button>
-                </div>`
+        console.log(subjects);
 
-            var resultsHTML = statsHTML;
-
-            for (let [subjId, byInstitution] of entries(bySubject)) {
-                var subjectLink = subjectNames[subjId] ? `<a class="ug16-search-results__rankings-link" href="#${subjId}">view rankings</a>` : '';
-                resultsHTML += `<h2 class="ug16-search-results__subject">${subjectNames[subjId] || 'Unknown subject'} ${subjectLink}</h2>`;
-
-                var subjectResultsHTML = ''
-                var subjectResults = entries(byInstitution)
-                    .sort((a,b) => this.getRankingSortValue(subjId, a[0]) - this.getRankingSortValue(subjId, b[0]))
-                for (let [instId, courses] of subjectResults) {
-                    subjectResultsHTML += searchResultTmplFn({
-                        institution: instIdToName[instId],
-                        courses: courses,
-                        rank: this.getRankingDisplayVal(subjId, instId, true)
-                    });
-                }
-                resultsHTML += `<div class="ug16-search-results-group">${subjectResultsHTML}</div>`;
-            }
-
-            this.searchResultsEl.innerHTML = resultsHTML
+        this.searchResultsEl.innerHTML = searchResultTmplFn({subjects: subjects});
     }
 
     renderErrorMessage(msg) {
@@ -275,7 +321,7 @@ export default class CourseSearch {
 
                 <div class="ug16-search__field">
                     <label for='ug16-search__course'>Course</label>
-                    <input type="text" id="ug16-search__course"/>
+                    <input type="text" id="ug16-search__course" value="film" />
                 </div>
 
                 <div class="ug16-search__field">

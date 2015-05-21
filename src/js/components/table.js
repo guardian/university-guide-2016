@@ -69,7 +69,9 @@ export default class Table {
     coursesHTML(courses) {
         return `<tr class="ug16-table__course-list">
                     <td colspan="${headers.length}">
-                        <ul>${courses.map(c => `<li><a href="${c[0]}" target="_blank">${c[1]}</a></li>`).join('')}</ul>
+                        <ul class="ug16-course-list">
+                            ${courses.map(c => `<li><a href="${c[0]}" target="_blank">${c[1]}</a></li>`).join('')}
+                        </ul>
                     </td>
                 </tr>`;
     }

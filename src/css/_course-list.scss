@@ -1,0 +1,20 @@
+.ug16-course-list {
+    @include fs-textSans(4);
+
+    margin: 0 auto 10px;
+    padding: 0;
+    width: 90%;
+    list-style: none;
+
+    a {
+        color: #005689;
+        text-decoration: none;
+        &:hover {
+            text-decoration: underline;
+        }
+        &::after {
+            content: " \00BB";
+        }
+    }
+}
+

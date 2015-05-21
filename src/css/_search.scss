@@ -110,18 +110,12 @@
 
 .ug16-search-results__subject {
     clear: both;
-    margin-top: 0;
+    margin-top: 20px !important;
     position: relative;
-    padding: 12px 10px;
-    border-top: 1px solid #f7f7f7;
-    a {
-        font-size: 14px;
-        text-decoration: none;
-        margin-left: 10px;
-        color: #005987;
-        &:hover {
-            text-decoration: underline;
-        }
+    padding: 12px 10px 0px;
+    border-top: 1px solid #dcdcdc;
+    &:first-child {
+        border-top: 0;
     }
 }
 .ug16-search__institution-rank {
@@ -154,82 +148,109 @@
         fill: #444;
     }
 }
-@mixin columns($num) {
-    -moz-column-count: $num;
-    -webkit-column-count: $num;
-    column-count: $num;
-}
 
 .ug16-search-results-group {
     padding: 0 10px;
-    @include mq(desktop) {
-        @include columns(2);
-        -moz-column-gap: 10px;
-        -webkit-column-gap: 10px;
-        column-gap: 10px;
-    }
 }
 
 .ug16-search-result {
-    width: 100%;
-    display: inline-block;
     position: relative;
-    margin-bottom: 12px;
-    margin-right: 10px;
-    box-sizing: border-box;
-    border: 1px solid #ededed;
-    padding: 12px 10px;
-    padding-top: 0;
-    background-color: #f9f9f7;
+    border-top: 1px solid #dfdfdf;
+    margin: 12px 0 10px;
+    padding-top: 3px;
+
+    &:first-child {
+        border-top: 0;
+        margin-top: 0;
+        padding-top: 0;
+    }
 
     h2 {
+        float: left;
         font-size: 16px;
         padding: 0;
-        margin: 12px 0;
-    }
-    ul {
-        @include fs-textSans(4);
-        line-height: 28px;
-        list-style-type: none;
         margin: 0;
-        padding: 0;
-        width: 100%;
-        position: relative;
-        li {
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            overflow: hidden;
-            box-sizing: border-box;
-            width: 100%;
-            a {
-                color: #111;
-                text-decoration: none;
-                display: block;
-                padding-right: 20px;
-                span {
-                    visibility: hidden;
-                }
-                &:hover {
-                    text-decoration: underline;
-                    background: rgba(0,0,0,0.02);
-                    span {
-                        visibility: visible;
-                    }
-                }
-            }
+        width: 250px;
+        margin-bottom: 10px;
+    }
+
+    ul {
+        width: auto;
+    }
+
+    &::after {
+        content: " ";
+        clear: both;
+        display: block;
+    }
+}
+
+.ug16-search-result__extra {
+    display: none;
+    padding-top: 3px;
+    border-top: 1px solid #eaeaea;
+}
+
+.ug16-search-subject {
+    padding-top: 10px;
+    margin-bottom: 24px;
+}
+
+.ug16-search-subject__name,
+.ug16-search-subject__results {
+    border-top: 1px solid #4bc6df;
+    padding-top: 3px;
+}
+
+.ug16-search-subject__name {
+    @include f-header;
+    line-height: 1;
+    color: #00456e;
+    font-size: 20px;
+    text-transform: lowercase;
+    float: left;
+    margin: 0px 20px 0 0;
+    width: 220px;
+
+    a {
+        display: block;
+        margin-top: 6px;
+        font-size: 14px;
+        text-decoration: none;
+        color: #005987;
+        &:hover {
+            text-decoration: underline;
         }
     }
 }
 
+.ug16-search-subject__results {
+    overflow: hidden;
+}
+
+.ug16-search__ranking,
 .ug16-search__course-count {
+    @include f-textSans;
     font-weight: normal;
-    font-size: 14px;
-    float: right;
+    font-size: 12px;
+}
+
+.ug16-search__ranking {
+    margin: 3px 0 8px;
+}
+
+.ug16-search__course-count {
+    color: #767676;
+}
+
+.ug16-search__course-list {
+    overflow: hidden;
+    padding-left: 20px;
 }
 
 .ug16-search-result__untruncate {
     @include fs-textSans(1);
-    line-height: 24px;
+    line-height: 22px;
     font-weight: bold;
     padding-right: 10px;
     border: 0;
@@ -237,7 +258,7 @@
     border-radius: 10px;
     color: #333;
     cursor: pointer;
-    margin-top: 6px;
+
     &:hover {
         background-color: #e1e1e1;
     }
