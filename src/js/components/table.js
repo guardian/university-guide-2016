@@ -43,7 +43,7 @@ export default class Table {
     get HTML() {
         return `<table>
                     <caption>
-                        <label for="ug16-table__subject">Subject</label>
+                        <label for="ug16-table__subject">Subject area</label>
                         <select id="ug16-table__subject"></select>
                         <div class="ug16-table__subject-link"></div>
                     </caption>

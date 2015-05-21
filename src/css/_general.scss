@@ -27,5 +27,6 @@
 .ug16__section {
     @include fs-headline(4);
     clear: both;
-    margin: 48px 0 6px;
+    padding: 48px 0 6px;
+    margin: 0;
 }

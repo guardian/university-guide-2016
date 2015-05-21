@@ -7,7 +7,7 @@
     box-sizing: border-box;
 
     form {
-        @include mq(tablet) {
+        @include mq(desktop) {
             padding-right: 100px;
         }
     }
@@ -16,7 +16,7 @@
         padding-right: 10px;
         display: inline-block;
         width: 80px;
-        @include mq(tablet) {
+        @include mq(desktop) {
             width: auto;
         }
     }
@@ -27,7 +27,7 @@
     }
     select, input {
         width: 100%;
-        @include mq(mobileLandscape) {
+        @include mq(tablet) {
             width: 200px;
         }
     }
@@ -45,6 +45,11 @@
         width: 100%;
 
         @include mq(tablet) {
+            width: 80px;
+            margin: 0;
+        }
+
+        @include mq(desktop) {
             width: auto;
             position: absolute;
             top: 0;
@@ -70,16 +75,13 @@
     padding: 6px 0;
     width: 100%;
     padding-right: 10px;
-    @include mq(mobileLandscape) {
-        width: 100%;
-    }
     @include mq(tablet) {
         width: auto;
     }
 }
 
 .ug16-search-results__meta {
-    background-color: #f9f9f7;
+    background-color: #f9f9f9;
     color: #333;
     position: relative;
     @include fs-headline(2);
@@ -148,12 +150,11 @@
 .ug16-search-result {
     position: relative;
     border-top: 1px solid #dfdfdf;
-    margin: 12px 0 10px;
+    margin-bottom: 10px;
     padding-top: 3px;
 
     &:first-child {
         border-top: 0;
-        margin-top: 0;
         padding-top: 0;
     }
 

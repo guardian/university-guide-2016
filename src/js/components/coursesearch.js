@@ -7,6 +7,7 @@ import subjectNames from '../data/subjectNames.json!json'
 import bean from 'fat/bean'
 import groupBy from 'lodash/collection/groupBy'
 import uniq from 'lodash/array/uniq'
+import bonzo from 'ded/bonzo'
 
 const buttonSVG = '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path d="M15 5h2l.5 9.5 9.5.5v2l-9.5.5L17 27h-2l-.5-9.5L5 17v-2l9.5-.5L15 5z"/></svg>';
 
@@ -55,7 +56,7 @@ var searchResultTmplFn = doT.template(`
     <div class="ug16-search-subject">
         <h2 class="ug16-search-subject__name">
             <div style="font-size: 12px">courses within</div>{{= subject.name}}
-            <a href="{{= subject.link}}">view rankings</a>
+            <a class="ug16-search-results__rankings-link" href="{{= subject.link}}">view rankings</a>
             <div class="ug16-search__count">
                 {{= subject.institutions.length }} institution{{? subject.institutions.length > 1 }}s{{?}}
             </div>
@@ -131,16 +132,10 @@ export default class CourseSearch {
         bean.on(this.courseEl, 'keyup', this.updateButtonState.bind(this));
         bean.on(this.institutionEl, 'keyup', this.updateButtonState.bind(this));
 
-        bean.on(this.searchResultsEl, 'click', function(event) {
-            if (event.target.className === 'ug16-search-results__rankings-link') {
-                this.clearSearch();
-                this.scrollToTable();
-            }
+        bean.on(this.searchResultsEl, 'click', 'a.ug16-search-results__rankings-link', function(event) {
+            this.clearSearch();
+            window.scrollTo(0, bonzo(document.querySelector('#rankings')).offset().top);
         }.bind(this));
-    }
-
-    scrollToTable() {
-        window.scrollTo(null, this.el.getBoundingClientRect().top);
     }
 
     updateButtonState() {
@@ -177,18 +172,6 @@ export default class CourseSearch {
         return this.rankingsData[gsgId][instId] || 9999;
     }
 
-    searchResultHTML(subjId, results) {
-        var institutions = [];
-        for (let[instId, courses] of results) {
-            institutions.push({
-                name: instIdToName[instId],
-                courses: courses,
-                rank: this.getRankingDisplayVal(subjId, instId, true)
-            });
-        }
-        return institutions;
-    }
-
     renderSearchResults(results) {
         var filtered = results;
         var numProviders = uniq(filtered.map(c => c.instId)).length;
@@ -218,10 +201,19 @@ export default class CourseSearch {
             var subjectResults = entries(byInstitution)
                 .sort((a,b) => this.getRankingSortValue(subjId, a[0]) - this.getRankingSortValue(subjId, b[0]));
 
+            var institutions = [];
+            for (let[instId, courses] of subjectResults) {
+                institutions.push({
+                    name: instIdToName[instId],
+                    courses: courses,
+                    rank: this.getRankingDisplayVal(subjId, instId, true)
+                });
+            }
+
             subjects.push({
                 name: subjectNames[subjId],
                 link: '#' + subjId,
-                institutions: this.searchResultHTML(subjId, subjectResults)
+                institutions: institutions
             });
         }
 
