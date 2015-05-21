@@ -35,44 +35,28 @@ export default class Animation {
             }
 
             get HTML() {
-                return `<div class="head-area">
+                return `
+                    <div class="head-area">
                         <div class="head-content">
                             <div class="head-content-left">
                                 <h4>University guide</h4>
                                 <h5>Guardian students</h5>
                             </div>
-
                             <div class="head-content-main">
                                 <h1 id="headStack1">University guide</h1>
                                 <h1 id="headStack2" style="color:#aad8f1">Subject here</h1>
                                 <p id="headStackStandFirst">Standy standfirst</p>
                             </div>
-                         </div>
-
-                       </div>
-
-                      <div class="animation-holder">
-
-                        <div class="bg-3"  id="bg3" >
-
                         </div>
+                    </div>
 
-                        <div class="bg-4"  id="bg4" >
-
-                        </div>
-                        <div class="bg-2"  id="bg2" >
-
-                        </div>
-
-                        <div class="people" id="peopleAnim">
-
-                        </div>
-
-                        <div class="bg-1" id="bg1">
-
-                        </div>
-
-                      </div>`;
+                    <div class="animation-holder">
+                        <div class="bg-3" id="bg3"></div>
+                        <div class="bg-4" id="bg4"></div>
+                        <div class="bg-2" id="bg2"></div>
+                        <div class="people" id="peopleAnim"></div>
+                        <div class="bg-1" id="bg1"></div>
+                    </div>`;
             }
 
 
