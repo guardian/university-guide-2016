@@ -26,6 +26,8 @@
         padding: 3px 5px;
     }
     select, input {
+        border-radius: 0;
+        border: 1px solid #bdbdbd;
         width: 100%;
         @include mq(tablet) {
             width: 200px;
