@@ -1,15 +1,11 @@
 export default class Animation {
     constructor(opts) {
-        var el = opts.el;
+        this.el = opts.el;
         this.animationEl = opts.el;
 
         if(!this.isMobile){
             this.animationEl.innerHTML = this.HTML;
-            this.peopleAnimEl = el.querySelector('#peopleAnim')
-            this.bg1el = el.querySelector('#bg1')
-            this.bg2el = el.querySelector('#bg2')
-            this.bg3el = el.querySelector('#bg3')
-            this.bg4el = el.querySelector('#bg4')
+            this.peopleAnimEl = this.el.querySelector('.ug16__anim--people')
             this.startAnimations();
         } else {
            this.animationEl.innerHTML = this.mobileHTML;
@@ -36,12 +32,12 @@ export default class Animation {
                 </div>
             </div>
 
-            <div class="animation-holder">
-                <div class="bg-3" id="bg3"></div>
-                <div class="bg-4" id="bg4"></div>
-                <div class="bg-2" id="bg2"></div>
-                <div class="people" id="peopleAnim"></div>
-                <div class="bg-1" id="bg1"></div>
+            <div class="ug16__animation-holder">
+                <div class="ug16__anim ug16__anim--panels"></div>
+                <div class="ug16__anim ug16__anim--skyline"></div>
+                <div class="ug16__anim ug16__anim--bg"></div>
+                <div class="ug16__anim ug16__anim--people"></div>
+                <div class="ug16__anim ug16__anim--fg"></div>
             </div>`;
     }
 
@@ -72,26 +68,6 @@ export default class Animation {
         this.peopleAnimEl.style.backgroundPositionY = this.peopleRef + 'px'
     }
 
-    fgAnimation() {
-        this.fgRef = this.fgRef-1;
-        this.bg1el.style.backgroundPosition = this.fgRef + 'px 0'
-    }
-
-    bgAnimation() {
-        this.bgRef = this.bgRef-1;
-        this.bg2el.style.backgroundPosition = this.bgRef + 'px 0'
-    }
-
-    panelsAnimation() {
-        this.panelsRef = this.panelsRef-1;
-        this.bg3el.style.backgroundPosition = this.panelsRef + 'px 0'
-    }
-
-    skylineAnimation() {
-        this.skylineRef = this.skylineRef-1;
-        this.bg4el.style.backgroundPosition = this.skylineRef + 'px 0'
-    }
-
     startAnimation(fn, interval) {
         var raf = window.requestAnimationFrame || ( (fn) => window.setTimeout(fn, 1) );
         var animFn = raf.bind(window, fn);
@@ -99,18 +75,8 @@ export default class Animation {
     }
 
     startAnimations() {
-
-        this.fgRef = 1000;
-        this.bgRef = 1000;
-        this.peopleRef = 1350;
-        this.panelsRef = 1000;
-        this.skylineRef = 1000;
-
+        this.peopleRef = 0;
         this.startAnimation(this.peopleAnimation.bind(this), 150);
-        this.startAnimation(this.fgAnimation.bind(this), 10);
-        this.startAnimation(this.bgAnimation.bind(this), 30);
-        this.startAnimation(this.panelsAnimation.bind(this), 70);
-        this.startAnimation(this.skylineAnimation.bind(this), 80);
     }
 
 }
