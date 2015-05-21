@@ -68,28 +68,34 @@ export default class Animation {
 
 
     peopleAnimation() {
-        this.peopleRef = this.peopleRef-450;
-        this.peopleAnimEl.style.backgroundPositionY = this.peopleRef+'px'
+        this.peopleRef = (this.peopleRef - 450) % 1350;
+        this.peopleAnimEl.style.backgroundPositionY = this.peopleRef + 'px'
     }
 
     fgAnimation() {
         this.fgRef = this.fgRef-1;
-        this.bg1el.style.backgroundPosition = this.fgRef+'px 0'
+        this.bg1el.style.backgroundPosition = this.fgRef + 'px 0'
     }
 
     bgAnimation() {
         this.bgRef = this.bgRef-1;
-        this.bg2el.style.backgroundPosition = this.bgRef+'px 0'
+        this.bg2el.style.backgroundPosition = this.bgRef + 'px 0'
     }
 
     panelsAnimation() {
         this.panelsRef = this.panelsRef-1;
-        this.bg3el.style.backgroundPosition = this.panelsRef+'px 0'
+        this.bg3el.style.backgroundPosition = this.panelsRef + 'px 0'
     }
 
     skylineAnimation() {
         this.skylineRef = this.skylineRef-1;
-        this.bg4el.style.backgroundPosition = this.skylineRef+'px 0'
+        this.bg4el.style.backgroundPosition = this.skylineRef + 'px 0'
+    }
+
+    startAnimation(fn, interval) {
+        var raf = window.requestAnimationFrame || ( (fn) => window.setTimeout(fn, 1) );
+        var animFn = raf.bind(window, fn);
+        window.setInterval(animFn, interval)
     }
 
     startAnimations() {
@@ -100,11 +106,11 @@ export default class Animation {
         this.panelsRef = 1000;
         this.skylineRef = 1000;
 
-        setInterval(this.fgAnimation.bind(this),10);
-        setInterval(this.bgAnimation.bind(this),30);
-        setInterval(this.panelsAnimation.bind(this),70);
-        setInterval(this.peopleAnimation.bind(this),150);
-        setInterval(this.skylineAnimation.bind(this),80);
+        this.startAnimation(this.peopleAnimation.bind(this), 150);
+        this.startAnimation(this.fgAnimation.bind(this), 10);
+        this.startAnimation(this.bgAnimation.bind(this), 30);
+        this.startAnimation(this.panelsAnimation.bind(this), 70);
+        this.startAnimation(this.skylineAnimation.bind(this), 80);
     }
 
 }
