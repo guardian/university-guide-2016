@@ -55,7 +55,7 @@ var searchResultTmplFn = doT.template(`
     <div class="ug16-search-subject">
         <h2 class="ug16-search-subject__name">
             <div style="font-size: 12px">courses in</div>{{= subject.name}}
-            <a href="{{= subject.link}}" target="_blank">view rankings</a>
+            <a href="{{= subject.link}}">view rankings</a>
         </h2>
         <div class="ug16-search-subject__results">
             {{?subject.institutions.length <= 3}}

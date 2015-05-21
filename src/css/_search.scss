@@ -246,6 +246,10 @@
 .ug16-search__course-list {
     overflow: hidden;
     padding-left: 20px;
+
+    .ug16-course-list + .ug16-course-list {
+        margin-top: -10px;
+    }
 }
 
 .ug16-search-result__untruncate {
