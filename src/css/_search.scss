@@ -8,35 +8,27 @@
 
     form {
         @include mq(tablet) {
-            padding-right: 120px;
+            padding-right: 100px;
         }
     }
 
     label {
         padding-right: 10px;
         display: inline-block;
-        width: 60px;
-        @include mq(tablet){
+        width: 80px;
+        @include mq(tablet) {
             width: auto;
-
         }
     }
     input {
         height: 30px;
         box-sizing: border-box;
         padding: 3px 5px;
-        width: 150px;
     }
     select, input {
         width: 100%;
         @include mq(mobileLandscape) {
-            width: auto;
-            width: calc(100% - 80px);
-        }
-    }
-    #ug16-search__subject {
-        @include mq(tablet) {
-            width: 240px;
+            width: 200px;
         }
     }
     button {

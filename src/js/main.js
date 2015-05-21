@@ -27,6 +27,10 @@ function init(el, config) {
     }
     window.addEventListener('hashchange', showTable);
     showTable();
+
+    if (window.guardian) {
+        document.querySelector('.l-footer').style.display = 'block';
+    }
 }
 
 (window.define || System.amdDefine)(function() { return {init: init}; });

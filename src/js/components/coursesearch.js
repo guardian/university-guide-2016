@@ -308,18 +308,13 @@ export default class CourseSearch {
 
             <form>
                 <div class="ug16-search__field">
-                    <label for='ug16-search__subject'>Subject</label>
-                    <select id="ug16-search__subject"></select>
-                </div>
-
-                <div class="ug16-search__field">
                     <label for='ug16-search__course'>Course</label>
                     <input type="text" id="ug16-search__course" />
                 </div>
 
                 <div class="ug16-search__field">
-                    <label for='ug16-search__institution'>Institution</label>
-                    <input type="text" id="ug16-search__institution"/>
+                    <label for='ug16-search__subject'>Subject area</label>
+                    <select id="ug16-search__subject"></select>
                 </div>
 
                 <div class="ug16-search__field">
@@ -328,6 +323,11 @@ export default class CourseSearch {
                         <option value="all">All regions</option>
                         ${this.regionOptions}
                     </select>
+                </div>
+
+                <div class="ug16-search__field">
+                    <label for='ug16-search__institution'>Institution</label>
+                    <input type="text" id="ug16-search__institution"/>
                 </div>
 
                 <button disabled="disabled">Search</button>
