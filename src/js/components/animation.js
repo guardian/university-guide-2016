@@ -14,9 +14,9 @@ export default class Animation {
                     this.bg4el = el.querySelector('#bg4')
                     this.doAnimate();
                 }else{
-                   this.animationEl.innerHTML = this.mobileHTML; 
+                   this.animationEl.innerHTML = this.mobileHTML;
                 }
-    
+
                 // window.addEventListener('resize', this._debounce);
                 // _debounce(){
                 //                 console.log("deb")
@@ -46,31 +46,31 @@ export default class Animation {
                                 <h1 id="headStack1">University guide</h1>
                                 <h1 id="headStack2" style="color:#aad8f1">Subject here</h1>
                                 <p id="headStackStandFirst">Standy standfirst</p>
-                            </div>    
-                         </div> 
+                            </div>
+                         </div>
 
-                       </div> 
+                       </div>
 
                       <div class="animation-holder">
-                        
+
                         <div class="bg-3"  id="bg3" >
-                          
-                        </div> 
+
+                        </div>
 
                         <div class="bg-4"  id="bg4" >
-                          
-                        </div> 
+
+                        </div>
                         <div class="bg-2"  id="bg2" >
-                          
-                        </div>  
+
+                        </div>
 
                         <div class="people" id="peopleAnim">
-                            
+
                         </div>
 
                         <div class="bg-1" id="bg1">
 
-                        </div> 
+                        </div>
 
                       </div>`;
             }
@@ -89,14 +89,14 @@ export default class Animation {
                                 <h5 id="headStack1">University guide</h1>
                                 <h5 id="headStack2" style="color:#aad8f1">Subject here</h1>
                                 <p id="headStackStandFirst">Standy standfirst</p>
-                            </div>    
-                         </div> 
+                            </div>
+                         </div>
 
-                       </div> 
+                       </div>
 
                       <div class="static-image-holder">
-                        
-                        
+
+
 
                       </div>`;
             }
