@@ -16,9 +16,8 @@ function init(el, config) {
         el: el.querySelector('#ug16__search-container')
     });
 
-    var tableComponent = new Table({
-        el: el.querySelector('#ug16 .ug16__table-container'),
-        subjectChange: id => window.location.hash = '#' + id
+    var animationComponent = new Animation({
+        el: el.querySelector('.ug16__animation-container')
     });
 
     var shareButtonsComponent = new ShareButtons({
@@ -27,13 +26,16 @@ function init(el, config) {
         headline: config.headline
     });
 
-    var animationComponent = new Animation({
-        el: el.querySelector('.ug16__animation-container'),
-        subjectChange: id => window.location.hash = '#' + id
+    var changeHash = id => window.location.hash = '#' + id;
+    var noop = () => null;
+
+    var tableComponent = new Table({
+        el: el.querySelector('#ug16 .ug16__table-container'),
+        subjectChange: config.subjectId ? noop : changeHash
     });
 
     function showTable() {
-        tableComponent.set(window.location.hash.substring(1));
+        tableComponent.set(config.subjectId || window.location.hash.substring(1) );
     }
     window.addEventListener('hashchange', showTable);
     showTable();
