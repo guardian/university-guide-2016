@@ -19,7 +19,7 @@ var searchResultTmplFn = doT.template(`
 #}}
 {{##def.institutiondiv:institution:
 <div class="ug16-search-result">
-    <h2>
+    <h2 class="ug16-search__institution">
         {{= institution.name }}
         <div class="ug16-search__ranking">Ranked {{= institution.rank}} in subject, {{= institution.overall}} overall</div>
         <div class="ug16-search__count">
@@ -43,7 +43,7 @@ var searchResultTmplFn = doT.template(`
             <button class="ug16-search-result__untruncate">
                 ${buttonSVG} Show all courses
             </button>
-            <ul class="ug16-course-list" style="display:none;">
+            <ul class="ug16-course-list ug16-search-result__extra-courses">
                 {{~institution.courses.slice(3) :course:j}}
                     {{#def.courseli:course}}
                 {{~}}

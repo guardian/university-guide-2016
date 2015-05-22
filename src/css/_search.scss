@@ -109,7 +109,7 @@
     margin-top: 20px !important;
     position: relative;
     padding: 12px 10px 0px;
-    border-top: 1px solid #dcdcdc;
+    border-top: 1px solid #bdbdbd;
     &:first-child {
         border-top: 0;
     }
@@ -151,26 +151,15 @@
 
 .ug16-search-result {
     position: relative;
-    border-top: 1px solid #dfdfdf;
+    border-top: 1px solid #bdbdbd;
     margin-bottom: 10px;
     padding-top: 3px;
 
-    &:first-child {
-        border-top: 0;
-        padding-top: 0;
-    }
-
-    h2 {
-        float: left;
-        font-size: 16px;
-        padding: 0;
-        margin: 0;
-        width: 250px;
-        margin-bottom: 10px;
-    }
-
-    ul {
-        width: auto;
+    @include mq(tablet) {
+        &:first-child {
+            border-top: 0;
+            padding-top: 0;
+        }
     }
 
     &::after {
@@ -183,7 +172,15 @@
 .ug16-search-result__extra {
     display: none;
     padding-top: 3px;
+    border-top: 1px solid #dcdcdc;
+}
+
+.ug16-search-result__extra-courses {
+    display: none;
     border-top: 1px solid #eaeaea;
+    @include mq(tablet) {
+        border-top: 0;
+    }
 }
 
 .ug16-search-subject {
@@ -193,7 +190,6 @@
 
 .ug16-search-subject__name,
 .ug16-search-subject__results {
-    border-top: 1px solid #4bc6df;
     padding-top: 3px;
 }
 
@@ -203,24 +199,40 @@
     color: #00456e;
     font-size: 20px;
     text-transform: lowercase;
-    float: left;
     margin: 0px 20px 0 0;
-    width: 220px;
 
     a {
-        display: block;
-        margin-top: 6px;
         font-size: 14px;
         text-decoration: none;
         color: #005987;
+        white-space: nowrap;
         &:hover {
             text-decoration: underline;
+        }
+    }
+
+    .ug16-search__count {
+        display: block;
+        margin-bottom: 12px;
+    }
+    border-top: 1px solid #4bc6df;
+    @include mq(desktop) {
+        float: left;
+        width: 220px;
+
+        a {
+            display: block;
+            margin-top: 6px;
         }
     }
 }
 
 .ug16-search-subject__results {
     overflow: hidden;
+
+    @include mq(desktop) {
+        border-top: 1px solid #4bc6df;
+    }
 }
 
 .ug16-search__ranking,
@@ -241,9 +253,29 @@
 
 .ug16-search__course-list {
     overflow: hidden;
-    padding-left: 20px;
-    font-size: 14px;
+    font-size: 12px;
+
+    li {
+        @include mq(tablet) {
+            border-top: 0;
+            font-size: 14px;
+            padding: 0;
+        }
+    }
 }
+
+.ug16-search__institution {
+    font-size: 16px;
+    padding: 0;
+    margin: 0 0 10px 0;
+
+    @include mq(tablet) {
+        float: left;
+        width: 250px;
+        margin-right: 20px;
+    }
+}
+
 
 .ug16-search-result__untruncate {
     @include fs-textSans(1);

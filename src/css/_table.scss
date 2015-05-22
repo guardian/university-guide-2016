@@ -181,18 +181,12 @@
         }
 
         li {
-            border-top: 1px solid #eaeaea;
-            line-height: 2;
-
-            &:first-child {
-                border-top: 0;
-            }
-
             @include mq(desktop) {
                 border-top: 0;
-                line-height: 1.5;
+                padding: 0;
             }
         }
+
     }
 
     .ug16-table__unranked-msg {
