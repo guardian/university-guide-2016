@@ -5,11 +5,6 @@ System.config({
     "*": "*.js",
     "github:*": "jspm_packages/github/*.js",
     "npm:*": "jspm_packages/npm/*.js"
-  },
-  "bundles": {
-    "build/main": [
-      "src/js/main"
-    ]
   }
 });
 

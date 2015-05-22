@@ -24,8 +24,10 @@
   "author": "",
   "license": "ISC",
   "jspm": {
-    "directories": {},
-    "configFile": "src/js/config.js",
+    "directories": {
+      "baseURL": "src/js",
+      "packages": "jspm_packages"
+    },
     "dependencies": {
       "ded/bonzo": "github:ded/bonzo@^2.0.0",
       "fat/bean": "github:fat/bean@^1.0.14",
