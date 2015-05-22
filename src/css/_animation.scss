@@ -38,7 +38,7 @@
 
     .show-mobile{
         display: block;
-        @include mq(mobile) {
+        @include mq(mobileLandscape) {
             display: none;
         }
       }
@@ -46,7 +46,7 @@
 
     .show-non-mobile{
       display: none;
-          @include mq(mobile) {
+          @include mq(mobileLandscape) {
                display:block;
           }
 
@@ -54,7 +54,7 @@
 
     .static-image-holder{
       position:relative;
-      height: 96px;
+      height: 138px;
       width:100%;
       background: url('assets/ani-288-h/bg-mobile.png');
       background-repeat: no-repeat;
