@@ -33,7 +33,7 @@
             color: #005689;
             text-decoration: none;
             &::after {
-                content: " \00BB";
+                content: "\00A0\00BB";
             }
         }
     }
