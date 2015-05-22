@@ -10,8 +10,6 @@ import uniq from 'lodash/array/uniq'
 import bonzo from 'ded/bonzo'
 import searchResultsTmpl from '../template/searchresults.html!text'
 
-const buttonSVG = '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path d="M15 5h2l.5 9.5 9.5.5v2l-9.5.5L17 27h-2l-.5-9.5L5 17v-2l9.5-.5L15 5z"/></svg>';
-
 var searchResultTmplFn = doT.template(searchResultsTmpl);
 
 function entries(obj) {
