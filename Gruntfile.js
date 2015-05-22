@@ -233,11 +233,18 @@ module.exports = function(grunt) {
         });
     })
 
+    grunt.registerTask('bootjsurls', function() {
+        var subjects = JSON.parse(fs.readFileSync('./data/guardianSubjectGroups.json'));
+        var baseUrl = grunt.template.process('<%= visuals.s3.domain %><%= visuals.s3.path %>/bootfiles/');
+        var bootUrls = subjects.map(function(p) { return p.guardianSubjectGroup + '\n' + baseUrl + p.gsgId + '/boot.js'; })
+        grunt.file.write('./build/booturls.txt', bootUrls.join('\n\n'));
+    })
+
     grunt.registerTask('harness', ['copy:harness', 'template:harness', 'sass:harness', 'symlink:fonts'])
     grunt.registerTask('interactive', ['shell:interactive', 'generateBootFiles', 'sass:interactive', 'copy:assets'])
     grunt.registerTask('default', ['clean', 'harness', 'interactive', 'connect', 'watch']);
     grunt.registerTask('build', ['clean', 'interactive']);
-    grunt.registerTask('deploy', ['loadDeployConfig', 'prompt:visuals', 'build', 'copy:deploy', 'aws_s3', 'boot_url']);
+    grunt.registerTask('deploy', ['loadDeployConfig', 'prompt:visuals', 'build', 'copy:deploy', 'aws_s3', 'bootjsurls']);
 
     grunt.loadNpmTasks('grunt-aws');
 
