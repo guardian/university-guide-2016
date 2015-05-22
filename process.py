@@ -31,19 +31,27 @@ for id, institution in institutionDetails.iteritems():
 def get_courses(iId, gsgId):
     return [[x['url'], x['courseTitle']] for x in courses if x['gsgId'] == gsgId and x['instId'] == iId]
 
-subjects = defaultdict(lambda: {'name': '', 'institutions': []})
-for institution in json.load(open('data/rankingsList.json')) + json.load(open('data/unrankedProviderList.json')):
-    iId = institution['institutionId']
-    gsgId = institution['gsgId']
+subjectInstitutions = defaultdict(dict)
+for s in json.load(open('data/unrankedProviderList.json')) + json.load(open('data/rankingsList.json')):
+    subjectInstitutions[s['gsgId']][s['institutionId']] = s
 
-    institution['guardianHeiTitle'] = institutions[iId]['guardianHeiTitle']
-    institution['link'] = institutionLinks.get(institution['guardianHeiTitle'], '')
-    institution['courses'] = get_courses(iId, gsgId)
+subjects = {}
+for gsgId, name in subjectNames.iteritems():
+    subjectInstitutionIds = set([c['instId'] for c in courses if c['gsgId'] == gsgId])
 
-    name = subjectNames[gsgId]
-    subjects[gsgId]['name'] = name
-    subjects[gsgId]['link'] = subjectLinks[name.lower()]
-    subjects[gsgId]['institutions'].append(institution)
+    myInsts = []
+    for id in subjectInstitutionIds:
+        institution = copy(subjectInstitutions[gsgId].get(id, {'institutionId': id}))
+        institution['guardianHeiTitle'] = institutions[id]['guardianHeiTitle']
+        institution['link'] = institutionLinks.get(institution['guardianHeiTitle'], '')
+        institution['courses'] = get_courses(id, gsgId)
+        myInsts.append(institution)
+
+    subjects[gsgId] = {
+        'name': name,
+        'link': subjectLinks[name.lower()],
+        'institutions': myInsts
+    }
 
 ################ GENERATE JSON ################
 
