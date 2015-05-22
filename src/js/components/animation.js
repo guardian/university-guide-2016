@@ -2,12 +2,9 @@ export default class Animation {
     constructor(opts) {
         this.el = opts.el;
         this.animationEl = opts.el;
-
-       
-            this.animationEl.innerHTML = this.HTML;
-            this.peopleAnimEl = this.el.querySelector('.ug16__anim--people')
-            this.startAnimations();
-        
+        this.animationEl.innerHTML = this.HTML;
+        this.peopleAnimEl = this.el.querySelector('.ug16__anim--people')
+        this.startAnimations();
     }
 
     get isMobile() {
@@ -23,14 +20,12 @@ export default class Animation {
                 <div class="ug16__anim ug16__anim--people"></div>
                 <div class="ug16__anim ug16__anim--fg"></div>
             </div>
-
             <div class="static-image-holder show-mobile"></div>`;
     }
 
     get mobileHTML() {
         return ``;
     }
-
 
     peopleAnimation() {
         // height of people sprite 1350
