@@ -8,7 +8,7 @@ export default class Animation {
     }
 
     get isMobile() {
-        return window.innerWidth < 660;
+        return window.innerWidth < 480;
     }
 
     get HTML() {
@@ -20,7 +20,8 @@ export default class Animation {
                 <div class="ug16__anim ug16__anim--people"></div>
                 <div class="ug16__anim ug16__anim--fg"></div>
             </div>
-            <div class="static-image-holder show-mobile"></div>`;
+            <div class="static-image-holder show-mobile"></div>
+            `;
     }
 
     get mobileHTML() {
