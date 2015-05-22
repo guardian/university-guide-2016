@@ -1,4 +1,5 @@
 var fs = require('fs');
+var swig = require('swig');
 
 module.exports = function(grunt) {
 
@@ -220,8 +221,20 @@ module.exports = function(grunt) {
         grunt.log.writeln(grunt.template.process('<%= visuals.s3.domain %><%= visuals.s3.path %>/boot.js'))
     })
 
+    grunt.registerTask('generateBootFiles', function() {
+        var subjectPages = JSON.parse(fs.readFileSync('./data/subjectPages.json'));
+        var bootTemplateFn = swig.compileFile('./src/js/boot.js.tpl');
+        var assetPath = grunt.config('visuals.assetPath');
+        subjectPages.forEach(function(page) {
+            page.assetPath = assetPath;
+            var bootBody = bootTemplateFn(page);
+            var outPath = './build/bootfiles/' + (page.subjectId || 'main') + '/boot.js';
+            grunt.file.write(outPath, bootBody);
+        });
+    })
+
     grunt.registerTask('harness', ['copy:harness', 'template:harness', 'sass:harness', 'symlink:fonts'])
-    grunt.registerTask('interactive', ['shell:interactive', 'template:bootjs', 'sass:interactive', 'copy:assets'])
+    grunt.registerTask('interactive', ['shell:interactive', 'generateBootFiles', 'sass:interactive', 'copy:assets'])
     grunt.registerTask('default', ['clean', 'harness', 'interactive', 'connect', 'watch']);
     grunt.registerTask('build', ['clean', 'interactive']);
     grunt.registerTask('deploy', ['loadDeployConfig', 'prompt:visuals', 'build', 'copy:deploy', 'aws_s3', 'boot_url']);

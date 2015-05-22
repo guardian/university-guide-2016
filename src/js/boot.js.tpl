@@ -13,7 +13,11 @@ define([], function() {
         boot: function(el) {
 
             var config = {
-                assetPath: '<%= assetPath %>'
+                assetPath: '{{ assetPath }}',
+                headline: '{{ headline }}',
+                standfirst: '{{ standfirst }}',
+                shortUrl: '{{ shortUrl }}',
+                subjectId: '{{ subjectId }}'
             };
 
             // Loading message while we fetch JS / CSS
@@ -21,11 +25,11 @@ define([], function() {
 
             // Load CSS asynchronously
             window.setTimeout(function() {
-                addCSS('<%= assetPath %>/main.css');
+                addCSS('{{ assetPath }}/main.css');
             }, 10);
 
             // Load JS and init
-            require(['<%= assetPath %>/main.js'], function(main) {
+            require(['{{ assetPath }}/main.js'], function(main) {
                 main.init(el, config);
             }, function(err) { console.error('Error loading boot.', err); });
         }
