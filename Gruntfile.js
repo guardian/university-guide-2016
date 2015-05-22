@@ -51,7 +51,7 @@ module.exports = function(grunt) {
 
         shell: {
             interactive: {
-                command: './node_modules/.bin/jspm bundle-sfx <%= visuals.jspmFlags %> src/js/main build/main.js',
+                command: './node_modules/.bin/jspm bundle <%= visuals.jspmFlags %> main build/main.js',
                 options: {
                     execOptions: {
                         cwd: '.'
@@ -88,6 +88,13 @@ module.exports = function(grunt) {
             assets: {
                 files: [
                     {expand: true, cwd: 'src/', src: ['assets/**/*'], dest: 'build'},
+                ]
+            },
+            system: {
+                files: [
+                    { expand: true, cwd: 'jspm_packages/', src: ['es6-module-loader.js', 'system.js'], dest: 'build' },
+                    { expand: true, cwd: 'jspm_packages/github/jmcriffey/bower-traceur-runtime@0.0.88',
+                        src: ['traceur-runtime.js'], dest: 'build' }
                 ]
             },
             deploy: {
@@ -241,7 +248,7 @@ module.exports = function(grunt) {
     })
 
     grunt.registerTask('harness', ['copy:harness', 'template:harness', 'sass:harness', 'symlink:fonts'])
-    grunt.registerTask('interactive', ['shell:interactive', 'generateBootFiles', 'sass:interactive', 'copy:assets'])
+    grunt.registerTask('interactive', ['shell:interactive', 'generateBootFiles', 'sass:interactive', 'copy:assets', 'copy:system'])
     grunt.registerTask('default', ['clean', 'harness', 'interactive', 'connect', 'watch']);
     grunt.registerTask('build', ['clean', 'interactive']);
     grunt.registerTask('deploy', ['loadDeployConfig', 'prompt:visuals', 'build', 'copy:deploy', 'aws_s3', 'bootjsurls']);

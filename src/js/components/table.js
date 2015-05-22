@@ -1,5 +1,6 @@
 import Subjects from './subjects'
 import { config } from '../lib/cfg'
+import { lowercase as lcSubjectName } from '../lib/subjectNames'
 import reqwest from 'reqwest'
 import bean from 'fat/bean'
 import bonzo from 'ded/bonzo'
@@ -101,7 +102,7 @@ export default class Table {
         this.$tbodyEl.html(rows.join(''));
 
         this.el.querySelector('.ug16-table__subject-link').innerHTML =
-            `<a href="${data.link}">Find out more about studying ${(subjectNames[id] || '').toLowerCase()}</a>`;
+            `<a href="${data.link}">Find out more about studying ${lcSubjectName(id)}</a>`;
     }
 
     show(id) {

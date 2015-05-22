@@ -46,15 +46,27 @@
 .ug16__section {
     @include fs-headline(4);
     clear: both;
-    padding: 48px 0 6px;
+    padding: 36px 0 6px;
     margin: 0;
 }
 
-.ug16__share-buttons { 
-padding: 6px 0 12px 0;
+.ug16__share-buttons {
+    padding: 6px 0 12px 0;
     @include mq(tablet) {
-                padding: 24px 0 0 0;
-            }
-    
-    
+        padding: 24px 0 0 0;
+    }
+}
+
+.ug16__subject-messaging {
+    padding-top: 24px;
+    margin: 0;
+    color: #767676;
+    font-style: italic;
+    a, a:visited {
+        color: #005689;
+        text-decoration: none;
+    }
+    a:hover {
+        text-decoration: underline;
+    }
 }
