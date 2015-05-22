@@ -1,12 +1,15 @@
-import mainHTML from './text/main.html!text'
+import mainTemplate from './template/main.html!text'
 import Table from './components/table'
 import Animation from './components/animation'
 import CourseSearch from './components/coursesearch'
 import { set as setConfig } from './lib/cfg'
+import doT from 'olado/doT'
+
+var mainTemplateFn = doT.template(mainTemplate);
 
 function init(el, config) {
-    el.innerHTML = mainHTML;
     setConfig(config);
+    el.innerHTML = mainTemplateFn(config);
 
     var courseSearchComponent = new CourseSearch({
         el: el.querySelector('#ug16__search-container')

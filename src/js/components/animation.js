@@ -18,20 +18,6 @@ export default class Animation {
 
     get HTML() {
         return `
-            <div class="head-area">
-                <div class="head-content">
-                    <div class="head-content-left">
-                        <h4>University guide</h4>
-                        <h5>Guardian students</h5>
-                    </div>
-                    <div class="head-content-main">
-                        <h1 id="headStack1">University guide</h1>
-                        <h1 id="headStack2" style="color:#aad8f1">Subject here</h1>
-                        <p id="headStackStandFirst">Standy standfirst</p>
-                    </div>
-                </div>
-            </div>
-
             <div class="ug16__animation-holder">
                 <div class="ug16__anim ug16__anim--panels"></div>
                 <div class="ug16__anim ug16__anim--skyline"></div>
@@ -42,24 +28,7 @@ export default class Animation {
     }
 
     get mobileHTML() {
-        return `
-        <div class="head-area">
-            <div class="head-content">
-
-                <div class="head-content-left-mobile">
-                    <h6>University guide</h6>
-                    <h7>Guardian students</h7>
-                </div>
-
-                <div class="head-content-main-mobile">
-                    <h5 id="headStack1">University guide</h1>
-                    <h5 id="headStack2" style="color:#aad8f1">Subject here</h1>
-                    <p id="headStackStandFirst">Standy standfirst</p>
-                </div>
-
-            </div>
-        </div>
-        <div class="static-image-holder"></div>`;
+        return `<div class="static-image-holder"></div>`;
     }
 
 

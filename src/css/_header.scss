@@ -1,0 +1,52 @@
+.ug16__header-container {
+  background-color: #00456e;
+}
+
+.ug16__header {
+  max-width: 1300px;
+  margin: auto;
+  overflow: hidden;
+  background-color: #005689;
+  h1, h2, h3, h4, h5{
+      color: #F1F1F1;
+      margin:0;
+  }
+
+  h1{
+    @include fs-headline(6);
+  }
+
+  h2{
+    @include fs-header(2);
+  }
+
+  h4{
+    @include fs-header(2);
+  }
+
+  h5{
+    @include fs-headline(3);
+  }
+
+  p{
+    @include fs-bodyCopy(2);
+    color: #F1F1F1;
+  }
+
+}
+
+.ug16__header-left {
+  position: relative;
+  width: 210px;
+  padding-left: 20px;
+  margin-bottom: 48px;
+  float: left;
+  border-right: 1px solid #F1F1F1;
+}
+
+.ug16__header-main {
+  position: relative;
+  max-width: 620px;
+  padding-left: 10px;
+  float: left;
+}
