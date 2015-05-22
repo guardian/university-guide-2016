@@ -20,14 +20,27 @@
 }
 
 .ug16__content-container {
-    margin: auto;
-    max-width: 1300px;
+    margin: 0 auto;
     box-sizing: border-box;
     background: #fff;
     padding-bottom: 24px;
     padding: 0 10px;
+
     @include mq(tablet) {
         padding: 0 20px;
+        max-width: 740px;
+    }
+
+    @include mq(desktop) {
+        max-width: 980px;
+    }
+
+    @include mq(1140px) {
+        max-width: 1140px;
+    }
+
+    @include mq(wide) {
+        max-width: 1300px;
     }
 }
 
