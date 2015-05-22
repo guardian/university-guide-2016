@@ -23,6 +23,18 @@
                 width: auto;
             }
         }
+
+        a {
+            display: inline-block;
+            margin-right: 10px;
+            margin-top: 5px;
+            @include fs-textSans(2);
+            color: #005689;
+            text-decoration: none;
+            &::after {
+                content: " \00BB";
+            }
+        }
     }
     thead th {
         background-color: #f9f9f7;
@@ -106,18 +118,6 @@
         width: 16px;
         height: 17px;
         display: inline-block;
-    }
-
-    .ug16-table__subject-link {
-        display: inline-block;
-        @include fs-textSans(2);
-        & a {
-            color: #005689;
-            text-decoration: none;
-            &::after {
-                content: " \00BB";
-            }
-        }
     }
 
     &.has-selected {

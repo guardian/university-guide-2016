@@ -48,7 +48,8 @@ export default class Table {
                     <caption>
                         <label for="ug16-table__subject">Subject area</label>
                         <select id="ug16-table__subject"></select>
-                        <div class="ug16-table__subject-link"></div>
+                        <a href="http://gu.com/p/492f9/">How to use these tables</a>
+                        <span class="ug16-table__subject-link"></span>
                     </caption>
                     <thead><tr>${this.headersHTML}</tr></thead>
                     <tbody></tbody>
