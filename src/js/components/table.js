@@ -71,7 +71,7 @@ export default class Table {
     }
 
     coursesHTML(stats, courses) {
-        var stats = headers.map((header, i) => `<dt>${header}</dt><dd>${stats[i + 1]}</dd>`).slice(4, -1);
+        var stats = headers.map((header, i) => `<dt>${header}</dt><dd>${stats[i + 1] || '-'}</dd>`).slice(4, -1);
         var statsHTML = '<dl class="ug16-table__stats">' + stats.join('') + '</dl>';
         return `<tr class="ug16-table__course-list">
                     <td colspan="${headers.length}">
