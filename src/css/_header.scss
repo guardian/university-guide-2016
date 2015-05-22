@@ -1,8 +1,6 @@
 .ug16__header-container {
   background-color: #00456e;
-
-
-  
+  border-top: 1px solid transparentize(#eaeaea, 0.5);
 }
 
 .ug16__header {
@@ -63,6 +61,7 @@
 }
 
 .ug16__header-left {
+  padding-top: 3px;
   padding-left: 10px;
   max-width: 300px;
   border-right: none;
@@ -72,7 +71,8 @@
     padding-left: 20px;
     margin-bottom: 48px;
     float: left;
-    border-right: 1px solid #F1F1F1;
+    border-right: 1px solid transparentize(#eaeaea, 0.5);
+
   }
   a {
     color: #f1f1f1;
@@ -82,6 +82,7 @@
 }
 
 .ug16__header-main {
+  padding-top: 3px;
   position: relative;
   max-width: 620px;
   padding-left: 10px;
