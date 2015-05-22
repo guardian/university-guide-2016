@@ -8,81 +8,11 @@ import bean from 'fat/bean'
 import groupBy from 'lodash/collection/groupBy'
 import uniq from 'lodash/array/uniq'
 import bonzo from 'ded/bonzo'
+import searchResultsTmpl from '../template/searchresults.html!text'
 
 const buttonSVG = '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path d="M15 5h2l.5 9.5 9.5.5v2l-9.5.5L17 27h-2l-.5-9.5L5 17v-2l9.5-.5L15 5z"/></svg>';
 
-var searchResultTmplFn = doT.template(`
-{{##def.courseli:course:
-<li title="{{= course.name }}">
-    <a href="{{= course.url }}" target="_blank">{{= course.name }}</a>
-</li>
-#}}
-{{##def.institutiondiv:institution:
-<div class="ug16-search-result">
-    <h2 class="ug16-search__institution">
-        {{= institution.name }}
-        <div class="ug16-search__ranking">Ranked {{= institution.rank}} in subject, {{= institution.overall}} overall</div>
-        <div class="ug16-search__count">
-            {{= institution.courses.length }} course{{? institution.courses.length > 1 }}s{{?}}
-        </div>
-    </h2>
-    <div class="ug16-search__course-list">
-        {{?institution.courses.length <= 5}}
-            <ul class="ug16-course-list">
-                {{~institution.courses :course:j}}
-                    {{#def.courseli:course}}
-                {{~}}
-            </ul>
-        {{?}}
-        {{?institution.courses.length > 5}}
-            <ul class="ug16-course-list">
-                {{~institution.courses.slice(0,3) :course:j}}
-                    {{#def.courseli:course}}
-                {{~}}
-            </ul>
-            <button class="ug16-search-result__untruncate">
-                ${buttonSVG} Show all courses
-            </button>
-            <ul class="ug16-course-list ug16-search-result__extra-courses">
-                {{~institution.courses.slice(3) :course:j}}
-                    {{#def.courseli:course}}
-                {{~}}
-            </ul>
-        {{?}}
-    </div>
-</div>
-#}}
-{{~it.subjects :subject:index}}
-    <div class="ug16-search-subject">
-        <h2 class="ug16-search-subject__name">
-            <div style="font-size: 12px">courses within</div>{{= subject.name}}
-            <a class="ug16-search-results__rankings-link" href="{{= subject.link}}">view rankings</a>
-            <div class="ug16-search__count">
-                {{= subject.institutions.length }} institution{{? subject.institutions.length > 1 }}s{{?}}
-            </div>
-        </h2>
-        <div class="ug16-search-subject__results">
-            {{?subject.institutions.length <= 3 || it.subjects.length == 1}}
-                {{~subject.institutions :institution:i}}
-                    {{#def.institutiondiv:institution}}
-                {{~}}
-            {{?}}
-            {{?subject.institutions.length > 3 && it.subjects.length > 1}}
-                {{~subject.institutions.slice(0, 2) :institution:i}}
-                    {{#def.institutiondiv:institution}}
-                {{~}}
-                <button class="ug16-search-result__untruncate">
-                    ${buttonSVG} Show all institutions
-                </button>
-                <div class="ug16-search-result__extra">
-                    {{~subject.institutions.slice(2) :institution:i}}
-                        {{#def.institutiondiv:institution}}
-                    {{~}}
-                </div>
-            {{?}}
-        </div>
-    </div>
-{{~}}`);
+var searchResultTmplFn = doT.template(searchResultsTmpl);
 
 function entries(obj) {
     return Object.keys(obj).map(k => [k, obj[k]])
@@ -104,7 +34,8 @@ export default class CourseSearch {
             el: this.subjectEl,
             change: a => a
         });
-        this.subjectsComponent.choose('all');
+
+        this.subjectsComponent.choose(config.subjectId || 'all');
 
         this.bindEventHandlers();
     }
@@ -305,6 +236,7 @@ export default class CourseSearch {
     }
 
     get HTML() {
+        var subjectDisabled = config.subjectId ? ' disabled="disabled"' : '';
         return `
         <div class="ug16-search">
 
@@ -314,9 +246,9 @@ export default class CourseSearch {
                     <input type="text" id="ug16-search__course" />
                 </div>
 
-                <div class="ug16-search__field">
+                <div class="ug16-search__field ug16-search__field--subject-area">
                     <label for='ug16-search__subject'>Subject area</label>
-                    <select id="ug16-search__subject"></select>
+                    <select id="ug16-search__subject"${subjectDisabled}></select>
                 </div>
 
                 <div class="ug16-search__field">

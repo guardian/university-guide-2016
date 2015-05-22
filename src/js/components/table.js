@@ -41,13 +41,15 @@ export default class Table {
             el: this.el.querySelector('select'),
             change: this.show.bind(this)
         });
+        this.subjectsComponent.choose(config.subjectId || 'all');
     }
 
     get HTML() {
+        var subjectDisabled = config.subjectId ? ' disabled="disabled"' : '';
         return `<table>
                     <caption>
                         <label for="ug16-table__subject">Subject area</label>
-                        <select id="ug16-table__subject"></select>
+                        <select id="ug16-table__subject"${subjectDisabled}></select>
                         <a href="http://gu.com/p/492f9/">How to use these tables</a>
                         <span class="ug16-table__subject-link"></span>
                     </caption>
