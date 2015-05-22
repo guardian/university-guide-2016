@@ -116,6 +116,7 @@ export default class Table {
             reqwest({
                 url: config.assetPath + '/assets/subjects/' + id + '.json',
                 type: 'json',
+                crossOrigin: true,
                 success: data => {
                     subjectCache[id] = data;
                     this.$tbodyEl.removeClass('is-loading');
