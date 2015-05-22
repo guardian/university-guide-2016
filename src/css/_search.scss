@@ -185,7 +185,7 @@ select#ug16-table__subject:disabled {
     margin-bottom: 10px;
     padding-top: 3px;
 
-    @include mq(tablet) {
+    @include mq(desktop) {
         &:first-child {
             border-top: 0;
             padding-top: 0;
@@ -201,7 +201,7 @@ select#ug16-table__subject:disabled {
 
 .ug16-search-result__extra {
     display: none;
-    @include mq(tablet) {
+    @include mq(desktop) {
         padding-top: 3px;
         border-top: 1px solid #bdbdbd;
     }
