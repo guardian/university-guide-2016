@@ -35,13 +35,11 @@
 @include transformAnim(moveskyline, -2240px);
 
 .ug16__animation-container{
-  
-
     .static-image-holder{
       position:relative;
       height: 64px;
       width:100%;
-      background: url('assets/bg-mobile.gif');
+      background: url('assets/bg-mobile.png');
       background-repeat: no-repeat;
       background-position: center top;
     }
@@ -78,7 +76,7 @@
     }
 
    .ug16__anim--panels {
-      background: url('assets/ani-288-h/bg-3.gif');
+      background: url('assets/ani-288-h/bg-3.png');
       background-repeat: repeat-x;
       background-position: left;
       width: 2240px * 2;
