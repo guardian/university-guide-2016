@@ -94,7 +94,7 @@ module.exports = function(grunt) {
                 files: [
                     { // BOOT
                         expand: true, cwd: 'build/',
-                        src: ['boot.js'],
+                        src: ['bootfiles/**/*'],
                         dest: 'deploy/<%= visuals.timestamp %>'
                     },
                     { // ASSETS
@@ -178,7 +178,7 @@ module.exports = function(grunt) {
                     { // BOOT
                         expand: true,
                         cwd: 'deploy/<%= visuals.timestamp %>',
-                        src: ['boot.js'],
+                        src: ['bootfiles/**/*'],
                         dest: '<%= visuals.s3.path %>',
                         params: { CacheControl: 'max-age=60' }
                     }]
