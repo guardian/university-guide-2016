@@ -1,6 +1,6 @@
 .element-interactive {
     background: #f1f1f1;
-    margin: 0 0 10px 0 !important;
+    margin: 0 !important;
 }
 .ug16 {
     overflow: hidden;
@@ -23,11 +23,10 @@
     margin: 0 auto;
     box-sizing: border-box;
     background: #fff;
-    padding-bottom: 24px;
-    padding: 0 10px;
+    padding: 0 10px 12px;
 
     @include mq(tablet) {
-        padding: 0 20px;
+        padding: 0 20px 24px;
         max-width: 740px;
     }
 
