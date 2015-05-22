@@ -35,7 +35,7 @@ export default class Animation {
     peopleAnimation() {
         // height of people sprite 1350
         this.peopleRef = (this.peopleRef - 288) % 864;
-        this.peopleAnimEl.style.backgroundPositionY = this.peopleRef + 'px'
+        this.peopleAnimEl.style.backgroundPosition = `center ${this.peopleRef}px`;
     }
 
     startAnimation(fn, interval) {
