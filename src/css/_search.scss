@@ -7,7 +7,9 @@
     box-sizing: border-box;
 
     form {
-        margin-right: -10px;
+        @include mq(tablet) {
+            margin-right: -10px;
+        }
         @include mq(desktop) {
             padding-right: 100px;
         }
@@ -61,11 +63,12 @@
 
 .ug16-search__field {
     display: inline-block;
-    padding: 0 10px 12px 0;
     width: 100%;
     box-sizing: border-box;
+    padding: 0 0 3px 0;
 
     @include mq(tablet) {
+        padding: 0 10px 12px 0;
         float: left;
         width: 50%;
     }
@@ -93,7 +96,10 @@
     select, input {
         border-radius: 0;
         border: 1px solid #bdbdbd;
-        width: calc(100% - 87px);
+        width: 100%;
+        @include mq(tablet) {
+            width: calc(100% - 87px);
+        }
         @include mq(wide) {
             width: 200px;
         }
