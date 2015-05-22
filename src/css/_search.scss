@@ -7,32 +7,12 @@
     box-sizing: border-box;
 
     form {
+        margin-right: -10px;
         @include mq(desktop) {
             padding-right: 100px;
         }
     }
 
-    label {
-        padding-right: 10px;
-        display: inline-block;
-        width: 80px;
-        @include mq(desktop) {
-            width: auto;
-        }
-    }
-    input {
-        height: 30px;
-        box-sizing: border-box;
-        padding: 3px 5px;
-    }
-    select, input {
-        border-radius: 0;
-        border: 1px solid #bdbdbd;
-        width: 100%;
-        @include mq(tablet) {
-            width: 200px;
-        }
-    }
     button {
         border: none;
         border-radius: 4px;
@@ -49,6 +29,7 @@
         @include mq(tablet) {
             width: 80px;
             margin: 0;
+            margin-left: 86px;
         }
 
         @include mq(desktop) {
@@ -70,15 +51,52 @@
     &, button, select, input {
         @include fs-textSans(4);
     }
+
+    &::after {
+        display: block;
+        clear: both;
+        content: " ";
+    }
 }
 
 .ug16-search__field {
     display: inline-block;
-    padding: 6px 0;
+    padding: 0 10px 12px 0;
     width: 100%;
-    padding-right: 10px;
+    box-sizing: border-box;
+
     @include mq(tablet) {
+        float: left;
+        width: 50%;
+    }
+    @include mq(desktop) {
+        padding: 6px 10px 6px 0;
+    }
+    @include mq(wide) {
+        float: none;
         width: auto;
+    }
+
+    label {
+        padding-right: 3px;
+        display: inline-block;
+        width: 80px;
+        @include mq(wide) {
+            width: auto;
+        }
+    }
+    input {
+        height: 30px;
+        box-sizing: border-box;
+        padding: 3px 5px;
+    }
+    select, input {
+        border-radius: 0;
+        border: 1px solid #bdbdbd;
+        width: calc(100% - 87px);
+        @include mq(wide) {
+            width: 200px;
+        }
     }
 }
 
