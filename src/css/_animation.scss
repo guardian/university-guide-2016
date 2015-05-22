@@ -30,9 +30,9 @@
   }
 }
 
-@include transformAnim(movefgbg, -2500px);
-@include transformAnim(movepanels, -3550px);
-@include transformAnim(moveskyline, -2375px);
+@include transformAnim(movefgbg, -2240px);
+@include transformAnim(movepanels, -2240x);
+@include transformAnim(moveskyline, -2240px);
 
 .ug16__animation-container{
 
@@ -47,7 +47,7 @@
 
     .ug16__animation-holder{
       position:relative;
-      height: 450px;
+      height: 288px;
       width:100%;
       -webkit-transform: translateZ(0);
       transform: translateZ(0);
@@ -61,42 +61,42 @@
     }
 
     .ug16__anim--people {
-      height: 450px;
+      height: 288px;
       width: 100%;
-      background: url("assets/doods-sprite.png") center 0px repeat-y;
+      background: url("assets/ani-288-h/doods-sprite.png") center 0px repeat-y;
 
     }
     .ug16__anim--skyline {
-      background: url('assets/bg-4.png');
+      background: url('assets/ani-288-h/bg-4.png');
       background-repeat: repeat-x;
       background-position: left;
-      width: 2375px * 2;
+      width: 2240px * 2;
       @include animation(moveskyline 110s linear infinite);
 
     }
 
    .ug16__anim--panels {
-      background: url('assets/bg-3.gif');
+      background: url('assets/ani-288-h/bg-3.gif');
       background-repeat: repeat-x;
       background-position: left;
-      width: 3550px * 2;
+      width: 2240px * 2;
       @include animation(movepanels 100s linear infinite);
     }
 
     .ug16__anim--bg {
-      background: url('assets/bg-2.png');
+      background: url('assets/ani-288-h/bg-2.png');
       background-repeat: repeat-x;
       background-position: left;
-      width: 2500px * 2;
+      width: 2240px * 2;
 
       @include animation(movefgbg 42s linear infinite);
     }
 
     .ug16__anim--fg {
-      background: url('assets/bg-1.png');
+      background: url('assets/ani-288-h/bg-1.png');
       background-repeat: repeat-x;
       background-position: left;
-      width: 2500px * 2;
+      width: 2240px * 2;
       @include animation(movefgbg 22s linear infinite);
     }
 }

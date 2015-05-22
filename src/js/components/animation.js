@@ -33,7 +33,8 @@ export default class Animation {
 
 
     peopleAnimation() {
-        this.peopleRef = (this.peopleRef - 450) % 1350;
+        // height of people sprite 1350
+        this.peopleRef = (this.peopleRef - 288) % 864;
         this.peopleAnimEl.style.backgroundPositionY = this.peopleRef + 'px'
     }
 
