@@ -30,7 +30,11 @@
   }
 
   h1{
-    @include fs-headline(6);
+    @include fs-headline(4);
+        @include mq(tablet) {
+            @include fs-headline(6);
+        }
+    
   }
 
   h2{
@@ -46,19 +50,28 @@
   }
 
   p{
-    @include fs-bodyCopy(2);
-    color: #F1F1F1;
+    @include fs-textSans(2);
+      @include mq(tablet) {
+           @include fs-bodyCopy(2);  
+      }
+      
+      color: #F1F1F1;
   }
 
 }
 
 .ug16__header-left {
-  position: relative;
-  width: 210px;
-  padding-left: 20px;
-  margin-bottom: 48px;
-  float: left;
-  border-right: 1px solid #F1F1F1;
+  padding-left: 10px;
+  max-width: 300px;
+  border-right: none;
+  @include mq(tablet) {
+    position: relative;
+    width: 210px;
+    padding-left: 20px;
+    margin-bottom: 48px;
+    float: left;
+    border-right: 1px solid #F1F1F1;
+  }
   a {
     color: #f1f1f1;
     text-decoration: none;

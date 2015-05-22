@@ -3,13 +3,11 @@ export default class Animation {
         this.el = opts.el;
         this.animationEl = opts.el;
 
-        if(!this.isMobile){
+       
             this.animationEl.innerHTML = this.HTML;
             this.peopleAnimEl = this.el.querySelector('.ug16__anim--people')
             this.startAnimations();
-        } else {
-           this.animationEl.innerHTML = this.mobileHTML;
-        }
+        
     }
 
     get isMobile() {
@@ -18,17 +16,19 @@ export default class Animation {
 
     get HTML() {
         return `
-            <div class="ug16__animation-holder">
+            <div class="ug16__animation-holder show-non-mobile">
                 <div class="ug16__anim ug16__anim--panels"></div>
                 <div class="ug16__anim ug16__anim--skyline"></div>
                 <div class="ug16__anim ug16__anim--bg"></div>
                 <div class="ug16__anim ug16__anim--people"></div>
                 <div class="ug16__anim ug16__anim--fg"></div>
-            </div>`;
+            </div>
+
+            <div class="static-image-holder show-mobile"></div>`;
     }
 
     get mobileHTML() {
-        return `<div class="static-image-holder"></div>`;
+        return ``;
     }
 
 
