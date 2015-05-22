@@ -149,7 +149,6 @@ select#ug16-table__subject:disabled {
     display: inline-block;
     text-align: center;
     color: #333;
-    // margin-right: 5px;
     font-size: 16px;
     border-right: 1px solid #bdbdbd;
     padding-right: 5px;
@@ -231,7 +230,6 @@ select#ug16-table__subject:disabled {
     color: #00456e;
     font-size: 20px;
     text-transform: lowercase;
-    margin: 0px 20px 0 0;
 
     a {
         font-size: 14px;
@@ -249,6 +247,7 @@ select#ug16-table__subject:disabled {
     }
     border-top: 1px solid #4bc6df;
     @include mq(desktop) {
+        margin: 0px 20px 0 0;
         float: left;
         width: 220px;
 
