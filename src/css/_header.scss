@@ -1,6 +1,11 @@
 .ug16__header-container {
   background-color: #00456e;
-  margin: 0 auto;
+
+
+  
+}
+
+.ug16__header {
 
   @include mq(tablet) {
       max-width: 740px;
@@ -17,11 +22,8 @@
   @include mq(wide) {
       max-width: 1300px;
   }
-}
 
-.ug16__header {
-  max-width: 1300px;
-  margin: auto;
+  margin: 0 auto;
   overflow: hidden;
   background-color: #005689;
   h1, h2, h3, h4, h5{
