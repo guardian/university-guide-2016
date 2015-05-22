@@ -1,5 +1,22 @@
 .ug16__header-container {
   background-color: #00456e;
+  margin: 0 auto;
+
+  @include mq(tablet) {
+      max-width: 740px;
+  }
+
+  @include mq(desktop) {
+      max-width: 980px;
+  }
+
+  @include mq(1140px) {
+      max-width: 1140px;
+  }
+
+  @include mq(wide) {
+      max-width: 1300px;
+  }
 }
 
 .ug16__header {
