@@ -196,7 +196,9 @@
         font-weight: normal;
         background: white !important;
         td {
+            padding: 3px 0;
             text-align: left;
+            display: table-cell !important;
         }
     }
 
