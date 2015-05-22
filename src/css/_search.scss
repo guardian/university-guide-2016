@@ -242,10 +242,7 @@
 .ug16-search__course-list {
     overflow: hidden;
     padding-left: 20px;
-
-    .ug16-course-list + .ug16-course-list {
-        margin-top: -10px;
-    }
+    font-size: 14px;
 }
 
 .ug16-search-result__untruncate {
@@ -258,6 +255,7 @@
     border-radius: 10px;
     color: #333;
     cursor: pointer;
+    margin-top: 6px;
 
     &:hover {
         background-color: #e1e1e1;

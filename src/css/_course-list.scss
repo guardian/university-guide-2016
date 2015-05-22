@@ -1,9 +1,8 @@
 .ug16-course-list {
-    @include fs-textSans(4);
+    @include f-textSans;
 
-    margin: 0 auto 10px;
+    margin: 0;
     padding: 0;
-    width: 90%;
     list-style: none;
 
     a {
