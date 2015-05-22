@@ -21,7 +21,7 @@ var searchResultTmplFn = doT.template(`
 <div class="ug16-search-result">
     <h2>
         {{= institution.name }}
-        <div class="ug16-search__ranking">Ranked {{= institution.overall}} overall, {{= institution.rank}} in subject</div>
+        <div class="ug16-search__ranking">Ranked {{= institution.rank}} in subject, {{= institution.overall}} overall</div>
         <div class="ug16-search__count">
             {{= institution.courses.length }} course{{? institution.courses.length > 1 }}s{{?}}
         </div>
