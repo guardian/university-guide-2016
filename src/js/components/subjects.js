@@ -8,7 +8,7 @@ export default class Subjects {
 
         bonzo(this.el).html(this.subjectOptions);
         this.el.addEventListener('change', () => {
-            this.change(this.el.options[this.el.selectedIndex].value);
+            this.choose(this.el.options[this.el.selectedIndex].value);
         });
     }
 
@@ -20,7 +20,10 @@ export default class Subjects {
     }
 
     choose(id) {
-        this.el.selectedIndex = Array.from(this.el.options).findIndex(o => o.value === id);
-        this.change(id);
+        if (id !== this.lastId) {
+            this.el.selectedIndex = Array.from(this.el.options).findIndex(o => o.value === id);
+            this.change(id);
+            this.lastId = id;
+        }
     }
 }
