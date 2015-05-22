@@ -41,7 +41,6 @@ export default class Table {
             el: this.el.querySelector('select'),
             change: this.show.bind(this)
         });
-        this.subjectsComponent.choose(config.subjectId || 'all');
     }
 
     get HTML() {

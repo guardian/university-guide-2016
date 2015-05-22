@@ -35,7 +35,7 @@ function init(el, config) {
     });
 
     function showTable() {
-        tableComponent.set(config.subjectId || window.location.hash.substring(1) );
+        tableComponent.set(config.subjectId || window.location.hash.substring(1));
     }
     window.addEventListener('hashchange', showTable);
     showTable();
