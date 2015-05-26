@@ -70,8 +70,8 @@ def pick(row, fields):
 
     return [approx(row[field]) if field in row else '' for field in fields]
 
-common_fields = ('guardianHeiTitle', 'guardianScore',
-    'percentSatisfiedWithAssessment', 'percentSatisfiedWithTeaching', 'studentStaffRatio',
+common_fields = ('guardianHeiTitle', 'guardianScore', 'percentSatisfiedOverall',
+    'percentSatisfiedWithTeaching', 'percentSatisfiedWithAssessment', 'studentStaffRatio',
     'expenditurePerStudent', 'averageEntryTariff', 'valueAdded', 'careerProspects', 'link')
 
 # Institution ranking

@@ -9,7 +9,7 @@ import institutions from '../data/institutions.json!json'
 import subjectNames from '../data/subjectNames.json!json'
 
 const headers = ['Rank 2016', 'Rank 2015', 'Institution', 'Guardian score/100', 'Satisfied with course',
-    'Satisfied with teaching', /*'Satisfied with feedback',*/ 'Student to staff ratio', 'Spend per student/10',
+    'Satisfied with teaching', 'Satisfied with feedback', 'Student to staff ratio', 'Spend per student/10',
     'Average entry tariff', 'Value added score/10', 'Career after 6 months', 'Link'];
 
 var rankedInstitutions = Object.keys(institutions).map(id => institutions[id])
