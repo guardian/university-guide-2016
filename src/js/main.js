@@ -32,7 +32,7 @@ function init(el, config) {
         headline: config.headline
     });
 
-    var changeHash = id => window.location.hash = '#' + id;
+    var changeHash = id => { if (window.location.hash || id !== 'all') window.location.hash = '#' + id };
     var noop = () => null;
 
     var tableComponent = new Table({
@@ -41,7 +41,7 @@ function init(el, config) {
     });
 
     function showTable() {
-        tableComponent.set(config.subjectId || window.location.hash.substring(1));
+        tableComponent.set(config.subjectId || window.location.hash.substring(1) || 'all');
     }
     window.addEventListener('hashchange', showTable);
     showTable();
