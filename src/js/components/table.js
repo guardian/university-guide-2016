@@ -72,15 +72,15 @@ export default class Table {
                 </tr>`;
     }
 
-    coursesHTML(stats, courses) {
+    expandedHTML(stats, courses) {
         var stats = headers.map((header, i) => `<dt>${header}</dt><dd>${stats[i + 1] || '-'}</dd>`).slice(4, -1);
         var statsHTML = '<dl class="ug16-table__stats">' + stats.join('') + '</dl>';
+        var coursesHTML = courses ?
+            '<ul class="ug16-course-list">' + courses.map(c => `<li><a href="${c[0]}" target="_blank">${c[1]}</a></li>`).join('') + '</ul>':
+            '';
         return `<tr class="ug16-table__course-list">
                     <td colspan="${headers.length}">
-                        ${statsHTML}
-                        <ul class="ug16-course-list">
-                            ${courses.map(c => `<li><a href="${c[0]}" target="_blank">${c[1]}</a></li>`).join('')}
-                        </ul>
+                        ${statsHTML}${coursesHTML}
                     </td>
                 </tr>`;
     }
@@ -89,7 +89,7 @@ export default class Table {
         this.el.setAttribute('data-id', id);
 
         var rows = preprocessData(data.institutions).map((row, pos) => {
-            return `<tr data-institution="${row[0]}">` + row.slice(1).map((cell, i) => {
+            return `<tr data-institution="${row[0]}" class="row-${pos & 1}">` + row.slice(1).map((cell, i) => {
                 return `<td data-h="${headers[i]}">${cell || '-'}</td>`;
             }).join('') + '</tr>';
         });
@@ -132,7 +132,7 @@ export default class Table {
     expandSelection(evt) {
         var subjectId = this.el.getAttribute('data-id');
 
-        if (evt.target.tagName !== 'A' && subjectId !== 'all') {
+        if (evt.target.tagName !== 'A') {
             let row = evt.currentTarget;
             let institutionId = row.getAttribute('data-institution');
 
@@ -145,9 +145,9 @@ export default class Table {
                 bonzo(this.el).addClass('has-selected');
                 bonzo(row).addClass('is-selected');
 
-                let courses = subjectCache[subjectId].courses[institutionId];
                 let stats = subjectCache[subjectId].institutions.find(i => i[0] === institutionId);
-                bonzo(row).after(this.coursesHTML(stats, courses));
+                let courses = subjectId !== 'all' && subjectCache[subjectId].courses[institutionId];
+                bonzo(row).after(this.expandedHTML(stats, courses));
             }
         }
     }

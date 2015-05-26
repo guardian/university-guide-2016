@@ -56,10 +56,8 @@
     tbody tr {
         cursor: pointer;
         transition: opacity 0.1s ease-out;
-        &:nth-child(odd) {
-            background-color: #efefef;
-        }
-        &:nth-child(even) {
+        background-color: #efefef;
+        &.row-1 {
             background-color: #f9f9f7;
         }
     }
@@ -86,8 +84,9 @@
             text-align: right;
         }
 
+        &[data-h="Rank 2015"],
         &[data-h="Rank 2016"] {
-            width: 15%;
+            width: 10%;
             @include mq(desktop) {
                 width: 5%;
             }
@@ -120,21 +119,20 @@
         display: inline-block;
     }
 
-    &.has-selected {
-        tbody tr {
-            opacity: 0.5;
+    &.has-selected tbody tr {
+        opacity: 0.5;
 
-            &.is-selected,
-            &.ug16-table__course-list {
-                opacity: 1;
-                background-color: white;
-            }
-            &.is-selected td {
-                border-top: 1px solid #bdbdbd;
-            }
-            &.ug16-table__course-list td {
-                border-bottom: 1px solid #bdbdbd;
-            }
+        &.is-selected,
+        &.ug16-table__course-list {
+            opacity: 1;
+        }
+        &.is-selected td {
+            border-top: 1px solid #bdbdbd;
+            background-color: white;
+        }
+        &.ug16-table__course-list td {
+            border-bottom: 1px solid #bdbdbd;
+            background-color: white;
         }
     }
 
@@ -144,7 +142,7 @@
 
         dt {
             float: left;
-            padding-left: 15%;
+            padding-left: 10%;
             width: 50%;
             clear: left;
         }
@@ -160,7 +158,7 @@
     }
 
     .ug16-table__course-list {
-        opacity: 1;
+        display: table-row;
         font-size: 12px;
         @include mq(desktop) {
             font-size: 14px;
@@ -215,8 +213,25 @@
     }
 
     &[data-id="all"] {
-        tbody tr {
-            cursor: auto;
+        // Only expand on below desktop
+        @include mq(desktop) {
+            tbody tr {
+                cursor: auto;
+            }
+            .ug16-table__course-list {
+                display: none
+            }
+            &.has-selected tbody tr {
+                opacity: 1;
+                td {
+                    background-color: inherit;
+                    border-top: 1px solid transparent;
+                }
+            }
+        }
+
+        .ug16-table__stats dt {
+            padding-left: 20%;
         }
 
         table td, table th {
