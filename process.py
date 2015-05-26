@@ -40,7 +40,7 @@ for gsgId, name in subjectNames.iteritems():
 
 subjects = {}
 for gsgId, name in subjectNames.iteritems():
-    subjectInstitutionIds = set([c['instId'] for c in courses if c['gsgId'] == gsgId])
+    subjectInstitutionIds = set([c['instId'] for c in courses if c['gsgId'] == gsgId] + subjectInstitutions[gsgId].keys())
 
     myInsts = []
     for id in subjectInstitutionIds:
