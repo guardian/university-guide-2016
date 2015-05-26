@@ -35,6 +35,9 @@ subjectInstitutions = defaultdict(dict)
 for s in json.load(open('data/unrankedProviderList.json')) + json.load(open('data/rankingsList.json')):
     subjectInstitutions[s['gsgId']][s['institutionId']] = s
 
+for gsgId, name in subjectNames.iteritems():
+    subjectNames[gsgId] = name[0].upper() + name[1:].lower()
+
 subjects = {}
 for gsgId, name in subjectNames.iteritems():
     subjectInstitutionIds = set([c['instId'] for c in courses if c['gsgId'] == gsgId])
