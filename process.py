@@ -8,7 +8,7 @@ institutionLinks = {i['name'].strip(): i['url'] for i in csv.DictReader(open('da
 institutionalRankings = {i['institutionId']: i for i in json.load(open('data/institutionalRankings.json'))}
 subjectNames = {s['gsgId']: s['guardianSubjectGroup'] for s in json.load(open('data/guardianSubjectGroups.json'))}
 subjectLinks = {s['name'].lower(): s['url'] for s in csv.DictReader(open('data/subjectLinks.csv'))}
-courses = json.load(open('data/courses.json'))
+courses = filter(lambda c: c['tier'] > 0, json.load(open('data/courses.json')))
 
 # munge together all the data we have on institutions
 institutions = {}
