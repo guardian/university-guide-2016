@@ -246,3 +246,13 @@
         }
     }
 }
+
+
+.ug16__untruncate-btn--table {
+    @include mq(desktop) {
+        margin: 0 5%;
+    }
+    & + * {
+        display: none;
+    }
+}

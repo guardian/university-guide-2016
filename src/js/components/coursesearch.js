@@ -51,7 +51,7 @@ export default class CourseSearch {
             this.clearSearch();
         }.bind(this))
 
-        bean.on(this.searchResultsEl, 'click', '.ug16-search-result__untruncate', function(event) {
+        bean.on(this.searchResultsEl, 'click', '.ug16__untruncate-btn', function(event) {
             event.target.nextElementSibling.style.display = 'block';
             event.target.parentNode.removeChild(event.target);
         });

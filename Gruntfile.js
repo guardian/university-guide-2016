@@ -7,7 +7,9 @@ module.exports = function(grunt) {
 
     grunt.initConfig({
 
-        visuals: { },
+        visuals: {
+            jspmFlags: '--inline-source-maps'
+        },
 
         watch: {
             js: {

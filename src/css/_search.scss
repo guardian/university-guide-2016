@@ -308,7 +308,7 @@ select#ug16-table__subject:disabled {
 }
 
 
-.ug16-search-result__untruncate {
+.ug16__untruncate-btn {
     @include fs-textSans(1);
     line-height: 22px;
     font-weight: bold;

@@ -4,6 +4,7 @@ import { lowercase as lcSubjectName } from '../lib/subjectNames'
 import reqwest from 'reqwest'
 import bean from 'fat/bean'
 import bonzo from 'ded/bonzo'
+import groupBy from 'lodash/collection/groupBy'
 
 import institutions from '../data/institutions.json!json'
 import subjectNames from '../data/subjectNames.json!json'
@@ -11,6 +12,8 @@ import subjectNames from '../data/subjectNames.json!json'
 const headers = ['Rank 2016', 'Rank 2015', 'Institution', 'Guardian score/100', 'Satisfied with course',
     'Satisfied with teaching', 'Satisfied with feedback', 'Student to staff ratio', 'Spend per student/10',
     'Average entry tariff', 'Value added score/10', 'Career after 6 months', 'Link'];
+
+var untruncateBtn = '<button onclick="event.target.parentNode.removeChild(event.target)" class="ug16__untruncate-btn ug16__untruncate-btn--table"> <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path d="M15 5h2l.5 9.5 9.5.5v2l-9.5.5L17 27h-2l-.5-9.5L5 17v-2l9.5-.5L15 5z"></path></svg> Show all courses </button>'
 
 var rankedInstitutions = Object.keys(institutions).map(id => institutions[id])
     .filter(institution => institution[1]).sort((a, b) => a[1] - b[1])
@@ -36,7 +39,8 @@ export default class Table {
         this.el.innerHTML = this.HTML;
         this.$tbodyEl = bonzo(this.el.querySelector('tbody'));
 
-        bean.on(this.el, 'click', 'tbody tr:not(.ug16-table__unranked-msg)', this.expandSelection.bind(this));
+        bean.on(this.el, 'click', 'tbody tr:not(.ug16-table__unranked-msg)',
+            this.expandSelection.bind(this));
 
         this.subjectsComponent = new Subjects({
             el: this.el.querySelector('select'),
@@ -57,8 +61,9 @@ export default class Table {
                     <tbody></tbody>
                 </table>
                 <p class="ug16-table__footnote">
-                    Note: dashes are used where there is insufficient data to calculate a ranking position
-                    for a provider delivering courses in this subject area
+                    Note: dashes are used where there is insufficient data to
+                    calculate a ranking position for a provider delivering
+                    courses in this subject area
                 </p>`;
     }
 
@@ -68,16 +73,28 @@ export default class Table {
 
     get unrankedHTML() {
         return `<tr class="ug16-table__unranked-msg">
-                    <td colspan="${headers.length}">Other universities where this subject is taught</td>
+                    <td colspan="${headers.length}">
+                        Other universities where this subject is taught
+                    </td>
                 </tr>`;
     }
 
     expandedHTML(stats, courses) {
-        var stats = headers.map((header, i) => `<dt>${header}</dt><dd>${stats[i + 1] || '-'}</dd>`).slice(4, -1);
-        var statsHTML = '<dl class="ug16-table__stats">' + stats.join('') + '</dl>';
-        var coursesHTML = courses ?
-            '<ul class="ug16-course-list">' + courses.map(c => `<li><a href="${c[0]}" target="_blank">${c[1]}</a></li>`).join('') + '</ul>':
-            '';
+        var statsHTML =
+            '<dl class="ug16-table__stats">' +
+                headers.map((header, i) =>
+                `<dt>${header}</dt><dd>${stats[i + 1] || '-'}</dd>`
+                ).slice(4, -1).join('') +
+            '</dl>';
+
+        var tiers = groupBy(courses, c => c[2])
+        var createCoursesListHTML = courses =>
+            '<ul class="ug16-course-list">' +
+            courses.map(c => `<li><a href="${c[0]}" target="_blank">${c[1]}</a></li>`).join('') +
+            '</ul>';
+        var coursesHTML =
+            (tiers[1] ? createCoursesListHTML(tiers[1]) : '') +
+            (tiers[2] ? untruncateBtn + createCoursesListHTML(tiers[2]) : '');
         return `<tr class="ug16-table__course-list">
                     <td colspan="${headers.length}">
                         ${statsHTML}${coursesHTML}
@@ -132,7 +149,7 @@ export default class Table {
     expandSelection(evt) {
         var subjectId = this.el.getAttribute('data-id');
 
-        if (evt.target.tagName !== 'A') {
+        if (!/( a|label|button|input)/i.test(evt.target.tagName)) {
             let row = evt.currentTarget;
             let institutionId = row.getAttribute('data-institution');
 
