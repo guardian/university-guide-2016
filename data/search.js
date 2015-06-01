@@ -21,7 +21,7 @@ var rankings = _(rankingsRaw)
 
 var coursesRaw = JSON.parse(fs.readFileSync('./data/courses.json'));
 
-var courses = coursesRaw.map(function(c) {
+var courses = coursesRaw.filter(function (c) { return c.tier > 0; }).map(function(c) {
     return {
         url: c.url,
         name: c.courseTitle,
