@@ -5,11 +5,6 @@ System.config({
     "*": "*.js",
     "github:*": "jspm_packages/github/*.js",
     "npm:*": "jspm_packages/npm/*.js"
-  },
-  "bundles": {
-    "build/main": [
-      "src/js/main"
-    ]
   }
 });
 
@@ -20,7 +15,7 @@ System.config({
     "guardian/iframe-messenger": "github:guardian/iframe-messenger@master",
     "json": "github:systemjs/plugin-json@0.1.0",
     "lodash": "npm:lodash@3.8.0",
-    "olado/doT": "github:olado/doT@1.0.1/doT.min/doT.min",
+    "olado/doT": "github:olado/doT@1.0.1/doT.min",
     "reqwest": "github:ded/reqwest@1.1.5",
     "text": "github:systemjs/plugin-text@0.0.2",
     "traceur": "github:jmcriffey/bower-traceur@0.0.88",

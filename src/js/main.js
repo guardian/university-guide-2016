@@ -51,4 +51,4 @@ function init(el, config) {
     }
 }
 
-(window.define || System.amdDefine)(function() { return {init: init}; });
+export default {init: init};
