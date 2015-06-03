@@ -109,7 +109,8 @@ module.exports = function(grunt) {
                     },
                     { // ASSETS
                         expand: true, cwd: 'build/',
-                        src: ['main.js', 'main.css', 'main.js.map', 'main.css.map', 'assets/**/*'],
+                        src: ['main.js', 'main.css', 'main.js.map', 'main.css.map', 'assets/**/*',
+                              'es6-module-loader.js', 'traceur-runtime.js', 'system.js'],
                         dest: 'deploy/<%= visuals.timestamp %>/<%= visuals.timestamp %>'
                     }
                 ]
