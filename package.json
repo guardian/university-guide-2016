@@ -13,13 +13,10 @@
     "grunt-prompt": "^1.3.0",
     "grunt-sass": "^1.0.0",
     "grunt-shell": "^1.1.2",
-    "grunt-template": "^0.2.3",
     "jit-grunt": "^0.9.1",
-    "jspm": "^0.16.0-beta.2",
     "lodash": "^3.8.0",
     "swig": "^1.4.2"
   },
-  "dependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "postinstall": "bower install && ./node_modules/.bin/jspm install"
@@ -28,7 +25,8 @@
   "license": "ISC",
   "jspm": {
     "directories": {
-      "baseURL": "src/js"
+      "baseURL": "src/js",
+      "packages": "jspm_packages"
     },
     "dependencies": {
       "ded/bonzo": "github:ded/bonzo@^2.0.0",
@@ -41,13 +39,12 @@
       "text": "github:systemjs/plugin-text@^0.0.2"
     },
     "devDependencies": {
-      "traceur": "github:jmcriffey/bower-traceur@0.0.88",
-      "traceur-runtime": "github:jmcriffey/bower-traceur-runtime@0.0.88"
-    },
-    "overrides": {
-      "github:olado/doT@1.0.1": {
-        "main": "doT.min.js"
-      }
+      "traceur": "github:jmcriffey/bower-traceur@0.0.91",
+      "traceur-runtime": "github:jmcriffey/bower-traceur-runtime@0.0.91"
     }
+  },
+  "dependencies": {
+    "grunt-template": "^0.2.3",
+    "jspm": "^0.15.3"
   }
 }
