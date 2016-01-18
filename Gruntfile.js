@@ -8,13 +8,13 @@ module.exports = function(grunt) {
     grunt.initConfig({
 
         visuals: {
-            jspmFlags: '--inline-source-maps'
+            jspmFlags: '-m'
         },
 
         watch: {
             js: {
                 files: ['src/js/**/*.js', 'src/js/**/*.html', 'src/js/**/*.json'],
-                tasks: ['buildjs'],
+                tasks: ['shell:interactive'],
             },
             bootjs: {
                 files: ['src/js/boot.js.tpl'],
@@ -31,6 +31,17 @@ module.exports = function(grunt) {
             harness: {
                 files: ['harness/**/*'],
                 tasks: ['harness']
+            }
+        },
+
+        shell: {
+            interactive: {
+                command: './node_modules/.bin/jspm bundle-sfx <%= visuals.jspmFlags %> src/js/main build/main.js --format amd',
+                options: {
+                    execOptions: {
+                        cwd: '.'
+                    }
+                }
             }
         },
 
@@ -221,10 +232,6 @@ module.exports = function(grunt) {
         grunt.log.writeln(grunt.template.process('<%= visuals.s3.domain %><%= visuals.s3.path %>/boot.js'))
     })
 
-    grunt.registerTask('buildjs', function() {
-        require('./build')(grunt.config('visuals.s3.stage') === 'PROD').then(this.async());
-    })
-
     grunt.registerTask('generateBootFiles', function() {
         var subjectPages = JSON.parse(fs.readFileSync('./data/subjectPages.json'));
         var bootTemplateFn = swig.compileFile('./src/js/boot.js.tpl');
@@ -245,7 +252,7 @@ module.exports = function(grunt) {
     })
 
     grunt.registerTask('harness', ['copy:harness', 'template:harness', 'sass:harness', 'symlink:fonts'])
-    grunt.registerTask('interactive', ['buildjs', 'generateBootFiles', 'sass:interactive', 'copy:assets', 'copy:system'])
+    grunt.registerTask('interactive', ['shell:interactive', 'generateBootFiles', 'sass:interactive', 'copy:assets', 'copy:system'])
     grunt.registerTask('default', ['clean', 'harness', 'interactive', 'connect', 'watch']);
     grunt.registerTask('build', ['clean', 'interactive']);
     grunt.registerTask('deploy', ['loadDeployConfig', 'prompt:visuals', 'build', 'copy:deploy', 'aws_s3', 'bootjsurls']);
