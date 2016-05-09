@@ -9,9 +9,23 @@ import groupBy from 'lodash/collection/groupBy'
 import institutions from '../data/institutions.json!json'
 import subjectNames from '../data/subjectNames.json!json'
 
-const headers = ['Rank 2016', 'Rank 2015', 'Institution', 'Guardian score/100', 'Satisfied with course',
-    'Satisfied with teaching', 'Satisfied with feedback', 'Student to staff ratio', 'Spend per student/10',
-    'Average entry tariff', 'Value added score/10', 'Career after 6 months', 'Link'];
+const headers = [
+    {'name': 'Rank 2016', 'type': 'numeric'},
+    {'name': 'Rank 2015', 'type': 'numeric'},
+    {'name': 'Institution', 'type': 'alpha'},
+    {'name': 'Guardian score/100', 'type': 'numeric'},
+    {'name': 'Satisfied with course', 'type': 'numeric'},
+
+    {'name': 'Satisfied with teaching', 'type': 'numeric'},
+    {'name': 'Satisfied with feedback', 'type': 'numeric'},
+    {'name': 'Student to staff ratio', 'type': 'numeric'},
+    {'name': 'Spend per student/10', 'type': 'numeric'},
+
+    {'name': 'Average entry tariff', 'type': 'numeric'},
+    {'name': 'Value added score/10', 'type': 'numeric'},
+    {'name': 'Career after 6 months', 'type': 'numeric'},
+    {'name': 'Link', 'type': 'nosort'}
+];
 
 var untruncateBtn = '<button onclick="event.target.parentNode.removeChild(event.target)" class="ug16__untruncate-btn ug16__untruncate-btn--table"> <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path d="M15 5h2l.5 9.5 9.5.5v2l-9.5.5L17 27h-2l-.5-9.5L5 17v-2l9.5-.5L15 5z"></path></svg> Show all courses </button>'
 
@@ -38,8 +52,11 @@ export default class Table {
 
         this.el.innerHTML = this.HTML;
         this.$tbodyEl = bonzo(this.el.querySelector('tbody'));
+        this.$tfootEl = bonzo(this.el.querySelector('tfoot'));
 
         bean.on(this.el, 'click', 'tbody tr:not(.ug16-table__unranked-msg)',
+            this.expandSelection.bind(this));
+        bean.on(this.el, 'click', 'tfoot tr:not(.ug16-table__unranked-msg)',
             this.expandSelection.bind(this));
 
         this.subjectsComponent = new Subjects({
@@ -50,7 +67,7 @@ export default class Table {
 
     get HTML() {
         var subjectDisabled = config.subjectId ? ' disabled="disabled"' : '';
-        return `<table>
+        return `<table class="sortable">
                     <caption>
                         <label for="ug16-table__subject">Subject area</label>
                         <select id="ug16-table__subject"${subjectDisabled}></select>
@@ -59,6 +76,7 @@ export default class Table {
                     </caption>
                     <thead><tr>${this.headersHTML}</tr></thead>
                     <tbody></tbody>
+                    <tfoot></tfoot>
                 </table>
                 <p class="ug16-table__footnote">
                     Note: dashes are used where there is insufficient data to
@@ -68,7 +86,7 @@ export default class Table {
     }
 
     get headersHTML() {
-        return headers.map(h => `<th data-h="${h}">${h}</th>`).join('');
+        return headers.map(h => `<th class="sorttable_${h.type}" data-h="${h.name}">${h.name}</th>`).join('');
     }
 
     get unrankedHTML() {
@@ -83,7 +101,7 @@ export default class Table {
         var statsHTML =
             '<dl class="ug16-table__stats">' +
                 headers.map((header, i) =>
-                `<dt>${header}</dt><dd>${stats[i + 1] || '-'}</dd>`
+                `<dt>${header.name}</dt><dd>${stats[i + 1] || '-'}</dd>`
                 ).slice(4, -1).join('') +
             '</dl>';
 
@@ -107,13 +125,14 @@ export default class Table {
 
         var rows = preprocessData(data.institutions).map((row, pos) => {
             return `<tr data-institution="${row[0]}" class="row-${pos & 1}">` + row.slice(1).map((cell, i) => {
-                return `<td data-h="${headers[i]}">${cell || '-'}</td>`;
+                return `<td data-h="${headers[i].name}">${cell || '-'}</td>`;
             }).join('') + '</tr>';
         });
 
         var firstUnranked = data.institutions.findIndex(row => row[1] == '');
         if (firstUnranked !== -1) {
-            rows.splice(firstUnranked, 0, this.unrankedHTML);
+            var unrankedRows = rows.splice(firstUnranked);
+            this.$tfootEl.html(this.unrankedHTML + unrankedRows.join(''));
         }
 
         this.$tbodyEl.html(rows.join(''));

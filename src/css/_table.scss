@@ -1,6 +1,10 @@
 .ug16__table-container {
     border-top: 2px solid #21c6dd;
 
+    table.sortable th:not(.sorttable_sorted):not(.sorttable_sorted_reverse):not(.sorttable_nosort):after {
+        content: " \25B4\25BE";
+    }
+
     table {
         width: 100%;
         border-collapse: separate;
@@ -40,7 +44,9 @@
     thead th {
         background-color: #f9f9f7;
         color: #333;
+        cursor: pointer;
     }
+    tfoot,
     tbody {
         color: #676767;
         font-weight: bold;
@@ -49,10 +55,12 @@
             opacity: 0.3;
         }
     }
+    tfoot td,
     tbody td {
         border-top: 1px solid transparent;
         border-bottom: 1px solid transparent;
     }
+    tfoot tr,
     tbody tr {
         cursor: pointer;
         transition: opacity 0.1s ease-out;
@@ -76,7 +84,7 @@
             text-align: left;
             width: 50%;
             @include mq(desktop) {
-                width: 25%;
+                width: 22%;
             }
         }
 
@@ -119,6 +127,7 @@
         display: inline-block;
     }
 
+    &.has-selected tfoot tr,
     &.has-selected tbody tr {
         opacity: 0.5;
 
@@ -215,12 +224,14 @@
     &[data-id="all"] {
         // Only expand on below desktop
         @include mq(desktop) {
+            tfoot tr,
             tbody tr {
                 cursor: auto;
             }
             .ug16-table__course-list {
                 display: none
             }
+            &.has-selected tfoot tr,
             &.has-selected tbody tr {
                 opacity: 1;
                 td {

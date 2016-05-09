@@ -1,3 +1,5 @@
+import './lib/sorttable'
+
 import mainTemplate from './template/main.html!text'
 import Table from './components/table'
 import Animation from './components/animation'
